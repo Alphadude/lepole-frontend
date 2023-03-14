@@ -5,7 +5,6 @@ import { Button } from '@deposits/ui-kit-react';
 import { useForm } from 'react-hook-form';
 
 import { LePoleLogo } from '../assets/icons';
-import { routes } from '../router/routes';
 
 const Register = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -24,8 +23,8 @@ const Register = () => {
 
       <section className="bg-white xl:w-[600px] xl:min-h-[600px] p-6 lg:p-10 text-left rounded-lg">
         <h1 className="text-black font-bold text-3xl">Create an account</h1>
-        <p className="text-black text-base font-normal">
-          create an account to start booking for your gym sessions
+        <p className="text-black text-base font-normal mt-1">
+          Create an account to start booking for your gym sessions
         </p>
 
         <form className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-6">
