@@ -153,8 +153,10 @@ const Register = () => {
 
       <section className="text-base mt-4">
         <Link className="flex" to="/login">
-          <div className="text-primary-white">Already have an account</div>{' '}
-          <div className="ml-1 cursor-pointer text-primary-green">Sign In</div>
+          <div className="text-primary-white">Already have an account?</div>{' '}
+          <div className="ml-1 cursor-pointer text-white font-semibold">
+            Sign In
+          </div>
         </Link>
       </section>
     </div>
