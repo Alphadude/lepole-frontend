@@ -23,7 +23,7 @@ const Login = () => {
         <img src={LePoleLogo} alt="Le Pole logo" />
       </section>
 
-      <section className="bg-white w-full max-w-[600px] xl:min-h-[500px] p-6 lg:p-10 text-left rounded-lg">
+      <section className="bg-white w-full max-w-[600px] h-fit p-6 lg:p-10 text-left rounded-lg">
         <h1 className="text-black font-bold text-3xl">Sign in</h1>
         <p className="text-black text-base font-normal mt-1">
           Please fill correctly
@@ -74,7 +74,7 @@ const Login = () => {
             />
           </div>
 
-          <div className="mt-4">
+          <div className="mt-3">
             <Button
               className="!bg-primary-green !w-full !border-0 !px-8 !text-primary-white"
               size="xlarge"
