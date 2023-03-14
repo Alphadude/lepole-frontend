@@ -1,9 +1,163 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+
+import { Button } from '@deposits/ui-kit-react';
+import { useForm } from 'react-hook-form';
+
+import { LePoleLogo } from '../assets/icons';
 
 const Register = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   return (
-    <div>
-      Register
+    <div className="min-h-screen bg-lepole-pattern bg-no-repeat bg-left-bottom bg-black/95 flex flex-col items-center pb-8">
+      <section>
+        <img src={LePoleLogo} alt="Le Pole logo" />
+      </section>
+
+      <section className="bg-white xl:w-[600px] xl:min-h-[600px] p-6 lg:p-10 text-left rounded-lg">
+        <h1 className="text-black font-bold text-3xl">Create an account</h1>
+        <p className="text-black text-base font-normal mt-1">
+          Create an account to start booking for your gym sessions
+        </p>
+
+        <form className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div>
+            <label className="block capitalize text-xs mb-1">first name</label>
+
+            <input
+              className="w-full border border-dark-3 rounded text-base p-3 focus:outline-0 focus:border-dark-2"
+              type="text"
+              placeholder="Enter first name"
+              name="firstName"
+              {...register('firstName', { required: true })}
+            />
+            {errors.firstName && (
+              <div className="text-red-400">First name cannot be empty</div>
+            )}
+          </div>
+
+          <div>
+            <label className="block capitalize text-xs mb-1">last name</label>
+
+            <input
+              className="w-full border border-dark-3 rounded text-base p-3 focus:outline-0 focus:border-dark-2"
+              type="text"
+              placeholder="Enter last name"
+              name="firstName"
+              {...register('lastName', { required: true })}
+            />
+            {errors.lastName && (
+              <div className="text-red-400">Last name cannot be empty</div>
+            )}
+          </div>
+
+          <div>
+            <label className="block capitalize text-xs mb-1">
+              email address
+            </label>
+
+            <input
+              className="w-full border border-dark-3 rounded text-base p-3 focus:outline-0 focus:border-dark-2"
+              type="email"
+              placeholder="Enter email address"
+              name="email"
+              {...register('email', { required: true })}
+            />
+            {errors.email && (
+              <div className="text-red-400">Email must be valid</div>
+            )}
+          </div>
+
+          <div>
+            <label className="block capitalize text-xs mb-1">
+              phone number
+            </label>
+
+            <input
+              className="w-full border border-dark-3 rounded text-base p-3 focus:outline-0 focus:border-dark-2"
+              type="tel"
+              placeholder="Enter phone number"
+              name="phone"
+              {...register('phone', { required: true })}
+            />
+            {errors.phone && (
+              <div className="text-red-400">Phone must be valid</div>
+            )}
+          </div>
+
+          <div>
+            <label className="block capitalize text-xs mb-1">password</label>
+            <input
+              name="password"
+              className="w-full border border-dark-3 rounded text-base p-3 focus:outline-0 focus:border-dark-2"
+              type="password"
+              placeholder="Enter password"
+              {...register('password', {
+                required: true,
+                minLength: 8,
+              })}
+            />
+            {errors.password && (
+              <div className="text-red-400">Password must be more than 8!</div>
+            )}
+
+            <div className="col-span-1 text-gray-2 text-xs mt-1">
+              minimum of 8 character long <br /> at least one capital letter{' '}
+              <br /> at least one symbol <br />
+              at least one number
+            </div>
+          </div>
+
+          <div>
+            <label className="block capitalize text-xs mb-1">
+              confirm password
+            </label>
+            <input
+              name="confirmpassword"
+              className="w-full border border-dark-3 rounded text-base p-3 focus:outline-0 focus:border-dark-2"
+              type="password"
+              placeholder="Confirm password"
+              {...register('confirmpassword', {
+                required: true,
+                minLength: 8,
+              })}
+            />
+            {errors.confirmpassword && (
+              <div className="text-red-400">Password must not a match</div>
+            )}
+          </div>
+
+          <div className="lg:col-span-2">
+            <p className="text-xs text-black mb-2">
+              By clicking Create an account, you accept our Terms and Conditions
+              and Privacy Policy.
+            </p>
+
+            <Button
+              className="!bg-primary-green !w-full !border-0 !px-8 !text-primary-white"
+              size="xlarge"
+            >
+              {isSubmitting ? 'Creating...' : 'Create an Account'}
+            </Button>
+          </div>
+        </form>
+      </section>
+
+      <section className="text-base mt-4">
+        <Link className="flex" to="/login">
+          <div className="text-primary-white">Already have an account?</div>{' '}
+          <div className="ml-1 cursor-pointer text-white font-semibold">
+            Sign In
+          </div>
+        </Link>
+      </section>
     </div>
   );
 };
