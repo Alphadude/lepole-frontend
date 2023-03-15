@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Button, Checkbox } from '@deposits/ui-kit-react';
+import { Button } from '@deposits/ui-kit-react';
 import { useForm } from 'react-hook-form';
 
-import { LePoleLogo } from '../assets/icons';
-import { BackArrow } from '../assets/icons';
+import { LePoleLogo, BackArrow } from '../assets/icons';
 
 const ForgotPassword = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const [keep, setKeep] = useState(false);
 
   const {
     register,
@@ -25,7 +22,6 @@ const ForgotPassword = () => {
       </section>
 
       <section className="bg-white w-full max-w-[600px] h-fit p-6 lg:p-10 text-left rounded-lg">
-
         <Link to="/login">
           <img src={BackArrow} alt="back arrow" />
         </Link>
@@ -56,11 +52,11 @@ const ForgotPassword = () => {
           <div className="mt-3">
             <Link to="/reset-password">
               <Button
-              className="!bg-primary-green !w-full !border-0 !px-8 !text-primary-white"
-              size="xlarge"
-            >
-              {isSubmitting ? 'Reseting Password' : 'Reset Password'}
-            </Button>
+                className="!bg-primary-green !w-full !border-0 !px-8 !text-primary-white"
+                size="xlarge"
+              >
+                {isSubmitting ? 'Reseting Password' : 'Reset Password'}
+              </Button>
             </Link>
           </div>
         </form>
@@ -73,7 +69,6 @@ const ForgotPassword = () => {
           </div>
         </Link>
       </section>
-
     </div>
   );
 };
