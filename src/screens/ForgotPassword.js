@@ -54,12 +54,14 @@ const ForgotPassword = () => {
           </div>
 
           <div className="mt-3">
-            <Button
+            <Link to="/reset-password">
+              <Button
               className="!bg-primary-green !w-full !border-0 !px-8 !text-primary-white"
               size="xlarge"
             >
               {isSubmitting ? 'Reseting Password' : 'Reset Password'}
             </Button>
+            </Link>
           </div>
         </form>
       </section>
