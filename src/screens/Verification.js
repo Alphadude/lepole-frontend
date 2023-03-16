@@ -24,11 +24,16 @@ const Verification = () => {
       </section>
 
       <section className="bg-white w-full max-w-[600px] text-center h-fit px-6 pt-6 pb-8 lg:px-10 lg:pt-10 rounded-lg">
-        <Link to="/login">
-          <img src={BackArrow} alt="back arrow" />
-        </Link>
+        <div className="flex justify-between items-center">
+          <Link to="/login">
+            <img src={BackArrow} alt="back arrow" />
+          </Link>
+          <div className="font-bold underline text-dark-1 cursor-pointer">
+            Change Email
+          </div>
+        </div>
 
-        <h1 className="text-black font-bold text-2xl mt-4">
+        <h1 className="text-black font-bold text-2xl mt-6 ">
           Enter authentication code
         </h1>
         <p className="text-black text-base font-normal my-2">
