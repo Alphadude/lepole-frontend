@@ -140,12 +140,14 @@ const Register = () => {
               and Privacy Policy.
             </p>
 
-            <Button
-              className="!bg-primary-green !w-full !border-0 !px-8 !text-primary-white"
-              size="xlarge"
-            >
-              {isSubmitting ? 'Creating...' : 'Create an Account'}
-            </Button>
+            <Link to="/verification">
+              <Button
+                className="!bg-primary-green !w-full !border-0 !px-8 !text-primary-white"
+                size="xlarge"
+              >
+                {isSubmitting ? 'Creating...' : 'Create an Account'}
+              </Button>
+            </Link>
           </div>
         </form>
       </section>

@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Button, Checkbox } from '@deposits/ui-kit-react';
+import { Button } from '@deposits/ui-kit-react';
 import { useForm } from 'react-hook-form';
 
-import { LePoleLogo } from '../assets/icons';
-import { BackArrow } from '../assets/icons';
+import { LePoleLogo, BackArrow } from '../assets/icons';
 
 const ResetPassword = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const [keep, setKeep] = useState(false);
 
   const {
     register,
@@ -25,7 +22,6 @@ const ResetPassword = () => {
       </section>
 
       <section className="bg-white w-full max-w-[600px] h-fit p-6 lg:p-10 text-left rounded-lg">
-
         <Link to="/login">
           <img src={BackArrow} alt="back arrow" />
         </Link>
@@ -36,8 +32,10 @@ const ResetPassword = () => {
         </p>
 
         <form className="mt-4 grid grid-cols-1  gap-6">
-           <div>
-            <label className="block capitalize text-xs mb-1">New Password</label>
+          <div>
+            <label className="block capitalize text-xs mb-1">
+              New Password
+            </label>
             <input
               name="password"
               className="w-full border border-dark-3 rounded text-base p-3 focus:outline-0 focus:border-dark-2"
@@ -53,8 +51,10 @@ const ResetPassword = () => {
             )}
           </div>
 
-           <div>
-            <label className="block capitalize text-xs mb-1">Confirm New Password</label>
+          <div>
+            <label className="block capitalize text-xs mb-1">
+              Confirm New Password
+            </label>
             <input
               name="confirm-password"
               className="w-full border border-dark-3 rounded text-base p-3 focus:outline-0 focus:border-dark-2"
@@ -88,7 +88,6 @@ const ResetPassword = () => {
           </div>
         </Link>
       </section>
-
     </div>
   );
 };
