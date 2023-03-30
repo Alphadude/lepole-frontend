@@ -2,33 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
 .ui-checkbox__wrapper>input:checked {
     background-color: aqua !important;
     color: white;
-}
-
-/* react otp input styling */
-
-.otp_alt_style {
-    width: 3rem !important;
-    height: 3rem;
-    border-radius: 50% !important;
-    margin: 8px 0.5rem;
-    background-color: white;
-    color: #090A0A;
-    border: 1px solid #E1E7EC;
-    border-radius: 4px;
-    outline: none;
-    font-size: 1rem;
-}
-
-@media screen and (max-width: 1199px) {
-    .otp_alt_style {
-        font-size: 14px;
-        margin: 8px 0.2rem;
-    }
-}
-
-.otp_style_focus {
-    border: 2px solid #006666 !important;
 }
