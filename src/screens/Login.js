@@ -10,7 +10,9 @@ const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [keep, setKeep] = useState(false);
+  const submitForm = () => [
 
+  ]
   const {
     register,
     handleSubmit,
@@ -29,7 +31,7 @@ const Login = () => {
           Please fill correctly
         </p>
 
-        <form className="mt-4 grid grid-cols-1  gap-6">
+        <form onSubmit={handleSubmit(submitForm)} className="mt-4 grid grid-cols-1  gap-6">
           <div>
             <label className="block capitalize text-xs mb-1">
               email address
@@ -79,7 +81,7 @@ const Login = () => {
               className="!bg-primary-green !w-full !border-0 !px-8 !text-primary-white"
               size="xlarge"
             >
-              {isSubmitting ? 'Signing...' : 'Sign in'}
+              {isSubmitting ? 'Signing in...' : 'Sign in'}
             </Button>
           </div>
         </form>

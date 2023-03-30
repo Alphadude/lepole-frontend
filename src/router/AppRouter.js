@@ -12,12 +12,13 @@ import ResetPassword from '../screens/ResetPassword';
 import Session from '../screens/dashboard/Session';
 import Explore from '../screens/dashboard/Explore';
 import Wallet from '../screens/dashboard/Wallet';
+import Splash from '../screens/Splash';
 
 const AppRouter = () => (
   <LoaderLayout>
     <BrowserRouter>
       <Routes>
-        {/* <Route path={`/`} element={<Login />} /> */}
+        <Route index path={`/`} element={<Splash />} />
         <Route path={routes.register} element={<Register />} />
         <Route path={routes.login} element={<Login />} />
         <Route path={routes.verification} element={<Verification />} />
