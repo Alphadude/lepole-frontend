@@ -20,7 +20,7 @@ const Login = () => {
   } = useForm();
 
   return (
-    <div className="lg:h-screen flex flex-col items-center pb-8 bg-lepole-pattern bg-no-repeat bg-left-bottom bg-black/95 ">
+    <div className="min-h-screen flex flex-col items-center pb-8 bg-lepole-pattern bg-no-repeat bg-left-bottom bg-black/95 ">
       <section>
         <img src={LePoleLogo} alt="Le Pole logo" />
       </section>
