@@ -24,9 +24,9 @@ const splashRoutes = [
 
 const RouteCard = ({ heading, desc, route }) => {
   return (
-    <Link role='button' to={route} className='w-[232px] h-[119px] rounded-2xl border px-[16px] py-[24px] border-black cursor-pointer flex flex-col '>
-      <p className='mb-[8px] text-lg font-bold font-serif'> {heading} </p>
-      <p className='text-sm font-normal text-[#73797F]'> {desc} </p>
+    <Link role='button' to={route} className='w-[232px] h-[119px] rounded-2xl border px-[16px] justify-center border-off-black cursor-pointer flex flex-col '>
+      <p className='mb-[8px] text-off-black text-lg font-bold font-droid'> {heading} </p>
+      <p className='text-sm font-normal text-[#73797F] font-montserrat'> {desc} </p>
     </Link>
   )
 }
