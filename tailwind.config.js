@@ -13,10 +13,15 @@ module.exports = {
         'gray-2': '#8F9499',
         'gray-3': '#CED6DE',
         neutral: '#F5F8FA',
+        'off-black': '#1e1e1e'
       },
       backgroundImage: {
         'lepole-pattern': "url('/public/lePole-bg.png')",
       },
+      fontFamily: {
+        montserrat: ['Montserrat', 'sans-serif'],
+        droid: ['PT Serif', 'serif']
+      }
     },
   },
   plugins: [],
