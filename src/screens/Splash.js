@@ -51,8 +51,8 @@ const Splash = () => {
         <img src={LePoleLogo} alt="Le Pole logo" />
       </section>
 
-      <section className='flex-1 flex justify-center items-center '>
-        <div className="bg-white w-full max-w-[600px] h-fit p-6 lg:p-10 text-left rounded-lg ">
+      <section className='flex-1 flex justify-center items-cente '>
+        <div className="bg-white dark:bg-primary-dark-green w-full max-w-[600px] h-fit p-6 lg:p-10 mt-[22%] text-left rounded-lg ">
           <H2> Welcome! First things first </H2>
           <H5> Looking to book a gym session with friends and family? </H5>
 
