@@ -1,24 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { sidebarItems } from './SidebarItem';
 
 import { Avatar } from '@deposits/ui-kit-react';
 
-import { DropdownIcon, NotificationIcon2 } from '../../assets/icons';
+import {
+  DropdownIcon,
+  NotificationIcon2,
+  LePoleLogoBlack,
+} from '../../assets/icons';
+
+import { CustomSwitch } from '../elements';
 
 import { H1 } from '../Headings';
 
 const Header = () => {
   const { pathname } = useLocation();
+
+  const [enabled, setEnabled] = useState(false);
+
   return (
-    <div className="flex items-center justify-between py-5 lg:py-8 px-4 lg:px-6 border-b border-gray-4">
-      <H1 className="font-bold text-lg lg:text-2xl text-renaissance-black">
+    <div className="flex items-center justify-between !px-4 lg:px-6 py-4 lg:py-8  lg:border-b border-gray-4">
+      <H1 className="hidden  lg:block font-bold text-lg lg:text-2xl text-renaissance-black">
         {sidebarItems.find((item) => item.link === pathname).pageTitle}
       </H1>
 
+      <div className="lg:hidden flex items-center justify-center">
+        <img src={LePoleLogoBlack} alt="le pole logo" width={70} height={70} />
+      </div>
+
       <div className="flex items-center">
-        <div className="mr-6">
+        <div className="mr-6 hidden lg:block">
           <img
             className="ml-1"
             src={NotificationIcon2}
@@ -26,7 +39,7 @@ const Header = () => {
           />
         </div>
 
-        <div className="flex items-center cursor-pointer">
+        <div className="hidden lg:flex items-center cursor-pointer mr-8">
           <Avatar
             avatar={{
               colorScheme: 'blue',
@@ -37,6 +50,8 @@ const Header = () => {
 
           <img className="ml-1" src={DropdownIcon} alt="dropdown icon" />
         </div>
+
+        <CustomSwitch onChange={() => setEnabled(!enabled)} enabled={enabled} />
       </div>
     </div>
   );

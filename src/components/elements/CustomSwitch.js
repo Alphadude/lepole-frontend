@@ -1,4 +1,4 @@
-const SwitchAlt = ({ onChange, enabled, setEnabled }) => {
+const SwitchAlt = ({ onChange, enabled }) => {
   return (
     <label className="inline-flex relative items-center cursor-pointer w-20">
       <input
