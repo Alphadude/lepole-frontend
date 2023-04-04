@@ -1,10 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
       colors: {
         'primary-green': '#006666',
+        'primary-dark-green': '#008080',
         'primary-white': '#FCFCFC',
         'primary-gray': '#73797F',
         'blue-green': '#29BDCC',
@@ -16,8 +18,10 @@ module.exports = {
         'gray-4': '#C7C9CC',
         'gray-5': '#526581',
         neutral: '#F5F8FA',
+        'off-black': '#1a1a1a'
         'renaissance-black': '#1A1A1A',
         'off-black': '#1e1e1e',
+
       },
       backgroundImage: {
         'lepole-pattern': "url('/public/lePole-bg.png')",
