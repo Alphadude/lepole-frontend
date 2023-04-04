@@ -9,6 +9,7 @@ const routes = {
   session: 'session',
   wallet: 'wallet',
   settings: 'settings',
+  notifications: 'notifications',
 };
 
 export { routes };
