@@ -13,6 +13,7 @@ import Session from '../screens/dashboard/Session';
 import Explore from '../screens/dashboard/Explore';
 import Wallet from '../screens/dashboard/Wallet';
 import Splash from '../screens/Splash';
+import Notifications from '../screens/dashboard/notifications';
 
 const AppRouter = () => (
   <LoaderLayout>
@@ -33,6 +34,7 @@ const AppRouter = () => (
           <Route path={routes.session} element={<Session />} />
           <Route path={routes.wallet} element={<Wallet />} />
           <Route path={routes.settings} element={<Settings />} />
+          <Route path={routes.notifications} element={<Notifications />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

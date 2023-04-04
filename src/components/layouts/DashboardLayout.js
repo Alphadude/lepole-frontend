@@ -1,20 +1,23 @@
-import React from 'react'
-import Header from '../Header'
-import Sidebar from '../Sidebar'
+import React from 'react';
+import Header from './Header';
+import Sidebar from './Sidebar';
+import BottomNav from './BottomNav';
 
 const DashboardLayout = ({ children }) => {
   return (
-    <div>
+    <div className="flex h-screen">
       <Sidebar />
-
-      <div>
+      <div className="flex-1 lg:overflow-hidden">
         <Header />
-        <div className=' '>
+
+        <div className="lg:h-main lg:overflow-auto !px-4 lg:px-6 py-6  pb-20 lg:pb-0">
           {children}
         </div>
+
+        <BottomNav />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default DashboardLayout
+export default DashboardLayout;
