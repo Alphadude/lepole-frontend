@@ -25,9 +25,11 @@ module.exports = {
       height: {
         main: 'calc(100vh - 105px)',
       },
+
       boxShadow: {
         '3xl': '0px 0px 20px rgba(0, 0, 0, 0.1)',
         '4xl': '0px -1px 6px rgba(0, 0, 0, 0.05)',
+        '5xl': '-1px 1px 4px 2px rgba(0, 0, 0, 0.33)',
       },
       fontFamily: {
         montserrat: ['Montserrat', 'sans-serif'],
