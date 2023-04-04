@@ -7,13 +7,15 @@ import { Avatar } from '@deposits/ui-kit-react';
 
 import { DropdownIcon, NotificationIcon2 } from '../../assets/icons';
 
+import { H1 } from '../Headings';
+
 const Header = () => {
   const { pathname } = useLocation();
   return (
     <div className="flex items-center justify-between py-5 lg:py-8 px-4 lg:px-6 border-b border-gray-4">
-      <h1 className="font-bold text-lg lg:text-2xl text-renaissance-black">
+      <H1 className="font-bold text-lg lg:text-2xl text-renaissance-black">
         {sidebarItems.find((item) => item.link === pathname).pageTitle}
-      </h1>
+      </H1>
 
       <div className="flex items-center">
         <div className="mr-6">

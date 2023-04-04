@@ -31,7 +31,7 @@ module.exports = {
       },
       fontFamily: {
         montserrat: ['Montserrat', 'sans-serif'],
-        droid: ['PT Serif', 'serif'],
+        droid: ['Droid Serif', 'serif'],
       },
     },
   },
