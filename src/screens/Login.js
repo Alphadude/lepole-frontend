@@ -1,23 +1,61 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { Button, Checkbox } from '@deposits/ui-kit-react';
 import { useForm } from 'react-hook-form';
 
 import { LePoleLogo } from '../assets/icons';
 
+import { supabase } from '../utils/supabaseConfig';
+import { toast } from 'react-toastify';
+
 const Login = () => {
+  const navigate = useNavigate();
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [keep, setKeep] = useState(false);
-  const submitForm = () => [
 
-  ]
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
+
+  const loginUp = handleSubmit(async (data) => {
+    setIsSubmitting(true);
+
+    const res = await supabase.auth.signInWithPassword({
+      email: data.email,
+      password: data.password,
+    });
+
+    if (res?.data?.user !== null && res?.error === null) {
+      toast.success('Login successful.');
+      localStorage.setItem(
+        'user',
+        JSON.stringify({
+          token: res?.data?.session?.access_token,
+          firstName: res?.data?.session?.user?.user_metadata?.firstname,
+          lastName: res?.data?.session?.user?.user_metadata?.lastname,
+          email: res?.data?.session?.user?.email,
+          phone: res?.data?.session?.user?.user_metadata?.phone,
+          wallet: res?.data?.session?.user?.user_metadata?.wallet,
+        }),
+      );
+
+      setIsSubmitting(false);
+
+      reset();
+
+      navigate(`/dashboard/explore`);
+    } else {
+      toast.error(res?.error?.message);
+
+      setIsSubmitting(false);
+    }
+  });
 
   return (
     <div className="min-h-screen flex flex-col items-center pb-8 bg-lepole-pattern bg-no-repeat bg-left-bottom bg-black/95 ">
@@ -31,7 +69,7 @@ const Login = () => {
           Please fill correctly
         </p>
 
-        <form onSubmit={handleSubmit(submitForm)} className="mt-4 grid grid-cols-1  gap-6">
+        <form onSubmit={loginUp} className="mt-4 grid grid-cols-1  gap-6">
           <div>
             <label className="block capitalize text-xs mb-1">
               email address
@@ -78,6 +116,7 @@ const Login = () => {
 
           <div className="mt-3">
             <Button
+              disabled={isSubmitting}
               className="!bg-primary-green !w-full !border-0 !px-8 !text-primary-white"
               size="xlarge"
             >
@@ -96,7 +135,7 @@ const Login = () => {
         </Link>
 
         <Link to="/forgot-password">
-          <div className="mt-3 cursor-pointer text-white font-semibold">
+          <div className="mt-3 cursor-pointer text-white font-semibold text-center">
             Forgot Password?
           </div>
         </Link>

@@ -6,6 +6,8 @@ import { LePoleLogo, BackArrow } from '../assets/icons';
 const Verification = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const email = new URLSearchParams(document.location.search).get('email');
+
   return (
     <div className="min-h-screen flex flex-col items-center pb-8 bg-lepole-pattern bg-no-repeat bg-left-bottom bg-black/95 ">
       <section>
@@ -24,7 +26,7 @@ const Verification = () => {
         </h1>
         <p className="text-black text-base font-normal mb-1">
           Please click on the link sent to your email address
-          <span className="font-bold"> lepolegym@company.com</span>
+          <span className="font-bold"> {email}</span>
         </p>
 
         <p className="text-sm">
