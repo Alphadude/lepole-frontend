@@ -9,12 +9,16 @@ import { LePoleLogo } from '../assets/icons';
 import { supabase } from '../utils/supabaseConfig';
 import { toast } from 'react-toastify';
 
+import { useCookies } from 'react-cookie';
+
 const Login = () => {
   const navigate = useNavigate();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [keep, setKeep] = useState(false);
+
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
   const {
     register,
@@ -33,14 +37,17 @@ const Login = () => {
 
     if (res?.data?.user !== null && res?.error === null) {
       toast.success('Login successful.');
-      localStorage.setItem(
+
+      setCookie(
         'user',
         JSON.stringify({
+          id: res?.data?.session?.user?.id,
           token: res?.data?.session?.access_token,
-          firstName: res?.data?.session?.user?.user_metadata?.firstname,
-          lastName: res?.data?.session?.user?.user_metadata?.lastname,
           email: res?.data?.session?.user?.email,
           phone: res?.data?.session?.user?.user_metadata?.phone,
+          role: res?.data?.session?.user?.role,
+          firstname: res?.data?.session?.user?.user_metadata?.firstname,
+          lastname: res?.data?.session?.user?.user_metadata?.lastname,
           wallet: res?.data?.session?.user?.user_metadata?.wallet,
         }),
       );
