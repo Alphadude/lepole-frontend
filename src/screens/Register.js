@@ -1,19 +1,57 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { Button } from '@deposits/ui-kit-react';
 import { useForm } from 'react-hook-form';
 
 import { LePoleLogo } from '../assets/icons';
 
+import { supabase } from '../utils/supabaseConfig';
+import { toast } from 'react-toastify';
+
 const Register = () => {
+  const navigate = useNavigate();
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
     register,
     handleSubmit,
+    watch,
+    reset,
     formState: { errors },
   } = useForm();
+
+  const watchPassword = watch('password', '');
+
+  const signUp = handleSubmit(async (data) => {
+    setIsSubmitting(true);
+
+    const res = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+      phone: data.phone,
+      confirmpassword: data.confirmpassword,
+      options: {
+        data: {
+          firstname: data.firstName,
+          lastname: data.lastName,
+          phone: data.phone,
+          wallet: 0,
+        },
+      },
+    });
+
+    if (res?.data?.user !== null && res?.error === null) {
+      toast.success('Sign up successful.');
+      reset();
+      setIsSubmitting(false);
+
+      navigate(`/verification?email=${res?.data?.user?.email}`);
+    } else {
+      setIsSubmitting(false);
+    }
+  });
 
   return (
     <div className="min-h-screen bg-lepole-pattern bg-no-repeat bg-left-bottom bg-black/95 flex flex-col items-center pb-8">
@@ -27,7 +65,10 @@ const Register = () => {
           Create an account to start booking for your gym sessions
         </p>
 
-        <form className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <form
+          onSubmit={signUp}
+          className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-6"
+        >
           <div>
             <label className="block capitalize text-xs mb-1">first name</label>
 
@@ -127,6 +168,8 @@ const Register = () => {
               {...register('confirmpassword', {
                 required: true,
                 minLength: 8,
+                validate: (value) =>
+                  value === watchPassword || 'The passwords do not match',
               })}
             />
             {errors.confirmpassword && (
@@ -140,14 +183,13 @@ const Register = () => {
               and Privacy Policy.
             </p>
 
-            <Link to="/verification">
-              <Button
-                className="!bg-primary-green !w-full !border-0 !px-8 !text-primary-white"
-                size="xlarge"
-              >
-                {isSubmitting ? 'Creating...' : 'Create an Account'}
-              </Button>
-            </Link>
+            <Button
+              disabled={isSubmitting}
+              className="!bg-primary-green !w-full !border-0 !px-8 !text-primary-white"
+              size="xlarge"
+            >
+              {isSubmitting ? 'Creating...' : 'Create an Account'}
+            </Button>
           </div>
         </form>
       </section>
