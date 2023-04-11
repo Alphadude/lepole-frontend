@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { sidebarItems } from './SidebarItem';
@@ -14,15 +14,21 @@ import {
 import { CustomSwitch } from '../elements';
 
 import { H1 } from '../Headings';
+import { themeCheck } from '../../helpers/functions/themeCheck';
 
 const Header = () => {
   const { pathname } = useLocation();
 
   const [enabled, setEnabled] = useState(false);
+  localStorage.theme = enabled ? 'dark' : 'light'
+
+  useEffect(() => {
+    themeCheck()
+  })
 
   return (
-    <div className="flex items-center justify-between !px-4 lg:px-6 py-4 lg:py-8  lg:border-b border-gray-4">
-      <H1 className="hidden  lg:block font-bold text-lg lg:text-2xl text-renaissance-black">
+    <div className="flex dark:bg-gray-dark-4  items-center justify-between !px-4 lg:px-6 py-4 lg:py-8  lg:border-b border-gray-4">
+      <H1 className="hidden dark:text-renaissance-dark-black lg:block font-bold text-lg lg:text-2xl text-renaissance-black">
         {sidebarItems.find((item) => item.link === pathname).pageTitle}
       </H1>
 

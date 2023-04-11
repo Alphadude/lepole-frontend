@@ -8,7 +8,7 @@ const Sidebar = () => {
   const { pathname } = useLocation();
 
   return (
-    <div className="hidden lg:flex shadow-3xl flex-col w-60 h-full pb-8 bg-white text-gray-5">
+    <div className="hidden lg:flex shadow-3xl flex-col w-60 h-full pb-8 bg-white text-gray-5 dark:bg-dark-white">
       <div className="px-6">
         <div className="text-center flex items-center justify-center ">
           <img src={LePoleLogoBlack} alt="le pole logo" />
@@ -21,11 +21,10 @@ const Sidebar = () => {
             key={item.title}
             to={item.link}
             className={`flex items-center rounded-lg py-2.5 pl-5
-             cursor-pointer duration-100 text-sm font-medium mt-3  ${
-               pathname === item.link
-                 ? 'bg-primary-green text-white'
-                 : 'text-gray-5 hover:bg-gray-4/40 '
-             }`}
+             cursor-pointer duration-100 text-sm font-medium mt-3  ${pathname === item.link
+                ? 'bg-primary-green text-white'
+                : 'text-gray-5 hover:bg-gray-4/40 '
+              }`}
           >
             <div>
               <Icon stroke={pathname === item.link ? 'white' : '#73797F'} />
