@@ -19,10 +19,13 @@ module.exports = {
         'gray-4': '#C7C9CC',
         'gray-dark-4': '#101010',
         'gray-5': '#526581',
+        'grey-6': '#ABAFB2',
         neutral: '#F5F8FA',
         'renaissance-black': '#1A1A1A',
         'renaissance-dark-black': '#EFEFEF',
         'off-black': '#1e1e1e',
+        avatarBg: '#BDF3FC',
+        avatarText: '#085E7A'
       },
       backgroundImage: {
         'lepole-pattern': "url('/public/lePole-bg.png')",
