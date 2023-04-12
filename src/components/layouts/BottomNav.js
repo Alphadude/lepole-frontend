@@ -6,7 +6,7 @@ const BottomNav = () => {
   const { pathname } = useLocation();
 
   return (
-    <nav className="lg:hidden shadow-4xl fixed left-0 right-0 bottom-0 w-full bg-white">
+    <nav className="lg:hidden shadow-4xl fixed left-0 right-0 bottom-0 w-full bg-white dark:bg-dark-white">
       <ul className="py-6 px-4 flex items-center justify-between">
         {sidebarItems.map(({ Icon, ...item }) => (
           <Link

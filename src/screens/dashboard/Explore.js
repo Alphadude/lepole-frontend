@@ -15,18 +15,24 @@ import { DumbellOrange, CoinGreen, MoneyBlue } from '../../assets/icons';
 
 import { timeSlots, activities } from '../../utils/dummyData';
 
+import { useCookies } from 'react-cookie';
+
 const Explore = () => {
+  const [cookies] = useCookies(['user']);
+
+  const firstname = cookies?.user?.firstname;
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 h-full">
       <section className="col-span-1 lg:col-span-2 p-4 lg:!px-6 lg:py-10">
-        <ExploreBanner />
+        <ExploreBanner name={firstname} />
 
         <article className="my-12">
-          <Heading2 className="text-renaissance-black text-sm lg:text-lg font-bold">
+          <Heading2 className="text-renaissance-black dark:text-primary-white text-sm lg:text-lg font-bold">
             Overview
           </Heading2>
 
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-x-1 lg:gap-x-4">
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-2 lg:gap-4">
             <OverviewCard
               title="total sessions"
               figures="10"
@@ -52,7 +58,7 @@ const Explore = () => {
         </article>
 
         <article>
-          <Heading2 className="text-renaissance-black text-sm lg:text-lg font-bold">
+          <Heading2 className="text-renaissance-black dark:text-primary-white text-sm lg:text-lg font-bold">
             Pay as you go
           </Heading2>
 
@@ -65,12 +71,12 @@ const Explore = () => {
 
         <article className="mt-12">
           <div className="flex items-center justify-between">
-            <Heading2 className="text-renaissance-black text-sm lg:text-lg font-bold">
+            <Heading2 className="text-renaissance-black dark:text-primary-white text-sm lg:text-lg font-bold">
               Recent Activities
             </Heading2>
 
             <Link to="/dashboard/notifications">
-              <span className="capitalize cursor-pointer text-renaissance-black text-sm font-semibold underline">
+              <span className="capitalize cursor-pointer text-renaissance-black dark:text-primary-white text-sm font-semibold underline">
                 see all
               </span>
             </Link>
@@ -84,7 +90,7 @@ const Explore = () => {
         </article>
       </section>
 
-      <section className="col-span-1  bg-white py-10 !px-4 lg:!px-0 xl:!px-8 text-base font-semibold text-renaissance-black">
+      <section className="col-span-1  bg-white dark:bg-dark-white py-10 !px-4 lg:!px-0 xl:!px-8 text-base font-semibold text-renaissance-black">
         <UpcomingSession />
       </section>
     </div>
