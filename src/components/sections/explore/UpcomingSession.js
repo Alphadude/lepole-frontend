@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import Calendar from 'react-calendar';
-import './calendar.css';
+import './exploreCalendar.css';
 
 import ScheduledSession from './ScheduledSession';
 
@@ -30,7 +30,7 @@ const UpcomingSession = () => {
 
   return (
     <>
-      <article>
+      <article className="upcoming-calendar">
         <div className="mb-3 text-renaissance-black dark:text-primary-white">
           Upcoming Session
         </div>
@@ -38,6 +38,8 @@ const UpcomingSession = () => {
         <Calendar
           onChange={setDate}
           value={dates}
+          next2Label={null}
+          prev2Label={null}
           formatShortWeekday={(locale, date) =>
             ['S', 'M', 'T', 'W', 'T', 'F', 'S'][date.getDay()]
           }

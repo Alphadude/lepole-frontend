@@ -10,7 +10,7 @@ const DashboardLayout = ({ children }) => {
       <div className="flex-1 lg:overflow-hidden">
         <Header />
 
-        <div className="bg-primary-white lg:h-main lg:overflow-auto pb-20 lg:pb-0">
+        <div className="bg-primary-white dark:bg-gray-dark-4 lg:h-main lg:overflow-auto pb-20 lg:pb-0">
           {children}
         </div>
 

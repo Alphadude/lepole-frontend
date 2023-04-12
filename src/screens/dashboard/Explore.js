@@ -32,7 +32,7 @@ const Explore = () => {
             Overview
           </Heading2>
 
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-x-1 lg:gap-x-4">
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-2 lg:gap-4">
             <OverviewCard
               title="total sessions"
               figures="10"
