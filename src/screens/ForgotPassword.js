@@ -1,19 +1,46 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, } from 'react-router-dom';
 
 import { Button } from '@deposits/ui-kit-react';
 import { useForm } from 'react-hook-form';
 
 import { LePoleLogo, BackArrow } from '../assets/icons';
 
+import { supabase } from '../utils/supabaseConfig';
+import { toast } from 'react-toastify';
+
+
 const ForgotPassword = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+
+  // const navigate = useNavigate();
+
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
+
+  const submitForgotPassword = async (form) => {
+    setIsSubmitting(true);
+
+    const { data, error } = await supabase.auth.resetPasswordForEmail(form.email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    })
+
+    if (data?.user && !error) {
+      toast.success('Request sent.');
+      setIsSubmitting(false);
+      reset();
+      // navigate(`/reset-password`);
+    } else {
+      toast.error(error?.message);
+      setIsSubmitting(false);
+    }
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center pb-8 bg-lepole-pattern bg-no-repeat bg-left-bottom bg-black/95 ">
@@ -31,7 +58,7 @@ const ForgotPassword = () => {
           Please enter your email address
         </p>
 
-        <form className="mt-4 grid grid-cols-1  gap-6">
+        <form onSubmit={handleSubmit(submitForgotPassword)} className="mt-4 grid grid-cols-1  gap-6">
           <div>
             <label className="block capitalize text-xs mb-1">
               email address
@@ -50,14 +77,12 @@ const ForgotPassword = () => {
           </div>
 
           <div className="mt-3">
-            <Link to="/reset-password">
-              <Button
-                className="!bg-primary-green !w-full !border-0 !px-8 !text-primary-white"
-                size="xlarge"
-              >
-                {isSubmitting ? 'Reseting Password' : 'Reset Password'}
-              </Button>
-            </Link>
+            <Button
+              className="!bg-primary-green !w-full !border-0 !px-8 !text-primary-white"
+              size="xlarge"
+            >
+              {isSubmitting ? 'Reseting Password...' : 'Reset Password'}
+            </Button>
           </div>
         </form>
       </section>

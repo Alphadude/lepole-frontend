@@ -24,18 +24,23 @@ module.exports = {
         'gray-4': '#C7C9CC',
         'gray-dark-4': '#101010',
         'gray-5': '#526581',
+        'neutral': '#F5F8FA',
+        'neutral-700': '#2A2E33',
         'grey-6': '#ABAFB2',
-        neutral: '#F5F8FA',
         'renaissance-black': '#1A1A1A',
         'renaissance-dark-black': '#EFEFEF',
+        'renaissance-blue': '#177AE5',
+        'renaissance-gray-2': '#ABAFB2',
         'off-black': '#1e1e1e',
+        'badge-gray': '#E1E7EC',
         'orange-1': '#E08304',
         'orange-light': '#FFF0DB',
-        avatarBg: '#BDF3FC',
-        avatarText: '#085E7A',
+        'avatarBg': '#BDF3FC',
+        'avatarText': '#085E7A',
       },
       backgroundImage: {
         'lepole-pattern': "url('/public/lePole-bg.png')",
+        'lepole-pattern-light': "url('/public/lePole-bg-light.png')",
       },
       height: {
         main: 'calc(100vh - 105px)',
@@ -51,6 +56,12 @@ module.exports = {
         montserrat: ['Montserrat', 'sans-serif'],
         droid: ['Droid Serif', 'serif'],
       },
+      fontSize: {
+        'xxs': '10px'
+      },
+      borderRadius: {
+        'xlg': '10px'
+      }
     },
   },
   plugins: [],
