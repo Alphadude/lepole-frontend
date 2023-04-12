@@ -1,4 +1,5 @@
 import { Button } from '@deposits/ui-kit-react';
+import { Link } from 'react-router-dom';
 
 const TimeSlot = ({ slot }) => {
   return (
@@ -25,12 +26,14 @@ const TimeSlot = ({ slot }) => {
         </span>
       </div>
 
-      <div className="!text-[2px]">
-        <Button
-          className="font-montserrat !bg-transparent !text-3xl !border !border-primary-green !text-primary-green capitalize  !rounded-3xl !font-medium"
-          size="large"
-          text="book now"
-        />
+      <div>
+        <Link to="/dashboard/session/new">
+          <Button
+            className="font-montserrat !bg-transparent !text-3xl !border !border-primary-green !text-primary-green capitalize  !rounded-3xl !font-medium"
+            size="large"
+            text="book now"
+          />
+        </Link>
       </div>
     </div>
   );
