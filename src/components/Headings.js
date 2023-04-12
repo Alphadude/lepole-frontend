@@ -20,7 +20,7 @@ const H2 = ({ children, className, ...props }) => {
   return (
     <h2
       className={
-        'text-off-black font-semibold md:text-3xl text-base leading-[40px] font-droid ' +
+        'text-off-black dark:text-renaissance-dark-black font-semibold md:text-3xl text-base leading-[40px] font-droid ' +
         className
       }
       {...props}

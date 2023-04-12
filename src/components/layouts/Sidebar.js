@@ -21,7 +21,6 @@ const Sidebar = () => {
         <div className="text-center flex items-center justify-center ">
           <img src={LePoleLogoBlack} alt="le pole logo" className='inline dark:hidden' />
           <img src={LePoleLogoWhite} alt="le pole logo" className='hidden dark:inline' />
-
         </div>
       </div>
 

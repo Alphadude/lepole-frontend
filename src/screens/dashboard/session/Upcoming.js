@@ -143,19 +143,16 @@ const Upcoming = ({
 
         </div>
       ) : rows?.length < 1 ? (
-        <div className="p-6 rounded-lg bg-neutral-black-700">
+        <div className="p-6 rounded-lg ">
           <p className="mt-20 text-gray-500 text-2xl text-center font-medium">
-            No Record Found
+            No Session Found
           </p>
         </div>
       ) : (
-        <div className='text-xs mt-6 font-normal'>
+        <div className='text-xs flex-1 mt-6 font-normal w-5/12 md:w-full overflow-auto'>
           <Tables
             columns={columns}
             data={rows}
-          // currentPage={currentPage}
-          // setCurrentPage={setCurrentPage}
-          // totalPage={totalPage}
           />
         </div>
       )}

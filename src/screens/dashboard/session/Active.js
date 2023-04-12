@@ -10,8 +10,8 @@ const Active = () => {
     <SessionsLayout>
       <div className='  w-full h-full flex justify-center items-center'>
         {activeSessions?.length === 0 ? (
-          <section>
-            <img src={gymCouple} alt="empty state" />
+          <section className='flex flex-col items-center'>
+            <img src={gymCouple} alt="empty state" className='w-3/5 lg:w-full' />
             <p className='mt-10 mb-8'>
               Oops! You do not have any active session
             </p>

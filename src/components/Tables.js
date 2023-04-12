@@ -13,16 +13,16 @@ const Tables = ({ columns, data, currentPage, setCurrentPage, totalPage }) => {
   });
 
   return (
-    <div className="w-full bg-white border border-badge-gray ">
+    <div className="w-full bg-white dark:bg-dark-white border dark:border-table-border-gray border-badge-gray rounded ">
       <div className="overflow-x-auto">
         <table className="text-black w-full">
-          <thead className="bg-neutral">
+          <thead className="bg-neutral dark:bg-renaissance-black ">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id} className="w-full">
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className="text-left text-dark-1 font-semibold capitalize whitespace-nowrap px-5 py-3"
+                    className="text-left text-dark-1 dark:text-gray-4 font-semibold capitalize whitespace-nowrap px-5 py-3"
                   >
                     {header.isPlaceholder
                       ? null
@@ -35,9 +35,9 @@ const Tables = ({ columns, data, currentPage, setCurrentPage, totalPage }) => {
               </tr>
             ))}
           </thead>
-          <tbody className="bg-white">
+          <tbody className="">
             {table?.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="relativ border-b-2 border-[#F5F8FA]">
+              <tr key={row.id} className="relativ  dark:text-renaissance-dark-black ">
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}

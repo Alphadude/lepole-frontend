@@ -146,13 +146,13 @@ const BookNew = () => {
       </section>
 
       <section className='py-10 '>
-        <Link to={`/${routes.dashboard_home}/${routes.session}/`}>
+        <Link to={`/${routes.dashboard_home}/${routes.session}`}>
           <img src={BackArrow} alt="back arrow" />
         </Link>
       </section>
 
-      <section className='flex lg:flex-row flex-col items-center md:items-start gap-y-10 md:gap-y-0 justify-between'>
-        <div className='max-w-min text-center md:text-left'>
+      <section className='flex lg:flex-row flex-col items-center lg:items-start gap-y-10 lg:gap-y-0 justify-between'>
+        <div className='max-w-min text-center lg:text-left'>
           <div>
             <H3>Select Date and Time</H3>
             <P className='pt-2 pb-10'>In your local time GMT +8 <span className='text-renaissance-blue pl-2'>Update </span></P>
@@ -166,10 +166,10 @@ const BookNew = () => {
                 <img src={manStandDumbell} alt="manStandDumbell" />
               </div>
             ) : (
-              <div className='flex flex-col gap-6 md:gap-12 '>
+              <div className='flex flex-col gap-6 lg:gap-12 '>
                 <div className=''>
-                  <p className='mb-4 font-medium text-base text-center md:text-left'> {selectedDate.toDateString()}  <span className='font-semibold'> - Choose Time </span></p>
-                  <div className='grid grid-cols-3 md:grid-cols-4 gap-4 w-max '>
+                  <p className='mb-4 font-medium text-base text-center lg:text-left'> {selectedDate.toDateString()}  <span className='font-semibold'> - Choose Time </span></p>
+                  <div className='grid grid-cols-3 lg:grid-cols-4 gap-4 w-max '>
                     {timeSlots.map(time => (
                       <TimeCard key={time.id} id={time.id} content={time.time} selected={selectedTime} setSelected={setSelectedTime} />
                     ))}
@@ -177,8 +177,8 @@ const BookNew = () => {
                 </div>
 
                 <div className=''>
-                  <p className='mb-4 font-medium text-base text-center md:text-left'> Choose Hours </p>
-                  <div className='grid grid-cols-3 md:grid-cols-4 gap-4 w-max '>
+                  <p className='mb-4 font-medium text-base text-center lg:text-left'> Choose Hours </p>
+                  <div className='grid grid-cols-3 lg:grid-cols-4 gap-4 w-max '>
                     {durationSlots.map(duration => (
                       <TimeCard key={duration.id} id={duration.id} content={`${duration.duration} Hours`} selected={selectedDuration} setSelected={setSelectedDuration} />
                     ))}
@@ -188,8 +188,8 @@ const BookNew = () => {
                 <div className='flex justify-between items-baseline'>
                   <p className='flex items-baseline text-primary-gray'>
                     <span>Total Coin Amount</span>
-                    <span className='self-start px-1 text-xs md:text-base'>£</span>
-                    <span className='font-bold font-droid text-[32px] md:text-5xl text-renaissance-black dark:text-renaissance-dark-black'> {0} </span>
+                    <span className='self-start px-1 text-xs lg:text-base'>£</span>
+                    <span className='font-bold font-droid text-[32px] lg:text-5xl text-renaissance-black dark:text-renaissance-dark-black'> {0} </span>
                   </p>
                   <p className='font-semibold'>{0} coins</p>
                 </div>
