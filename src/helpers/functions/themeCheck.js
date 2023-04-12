@@ -4,5 +4,4 @@ export const themeCheck = () => {
   } else {
     document.documentElement.classList.remove('dark')
   }
-  console.log(document.documentElement.classList);
 }

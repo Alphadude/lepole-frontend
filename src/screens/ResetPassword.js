@@ -1,19 +1,44 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { Button } from '@deposits/ui-kit-react';
 import { useForm } from 'react-hook-form';
 
 import { LePoleLogo, BackArrow } from '../assets/icons';
+// import { useCookies } from 'react-cookie';
+import { supabase } from '../utils/supabaseConfig';
+import { toast } from 'react-toastify';
 
 const ResetPassword = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
+
+  const submitResetPassword = async (data) => {
+    setIsSubmitting(true);
+
+    const res = await supabase.auth.resetPasswordForEmail({
+      email: data.email,
+    });
+    console.log(res);
+    if (res?.data?.user && !res?.error) {
+      toast.success('Request sent.');
+      setIsSubmitting(false);
+      reset();
+      navigate(`/reset-password`);
+    } else {
+      toast.error(res?.error?.message);
+      setIsSubmitting(false);
+    }
+  }
+
 
   return (
     <div className="min-h-screen flex flex-col items-center pb-8 bg-lepole-pattern bg-no-repeat bg-left-bottom bg-black/95 ">
@@ -31,7 +56,7 @@ const ResetPassword = () => {
           Please enter your new password
         </p>
 
-        <form className="mt-4 grid grid-cols-1  gap-6">
+        <form onSubmit={handleSubmit(submitResetPassword)} className="mt-4 grid grid-cols-1  gap-6">
           <div>
             <label className="block capitalize text-xs mb-1">
               New Password
@@ -63,6 +88,7 @@ const ResetPassword = () => {
               {...register('confirm-password', {
                 required: true,
                 minLength: 8,
+
               })}
             />
             {errors.password && (
@@ -75,7 +101,7 @@ const ResetPassword = () => {
               className="!bg-primary-green !w-full !border-0 !px-8 !text-primary-white"
               size="xlarge"
             >
-              {isSubmitting ? 'Reseting Password' : 'Reset Password'}
+              {isSubmitting ? 'Reseting Password...' : 'Reset Password'}
             </Button>
           </div>
         </form>

@@ -29,7 +29,7 @@ const Header = () => {
   return (
     <div className="flex dark:bg-gray-dark-4  items-center justify-between !px-4 lg:px-6 py-4 lg:py-8  lg:border-b border-gray-4">
       <H1 className="hidden dark:text-renaissance-dark-black lg:block font-bold text-lg lg:text-2xl text-renaissance-black">
-        {sidebarItems.find((item) => item.link === pathname).pageTitle}
+        {sidebarItems.find((item) => pathname.includes(item.link))?.pageTitle}
       </H1>
 
       <div className="lg:hidden flex items-center justify-center">

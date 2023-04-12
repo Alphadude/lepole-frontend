@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import '@deposits/ui-kit-react/dist/index.css';
-
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
