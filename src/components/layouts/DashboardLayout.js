@@ -5,12 +5,12 @@ import BottomNav from './BottomNav';
 
 const DashboardLayout = ({ children }) => {
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen w-screen">
       <Sidebar />
-      <div className="flex-1 lg:overflow-hidden">
+      <div className=" flex-1  overflow-auto">
         <Header />
 
-        <div className="bg-primary-white dark:bg-gray-dark-4 lg:h-main lg:overflow-auto pb-20 lg:pb-0">
+        <div className="w-full  flex-1 bg-primary-white dark:bg-gray-dark-4 lg:h-main lg:overflow-auto pb-20 lg:pb-0">
           {children}
         </div>
 

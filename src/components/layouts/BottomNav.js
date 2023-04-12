@@ -13,17 +13,16 @@ const BottomNav = () => {
             key={item.title}
             to={item.link}
             className={`rounded-full p-3
-             cursor-pointer duration-100 text-sm font-medium ${
-               pathname === item.link
-                 ? 'bg-primary-green rounded-full'
-                 : 'hover:bg-primary-white '
-             }`}
+             cursor-pointer duration-100 text-sm font-medium ${pathname.includes(item.link)
+                ? 'bg-primary-green rounded-full'
+                : 'hover:bg-primary-white '
+              }`}
           >
             <div>
               <Icon
                 height="20px"
                 width="20px"
-                stroke={pathname === item.link ? 'white' : '#73797F'}
+                stroke={pathname.includes(item.link) ? 'white' : '#73797F'}
               />
             </div>
           </Link>

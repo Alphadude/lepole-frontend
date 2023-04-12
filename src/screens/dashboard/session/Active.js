@@ -8,16 +8,16 @@ const Active = () => {
   const activeSessions = []
   return (
     <SessionsLayout>
-      <div className='  w-full h-full flex justify-center items-center'>
+      <div className=' py-16 lg:py-12  w-full h-full flex justify-center items-center'>
         {activeSessions?.length === 0 ? (
-          <section>
-            <img src={gymCouple} alt="empty state" />
+          <section className='flex flex-col items-center'>
+            <img src={gymCouple} alt="empty state" className='w-3/5 lg:w-full' />
             <p className='mt-10 mb-8'>
-              Ops! You do not have any active session
+              Oops! You do not have any active session
             </p>
             <Link to={`/${routes.dashboard_home}/${routes.session}/${routes.new}`}>
               <Button
-                className="!bg-primary-green !w-full !border-0 !px-8 !text-primary-white mb-[20%]"
+                className="!bg-primary-green !w-full !border-0 !px-8 !text-primary-white"
                 size="xlarge"
               >
                 Book Session

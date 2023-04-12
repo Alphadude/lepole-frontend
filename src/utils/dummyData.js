@@ -74,3 +74,43 @@ export const upcoming = [
     slot_name: 'Mid-Peak Session',
   },
 ];
+
+
+
+export const timeSlotsData = [
+  {
+    id: 1,
+    time: '12:00 AM'
+  },
+  {
+    id: 2,
+    time: '1:00 AM'
+  },
+  {
+    id: 3,
+    time: '2:00 AM'
+  },
+  {
+    id: 4,
+    time: '3:00 AM'
+  },
+]
+
+export const durationSlots = [
+  {
+    id: 1,
+    duration: 1,
+  },
+  {
+    id: 2,
+    duration: 2,
+  },
+  {
+    id: 3,
+    duration: 3,
+  },
+  {
+    id: 4,
+    duration: 4,
+  },
+]

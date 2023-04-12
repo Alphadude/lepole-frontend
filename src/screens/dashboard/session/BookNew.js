@@ -7,6 +7,7 @@ import CalendarWidget from '../../../components/elements/CalendarWidget'
 import manStandDumbell from '../../../assets/images/man_stand_dumbell.png'
 import { useState } from 'react'
 import { Button } from '@deposits/ui-kit-react'
+import DurationTimePicker from '../../../components/sections/explore/DurationTimePicker'
 
 const plans = [
   {
@@ -38,43 +39,6 @@ const plans = [
   },
 ]
 
-const timeSlots = [
-  {
-    id: 1,
-    time: '12:00 AM'
-  },
-  {
-    id: 2,
-    time: '1:00 AM'
-  },
-  {
-    id: 3,
-    time: '2:00 AM'
-  },
-  {
-    id: 4,
-    time: '3:00 AM'
-  },
-]
-
-const durationSlots = [
-  {
-    id: 1,
-    duration: 1,
-  },
-  {
-    id: 2,
-    duration: 2,
-  },
-  {
-    id: 3,
-    duration: 3,
-  },
-  {
-    id: 4,
-    duration: 4,
-  },
-]
 
 const PlanCard = ({ id, name, desc, startTime, endTime, fiat_price, coin_price, selected, setSelected }) => {
   return (
@@ -116,18 +80,6 @@ const PlanCard = ({ id, name, desc, startTime, endTime, fiat_price, coin_price, 
   )
 }
 
-const TimeCard = ({ content, id, selected, setSelected, ...props }) => {
-  return (
-    <button
-      onClick={() => setSelected(id)}
-      className={`w-[84px] h-9 flex items-center justify-center border border-gray-4  font-semibold text-xs rounded-lg
-    ${selected === id && 'bg-primary-green/30 !text-primary-green !border-primary-green dark:!border-primary-dark-green dark:!text-primary-dark-green '}`}
-      {...props}
-    >
-      {content}
-    </button>
-  )
-}
 
 const BookNew = () => {
   const [selectedPlan, setSelectedPlan] = useState(0)
@@ -146,13 +98,13 @@ const BookNew = () => {
       </section>
 
       <section className='py-10 '>
-        <Link to={`/${routes.dashboard_home}/${routes.session}/`}>
+        <Link to={`/${routes.dashboard_home}/${routes.session}`}>
           <img src={BackArrow} alt="back arrow" />
         </Link>
       </section>
 
-      <section className='flex lg:flex-row flex-col items-center md:items-start gap-y-10 md:gap-y-0 justify-between'>
-        <div className='max-w-min text-center md:text-left'>
+      <section className='flex lg:flex-row flex-col items-center lg:items-start gap-y-10 lg:gap-y-0 justify-between'>
+        <div className='max-w-min text-center lg:text-left'>
           <div>
             <H3>Select Date and Time</H3>
             <P className='pt-2 pb-10'>In your local time GMT +8 <span className='text-renaissance-blue pl-2'>Update </span></P>
@@ -166,46 +118,12 @@ const BookNew = () => {
                 <img src={manStandDumbell} alt="manStandDumbell" />
               </div>
             ) : (
-              <div className='flex flex-col gap-6 md:gap-12 '>
-                <div className=''>
-                  <p className='mb-4 font-medium text-base text-center md:text-left'> {selectedDate.toDateString()}  <span className='font-semibold'> - Choose Time </span></p>
-                  <div className='grid grid-cols-3 md:grid-cols-4 gap-4 w-max '>
-                    {timeSlots.map(time => (
-                      <TimeCard key={time.id} id={time.id} content={time.time} selected={selectedTime} setSelected={setSelectedTime} />
-                    ))}
-                  </div>
-                </div>
-
-                <div className=''>
-                  <p className='mb-4 font-medium text-base text-center md:text-left'> Choose Hours </p>
-                  <div className='grid grid-cols-3 md:grid-cols-4 gap-4 w-max '>
-                    {durationSlots.map(duration => (
-                      <TimeCard key={duration.id} id={duration.id} content={`${duration.duration} Hours`} selected={selectedDuration} setSelected={setSelectedDuration} />
-                    ))}
-                  </div>
-                </div>
-
-                <div className='flex justify-between items-baseline'>
-                  <p className='flex items-baseline text-primary-gray'>
-                    <span>Total Coin Amount</span>
-                    <span className='self-start px-1 text-xs md:text-base'>£</span>
-                    <span className='font-bold font-droid text-[32px] md:text-5xl text-renaissance-black dark:text-renaissance-dark-black'> {0} </span>
-                  </p>
-                  <p className='font-semibold'>{0} coins</p>
-                </div>
-
-                <div>
-                  <Button
-                    disabled={!selectedDuration || !selectedPlan || !selectedTime}
-                    className={`!w-full !border-0 !px-8 !text-primary-white 
-                    ${(!selectedDuration || !selectedPlan || !selectedTime) ? '!bg-gray-4' : ' !bg-primary-green '}`}
-                    size="xlarge"
-                  >
-                    Book Session for {selectedDate.toDateString()}
-                  </Button>
-                  <p className='font-semibold mt-6'> Coin Balance: {48} Coins </p>
-                </div>
-              </div>
+              <DurationTimePicker
+                selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan}
+                setSelectedDate={setSelectedDate} selectedDate={selectedDate}
+                selectedTime={selectedTime} setSelectedTime={setSelectedTime}
+                selectedDuration={selectedDuration} setSelectedDuration={setSelectedDuration}
+              />
             )}
           </div>
         </div>
