@@ -20,12 +20,12 @@ import { useCookies } from 'react-cookie';
 const Explore = () => {
   const [cookies] = useCookies(['user']);
 
-  console.log({ cookies });
+  const firstname = cookies?.user?.firstname;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 h-full">
       <section className="col-span-1 lg:col-span-2 p-4 lg:!px-6 lg:py-10">
-        <ExploreBanner />
+        <ExploreBanner name={firstname} />
 
         <article className="my-12">
           <Heading2 className="text-renaissance-black dark:text-primary-white text-sm lg:text-lg font-bold">

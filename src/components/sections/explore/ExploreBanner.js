@@ -2,12 +2,12 @@ import React from 'react';
 import { Heading2 } from '../../Headings';
 import { gymCharacters } from '../../../assets/images';
 
-const ExploreBanner = () => {
+const ExploreBanner = ({ name }) => {
   return (
     <div className="h-fit md:h-36 lg:h-fit  xl:h-48  flex lg:items-center xl:items-stretch  justify-between w-full bg-[#E2EFE9] dark:bg-[#1060604D] px-2 lg:!px-6 !py-4 rounded-2xl">
       <div className="flex flex-col  justify-between">
         <Heading2 className="text-primary-green dark:text-primary-white text-sm lg:text-lg font-bold">
-          Welcome, Doyle
+          Welcome, {name}
         </Heading2>
 
         <p className=" text-xs lg:text-base font-medium text-renaissance-black dark:text-[#E5E5E5] xl:w-2/3 my-2 xl:my-0">
