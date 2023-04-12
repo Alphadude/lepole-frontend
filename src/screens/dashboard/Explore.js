@@ -84,7 +84,7 @@ const Explore = () => {
         </article>
       </section>
 
-      <section className="col-span-1  bg-white py-10 !px-4 lg:!px-0 xl:!px-8 text-base font-semibold text-renaissance-black">
+      <section className="col-span-1  bg-white dark:bg-dark-white py-10 !px-4 lg:!px-0 xl:!px-8 text-base font-semibold text-renaissance-black">
         <UpcomingSession />
       </section>
     </div>

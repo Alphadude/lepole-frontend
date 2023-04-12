@@ -31,7 +31,9 @@ const UpcomingSession = () => {
   return (
     <>
       <article>
-        <div className="mb-3">Upcoming Session</div>
+        <div className="mb-3 text-renaissance-black dark:text-primary-white">
+          Upcoming Session
+        </div>
 
         <Calendar
           onChange={setDate}
@@ -54,17 +56,19 @@ const UpcomingSession = () => {
       </article>
 
       <article className="text-renaissance-black">
-        <div className="mt-10 mb-3 capitalize">scheduled Session</div>
+        <div className="mt-10 mb-3 capitalize text-renaissance-black dark:text-primary-white">
+          scheduled Session
+        </div>
 
         {upcoming.length === 0 || scheduled?.length === 0 ? (
-          <p className="text-sm font-normal">
+          <p className="text-sm font-normal text-renaissance-black dark:text-primary-white">
             You do not have any session for today, Go to{' '}
             <span className="text-primary-green">sessions </span>
             page to book a session
           </p>
         ) : (
           <div>
-            <p className="text-sm font-normal mb-4">
+            <p className="text-sm font-normal mb-4 text-renaissance-black dark:text-primary-white">
               View your schedule sessions for the day
             </p>
 
