@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { sidebarItems } from './SidebarItem';
@@ -14,11 +14,17 @@ import {
 import { CustomSwitch } from '../elements';
 
 import { H1 } from '../Headings';
+import { themeCheck } from '../../helpers/functions/themeCheck';
 
 const Header = () => {
   const { pathname } = useLocation();
 
   const [enabled, setEnabled] = useState(false);
+  localStorage.theme = enabled ? 'dark' : 'light';
+
+  useEffect(() => {
+    themeCheck();
+  });
 
   const changeTheme = () => {
     setEnabled(!enabled);
