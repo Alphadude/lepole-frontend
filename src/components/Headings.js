@@ -20,7 +20,7 @@ const H2 = ({ children, className, ...props }) => {
   return (
     <h2
       className={
-        'text-off-black font-semibold text-3xl leading-[40px] font-droid ' +
+        'text-off-black font-semibold md:text-3xl text-base leading-[40px] font-droid ' +
         className
       }
       {...props}
@@ -30,11 +30,25 @@ const H2 = ({ children, className, ...props }) => {
   );
 };
 
+const H3 = ({ children, className, ...props }) => {
+  return (
+    <h3
+      className={
+        'font-bold text-lg text-renaissance-black dark:text-renaissance-dark-black ' +
+        className
+      }
+      {...props}
+    >
+      {children}
+    </h3>
+  );
+};
+
 const H5 = ({ children, className, ...props }) => {
   return (
     <h5
       className={
-        'text-black text-base font-light tracking-wide leading-[30px] mt-[8px] font-montserrat' +
+        'text-black md:text-base font-normal md:tracking-wide md:leading-[30px] font-montserrat ' +
         className
       }
       {...props}
@@ -43,5 +57,19 @@ const H5 = ({ children, className, ...props }) => {
     </h5>
   );
 };
+const P = ({ children, className, ...props }) => {
+  return (
+    <p
+      className={
+        'text-renaissance-black dark:text-renaissance-dark-black text-sm font-normal leading-7 font-montserrat ' +
+        className
+      }
+      {...props}
+    >
+      {children}
+    </p>
+  );
+};
 
-export { H1, H2, H5, Heading2 };
+
+export { H1, H2, H3, H5, Heading2, P };
