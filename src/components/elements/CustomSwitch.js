@@ -11,8 +11,8 @@ const SwitchAlt = ({ onChange, enabled }) => {
 
       <div
         className="w-full h-8 bg-dark-1 rounded-full 
-          peer peer-focus:ring-green-300  peer-checked:after:translate-x-12  peer-checked:after:bg-white   peer-checked:bg-[#D9D9D9]
-           after:content-[''] after:h-6 after:w-6 after:absolute after:top-1 after:shadow-5xl after:left-[4px] after:bg-white  
+          peer peer-focus:ring-green-300  peer-checked:after:translate-x-12  peer-checked:after:bg-white peer-checked:after:dark:bg-dark-white   peer-checked:bg-[#D9D9D9]
+           after:content-[''] after:h-6 after:w-6 after:absolute after:top-1 after:shadow-5xl after:left-[4px] after:bg-white
             after:rounded-full  after:transition-all "
       >
         <div
