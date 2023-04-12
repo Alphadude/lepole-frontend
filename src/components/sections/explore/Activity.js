@@ -18,7 +18,9 @@ const Activity = ({ item }) => {
         }
         alt="activity icon"
       />
-      <span className="ml-3 text-xs lg:text-sm">{item.text}</span>
+      <span className="ml-3 text-xs lg:text-sm text-renaissance-black dark:text-primary-white">
+        {item.text}
+      </span>
     </div>
   );
 };

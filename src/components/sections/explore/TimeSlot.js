@@ -5,14 +5,14 @@ const TimeSlot = ({ slot }) => {
     <div
       className={`${
         slot.id === 3
-          ? 'bg-orange-1/10'
+          ? 'bg-orange-1/10 dark:bg-[#DCB2601A] '
           : slot.id === 2
-          ? 'bg-[#F5F9F7]'
-          : 'bg-gray-4/20'
+          ? 'bg-[#F5F9F7] dark:bg-[#151515]'
+          : 'bg-[#C7C9CC1A]'
       } p-4 flex lg:block justify-between items-end rounded-lg`}
     >
       <div>
-        <h3 className="capitalize font-semibold text-renaissance-black text-sm lg:text-base">
+        <h3 className="capitalize font-semibold text-renaissance-black dark:text-primary-white text-sm lg:text-base">
           {slot.name}
         </h3>
 
@@ -20,7 +20,7 @@ const TimeSlot = ({ slot }) => {
           {slot?.time}
         </span>
 
-        <span className="block lg:mb-4 text-xs text-renaissance-black font-medium">
+        <span className="block lg:mb-4 text-xs text-renaissance-black dark:text-primary-white font-medium">
           {slot.fee}
         </span>
       </div>

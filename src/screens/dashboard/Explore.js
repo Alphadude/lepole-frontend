@@ -15,14 +15,20 @@ import { DumbellOrange, CoinGreen, MoneyBlue } from '../../assets/icons';
 
 import { timeSlots, activities } from '../../utils/dummyData';
 
+import { useCookies } from 'react-cookie';
+
 const Explore = () => {
+  const [cookies] = useCookies(['user']);
+
+  console.log({ cookies });
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 h-full">
       <section className="col-span-1 lg:col-span-2 p-4 lg:!px-6 lg:py-10">
         <ExploreBanner />
 
         <article className="my-12">
-          <Heading2 className="text-renaissance-black text-sm lg:text-lg font-bold">
+          <Heading2 className="text-renaissance-black dark:text-primary-white text-sm lg:text-lg font-bold">
             Overview
           </Heading2>
 
@@ -52,7 +58,7 @@ const Explore = () => {
         </article>
 
         <article>
-          <Heading2 className="text-renaissance-black text-sm lg:text-lg font-bold">
+          <Heading2 className="text-renaissance-black dark:text-primary-white text-sm lg:text-lg font-bold">
             Pay as you go
           </Heading2>
 
@@ -65,12 +71,12 @@ const Explore = () => {
 
         <article className="mt-12">
           <div className="flex items-center justify-between">
-            <Heading2 className="text-renaissance-black text-sm lg:text-lg font-bold">
+            <Heading2 className="text-renaissance-black dark:text-primary-white text-sm lg:text-lg font-bold">
               Recent Activities
             </Heading2>
 
             <Link to="/dashboard/notifications">
-              <span className="capitalize cursor-pointer text-renaissance-black text-sm font-semibold underline">
+              <span className="capitalize cursor-pointer text-renaissance-black dark:text-primary-white text-sm font-semibold underline">
                 see all
               </span>
             </Link>
