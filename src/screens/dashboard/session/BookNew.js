@@ -50,8 +50,8 @@ const PlanCard = ({ id, name, desc, startTime, endTime, fiat_price, coin_price, 
     >
       <section className={`flex`} >
         <div className='flex-1 space-y-1 lg:space-y-4'>
-          <h5 className='text-sm lg:text-lg font-semibold'> {name} </h5>
-          <p className='text-primary-gray font-normal text-xs lg:text-sm'> {desc} </p>
+          <h5 className='text-base lg:text-lg font-semibold'> {name} </h5>
+          <p className='text-primary-gray font-normal text-sm lg:text-sm'> {desc} </p>
         </div>
         <div>
           <p className='flex items-baseline text-primary-gray'>
@@ -75,7 +75,6 @@ const PlanCard = ({ id, name, desc, startTime, endTime, fiat_price, coin_price, 
         </div>
       </section>
 
-
     </div>
   )
 }
@@ -89,7 +88,7 @@ const BookNew = () => {
 
 
   return (
-    <div className=' text-renaissance-black dark:text-renaissance-dark-black p-[4%] xl:pr-[8%] pt-6 pb-24 transition w-full '>
+    <div className=' text-renaissance-black dark:text-renaissance-dark-black p-[4%] 2xl:pr-[8%] pt-6 pb-24 transition w-full '>
       <section className=''>
         <H3> Book a session </H3>
         <P className='  '>
@@ -103,15 +102,15 @@ const BookNew = () => {
         </Link>
       </section>
 
-      <section className='flex lg:flex-row flex-col items-center lg:items-start gap-y-10 lg:gap-y-0 justify-between'>
-        <div className=' lg:pr-[%] xl:pr-[20%] text-center lg:text-left'>
+      <section className='flex lg:flex-row flex-col items-center lg:items-start gap-y-20 lg:gap-y-0 justify-between'>
+        <div className=' lg:pr-[5%] xl:pr-[20%] text-center lg:text-left'>
           <div>
             <H3>Select Date and Time</H3>
             <P className='pt-2 pb-10'>In your local time GMT +8 <span className='text-renaissance-blue pl-2'>Update </span></P>
             <CalendarWidget setDateValue={setSelectedDate} dateValue={selectedDate} />
           </div>
 
-          <div className='mt-10 text-left '>
+          <div className='mt-20 text-left hidden lg:block'>
             {!selectedPlan ? (
               <div className='flex items-center gap-5 w-full'>
                 <p> Choose preferred session to see available time </p>
@@ -137,6 +136,22 @@ const BookNew = () => {
             {plans.map(plan => (
               <PlanCard key={plan.id} {...plan} selected={selectedPlan} setSelected={setSelectedPlan} />
             ))}
+          </div>
+
+          <div className='mt-20 text-left lg:hidden'>
+            {!selectedPlan ? (
+              <div className='flex items-center gap-5 w-full'>
+                <p> Choose preferred session to see available time </p>
+                <img src={manStandDumbell} alt="manStandDumbell" />
+              </div>
+            ) : (
+              <DurationTimePicker
+                selectedPlan={selectedPlan} setSelectedPlan={setSelectedPlan}
+                setSelectedDate={setSelectedDate} selectedDate={selectedDate}
+                selectedTime={selectedTime} setSelectedTime={setSelectedTime}
+                selectedDuration={selectedDuration} setSelectedDuration={setSelectedDuration}
+              />
+            )}
           </div>
         </div>
       </section>
