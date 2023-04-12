@@ -20,14 +20,18 @@ const Header = () => {
   const { pathname } = useLocation();
 
   const [enabled, setEnabled] = useState(false);
-  localStorage.theme = enabled ? 'dark' : 'light'
+  localStorage.theme = enabled ? 'dark' : 'light';
 
   useEffect(() => {
-    themeCheck()
-  })
+    themeCheck();
+  });
+
+  const changeTheme = () => {
+    setEnabled(!enabled);
+  };
 
   return (
-    <div className="flex dark:bg-gray-dark-4  items-center justify-between !px-4 lg:px-6 py-4 lg:py-8  lg:border-b border-gray-4">
+    <div className="flex bg-primary-white dark:bg-gray-dark-4  items-center justify-between !px-4 lg:px-6 py-4 lg:py-8  lg:border-b border-gray-4">
       <H1 className="hidden dark:text-renaissance-dark-black lg:block font-bold text-lg lg:text-2xl text-renaissance-black">
         {sidebarItems.find((item) => pathname.includes(item.link))?.pageTitle}
       </H1>
@@ -57,7 +61,7 @@ const Header = () => {
           <img className="ml-1" src={DropdownIcon} alt="dropdown icon" />
         </div>
 
-        <CustomSwitch onChange={() => setEnabled(!enabled)} enabled={enabled} />
+        <CustomSwitch onChange={changeTheme} enabled={enabled} />
       </div>
     </div>
   );

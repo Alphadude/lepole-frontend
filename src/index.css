@@ -7,6 +7,11 @@
     src: local('DroidSerif-Bold.ttf'), url('./fonts/DroidSerif-Bold.ttf') format('truetype');
 }
 
+html,
+* {
+    font-size: 16px;
+}
+
 body {
     font-family: 'Montserrat', sans-serif;
 }
