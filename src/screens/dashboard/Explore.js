@@ -18,7 +18,7 @@ import { timeSlots, activities } from '../../utils/dummyData';
 const Explore = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 h-full">
-      <section className="col-span-1 lg:col-span-2 p-5 lg:p-10">
+      <section className="col-span-1 lg:col-span-2 p-4 lg:!px-6 lg:py-10">
         <ExploreBanner />
 
         <article className="my-12">
