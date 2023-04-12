@@ -16,10 +16,13 @@ const SwitchAlt = ({ onChange, enabled }) => {
             after:rounded-full  after:transition-all "
       >
         <div
-          className={`px-[2px] h-full  flex items-center text-sm ${enabled ? 'justify-start text-dark-1' : 'justify-end text-white'
-            }`}
+          className={`px-[2px] h-full  flex items-center text-sm ${
+            enabled ? 'justify-start text-black' : 'justify-end text-white'
+          }`}
         >
-          <span className="px-1 select-none">{enabled ? 'Dark' : 'Light'}</span>
+          <span className="!px-4 lg:!px-2 text-[10px] lg:text-sm">
+            {enabled ? 'Dark' : 'Light'}
+          </span>
         </div>
       </div>
     </label>

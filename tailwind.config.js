@@ -11,6 +11,10 @@ module.exports = {
         'primary-white': '#FCFCFC',
         'primary-gray': '#73797F',
         'blue-green': '#29BDCC',
+        'green-2': '#24B57A',
+        'green-light': '#C4EFDF',
+        'primary-blue': '#007AFF',
+        'blue-light': '#D5EDFA',
         'dark-1': '#1E1E1E',
         'dark-2': '#212934',
         'gray-1': '#525964',
@@ -24,8 +28,10 @@ module.exports = {
         'renaissance-black': '#1A1A1A',
         'renaissance-dark-black': '#EFEFEF',
         'off-black': '#1e1e1e',
+        'orange-1': '#E08304',
+        'orange-light': '#FFF0DB',
         avatarBg: '#BDF3FC',
-        avatarText: '#085E7A'
+        avatarText: '#085E7A',
       },
       backgroundImage: {
         'lepole-pattern': "url('/public/lePole-bg.png')",
@@ -38,6 +44,7 @@ module.exports = {
         '3xl': '0px 0px 20px rgba(0, 0, 0, 0.1)',
         '4xl': '0px -1px 6px rgba(0, 0, 0, 0.05)',
         '5xl': '-1px 1px 4px 2px rgba(0, 0, 0, 0.33)',
+        '6xl': '0px 6px 3px rgba(207, 206, 206, 0.05)',
       },
       fontFamily: {
         montserrat: ['Montserrat', 'sans-serif'],

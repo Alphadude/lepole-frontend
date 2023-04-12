@@ -24,6 +24,30 @@ const Register = () => {
 
   const watchPassword = watch('password', '');
 
+  const eightCharsOrMore = /.{8,}/g; // eight characters or more
+  const atLeastOneUppercase = /[A-Z]/g; // capital letters from A to Z
+  const atLeastOneSpecialChar = /[#?!@$%^&*-]/g; // any of the special characters within the square brackets
+  const atLeastOneNumeric = /[0-9]/g; // numbers from 0 to 9
+
+  const passwordTracker = {
+    uppercase: watchPassword.match(atLeastOneUppercase),
+    number: watchPassword.match(atLeastOneNumeric),
+    specialChar: watchPassword.match(atLeastOneSpecialChar),
+    eightCharsOrGreater: watchPassword.match(eightCharsOrMore),
+  };
+
+  const PasswordChecker = ({ text, checker }) => {
+    return (
+      <span
+        className={`${
+          checker ? 'text-primary-green' : 'text-gray-2 '
+        } block text-xs`}
+      >
+        {text}
+      </span>
+    );
+  };
+
   const signUp = handleSubmit(async (data) => {
     setIsSubmitting(true);
 
@@ -80,7 +104,9 @@ const Register = () => {
               {...register('firstName', { required: true })}
             />
             {errors.firstName && (
-              <div className="text-red-400">First name cannot be empty</div>
+              <div className="text-red-400 text-xs mt-1">
+                First name cannot be empty
+              </div>
             )}
           </div>
 
@@ -95,7 +121,9 @@ const Register = () => {
               {...register('lastName', { required: true })}
             />
             {errors.lastName && (
-              <div className="text-red-400">Last name cannot be empty</div>
+              <div className="text-red-400 text-xs mt-1">
+                Last name cannot be empty
+              </div>
             )}
           </div>
 
@@ -109,10 +137,15 @@ const Register = () => {
               type="email"
               placeholder="Enter email address"
               name="email"
-              {...register('email', { required: true })}
+              {...register('email', {
+                required: true,
+                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+              })}
             />
             {errors.email && (
-              <div className="text-red-400">Email must be valid</div>
+              <div className="text-red-400 text-xs mt-1">
+                Email must be valid
+              </div>
             )}
           </div>
 
@@ -126,10 +159,15 @@ const Register = () => {
               type="tel"
               placeholder="Enter phone number"
               name="phone"
-              {...register('phone', { required: true })}
+              {...register('phone', {
+                required: true,
+                pattern: /^[0-9]*$/,
+              })}
             />
             {errors.phone && (
-              <div className="text-red-400">Phone must be valid</div>
+              <div className="text-red-400 text-xs mt-1">
+                Phone must be valid
+              </div>
             )}
           </div>
 
@@ -143,16 +181,32 @@ const Register = () => {
               {...register('password', {
                 required: true,
                 minLength: 8,
+                pattern: /((?=.\d)|(?=.\W+))(?![.\n])(?=.[A-Z])(?=.[a-z]).*$/,
               })}
             />
             {errors.password && (
-              <div className="text-red-400">Password must be more than 8!</div>
+              <div className="text-red-400 text-xs mt-1">
+                Password must pass all checks to be valid
+              </div>
             )}
 
-            <div className="col-span-1 text-gray-2 text-xs mt-1">
-              minimum of 8 character long <br /> at least one capital letter{' '}
-              <br /> at least one symbol <br />
-              at least one number
+            <div className="col-span-1 mt-1">
+              <PasswordChecker
+                text="minimum of 8 character long"
+                checker={passwordTracker.eightCharsOrGreater}
+              />
+              <PasswordChecker
+                text="at least one capital letter"
+                checker={passwordTracker.uppercase}
+              />
+              <PasswordChecker
+                text="at least one symbol"
+                checker={passwordTracker.specialChar}
+              />
+              <PasswordChecker
+                text="at least one number"
+                checker={passwordTracker.number}
+              />
             </div>
           </div>
 
@@ -173,7 +227,9 @@ const Register = () => {
               })}
             />
             {errors.confirmpassword && (
-              <div className="text-red-400">Password must not a match</div>
+              <div className="text-red-400 text-xs mt-1">
+                Password must be a match
+              </div>
             )}
           </div>
 

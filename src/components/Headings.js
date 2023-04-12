@@ -8,6 +8,14 @@ const H1 = ({ children, className, ...props }) => {
   );
 };
 
+const Heading2 = ({ children, className, ...props }) => {
+  return (
+    <h2 className={'font-bold font-droid ' + className} {...props}>
+      {children}
+    </h2>
+  );
+};
+
 const H2 = ({ children, className, ...props }) => {
   return (
     <h2
@@ -36,4 +44,4 @@ const H5 = ({ children, className, ...props }) => {
   );
 };
 
-export { H1, H2, H5 };
+export { H1, H2, H5, Heading2 };
