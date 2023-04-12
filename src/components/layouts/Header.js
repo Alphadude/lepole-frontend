@@ -20,8 +20,12 @@ const Header = () => {
 
   const [enabled, setEnabled] = useState(false);
 
+  const changeTheme = () => {
+    setEnabled(!enabled);
+  };
+
   return (
-    <div className="flex items-center justify-between !px-4 lg:px-6 py-4 lg:py-8  lg:border-b border-gray-4">
+    <div className="bg-primary-white flex items-center justify-between !px-4 lg:!px-6 py-4 lg:py-8  lg:border-b border-gray-4">
       <H1 className="hidden  lg:block font-bold text-lg lg:text-2xl text-renaissance-black">
         {sidebarItems.find((item) => item.link === pathname).pageTitle}
       </H1>
@@ -51,7 +55,7 @@ const Header = () => {
           <img className="ml-1" src={DropdownIcon} alt="dropdown icon" />
         </div>
 
-        <CustomSwitch onChange={() => setEnabled(!enabled)} enabled={enabled} />
+        <CustomSwitch onChange={changeTheme} enabled={enabled} />
       </div>
     </div>
   );
