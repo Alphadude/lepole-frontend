@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import Calendar from 'react-calendar';
 import './calendar.css';
 
-import { upcoming } from '../../../utils/dummyData';
-import moment from 'moment';
-
 import ScheduledSession from './ScheduledSession';
+
+import { formatDate } from '../../../helpers/functions';
+import { upcoming } from '../../../utils/dummyData';
 
 const UpcomingSession = () => {
   const arrDates = upcoming.map((item) => new Date(item.date));
@@ -21,8 +22,8 @@ const UpcomingSession = () => {
     setScheduled(
       upcoming?.filter(
         (item) =>
-          moment(item.date).format('DD-MM-YYYY') ===
-          moment(dates).format('DD-MM-YYYY'),
+          formatDate(item.date, 'DD-MM-YYYY') ===
+          formatDate(dates, 'DD-MM-YYYY'),
       ),
     );
   }, [dates]);
@@ -42,8 +43,8 @@ const UpcomingSession = () => {
             if (
               arrDates.find(
                 (item) =>
-                  moment(item).format('DD-MM-YYYY') ===
-                  moment(date).format('DD-MM-YYYY'),
+                  formatDate(item, 'DD-MM-YYYY') ===
+                  formatDate(date, 'DD-MM-YYYY'),
               )
             ) {
               return 'highlights';
@@ -57,8 +58,9 @@ const UpcomingSession = () => {
 
         {upcoming.length === 0 || scheduled?.length === 0 ? (
           <p className="text-sm font-normal">
-            You do not have any session for today, Go to sessions page to book a
-            session
+            You do not have any session for today, Go to{' '}
+            <span className="text-primary-green">sessions </span>
+            page to book a session
           </p>
         ) : (
           <div>
@@ -66,11 +68,19 @@ const UpcomingSession = () => {
               View your schedule sessions for the day
             </p>
 
-            <div className="grid grid-cols-1 gap-4">
-              {scheduled?.map((item) => (
+            <div className="grid grid-cols-1 gap-4 mb-3">
+              {scheduled?.slice(0, 2)?.map((item) => (
                 <ScheduledSession key={item.id} session={item} />
               ))}
             </div>
+
+            {scheduled?.length >= 3 && (
+              <Link to="/dashboard/session">
+                <span className="capitalize cursor-pointer text-primary-green text-base font-semibold">
+                  see more
+                </span>
+              </Link>
+            )}
           </div>
         )}
       </article>
