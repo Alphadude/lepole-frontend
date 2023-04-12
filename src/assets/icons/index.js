@@ -1,4 +1,5 @@
 import LePoleLogo from './lePole-logo.svg';
+import LePoleLogoWhite from './le-pole-white.svg';
 import BackArrow from './back-arrow.svg';
 import DropdownIcon from './dropdown.svg';
 import CalendarIcon from './calendar-black.svg';
@@ -14,6 +15,7 @@ import CaretRightWhite from './caret-right-white.svg';
 
 export {
   LePoleLogo,
+  LePoleLogoWhite,
   BackArrow,
   DropdownIcon,
   NotificationIcon2,

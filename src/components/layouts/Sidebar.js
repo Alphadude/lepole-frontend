@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { sidebarItems } from './SidebarItem';
 
-import { LePoleLogoBlack, LogoutIcon } from '../../assets/icons';
+import { LePoleLogoBlack, LePoleLogoWhite, LogoutIcon } from '../../assets/icons';
 import { useCookies } from 'react-cookie';
 
 const Sidebar = () => {
@@ -19,7 +19,9 @@ const Sidebar = () => {
     <div className="hidden lg:flex shadow-3xl flex-col w-60 h-full pb-8 bg-white text-gray-5 dark:bg-dark-white ">
       <div className="px-6">
         <div className="text-center flex items-center justify-center ">
-          <img src={LePoleLogoBlack} alt="le pole logo" />
+          <img src={LePoleLogoBlack} alt="le pole logo" className='inline dark:hidden' />
+          <img src={LePoleLogoWhite} alt="le pole logo" className='hidden dark:inline' />
+
         </div>
       </div>
 
