@@ -43,7 +43,7 @@ const Header = () => {
       <H1 className="hidden lg:block font-bold text-lg lg:text-2xl text-renaissance-black dark:text-renaissance-dark-black ">
         {sidebarItems.find((item) => pathname.includes(item.link))?.pageTitle}
       </H1>
-
+      yarn
       <div className="lg:hidden flex items-center justify-center">
         <img src={LePoleLogoBlack} alt="le pole logo" width={70} height={70} className=' dark:hidden' />
         <img src={LePoleLogoWhite} alt="le pole logo" width={70} height={70} className='hidden dark:inline' />
