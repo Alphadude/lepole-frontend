@@ -149,7 +149,7 @@ const Upcoming = ({
           </p>
         </div>
       ) : (
-        <div className='text-xs flex-1 mt-6 font-normal w-5/12 md:w-full overflow-auto'>
+        <div className='text-xs mt-6 font-normal overflow-auto'>
           <Tables
             columns={columns}
             data={rows}

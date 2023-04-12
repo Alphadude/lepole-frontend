@@ -28,7 +28,7 @@ const SessionsLayout = ({ children }) => {
   const location = useLocation()
 
   return (
-    <div className='flex flex-col h-full  text-renaissance-black dark:text-renaissance-dark-black font-normal text-base flex-1 p-6 md:p-8 lg:max-w-6xl '>
+    <div className='flex flex-col h-ful  text-renaissance-black dark:text-renaissance-dark-black font-normal text-base flex-1 p-6 md:p-8 lg:max-w-6xl '>
       <section className='mb-10'>
         <H2 className='lg:hidden '> Sessions </H2>
         <p>Keep track of all your session in one page</p>
@@ -46,7 +46,7 @@ const SessionsLayout = ({ children }) => {
           )
         })}
       </section>
-      <section className=' flex-1 h-full py-16 lg:py-12'>
+      <section className=' flex-1 h-full'>
         {children}
         {/* <Outlet /> */}
       </section>

@@ -8,7 +8,7 @@ const Active = () => {
   const activeSessions = []
   return (
     <SessionsLayout>
-      <div className='  w-full h-full flex justify-center items-center'>
+      <div className=' py-16 lg:py-12  w-full h-full flex justify-center items-center'>
         {activeSessions?.length === 0 ? (
           <section className='flex flex-col items-center'>
             <img src={gymCouple} alt="empty state" className='w-3/5 lg:w-full' />
