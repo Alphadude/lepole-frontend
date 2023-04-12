@@ -66,4 +66,11 @@ export const upcoming = [
     duration: '1 hour',
     slot_name: 'Off-Peak Session',
   },
+  {
+    id: 5,
+    date: '05-20-2023',
+    time: '1:00 AM - 2:00 AM',
+    duration: '1 hour',
+    slot_name: 'Mid-Peak Session',
+  },
 ];

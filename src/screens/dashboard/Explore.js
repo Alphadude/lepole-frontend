@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 import {
   ExploreBanner,
   OverviewCard,
@@ -6,12 +8,12 @@ import {
   Activity,
   UpcomingSession,
 } from '../../components/sections';
+
 import { Heading2 } from '../../components/Headings';
 
 import { DumbellOrange, CoinGreen, MoneyBlue } from '../../assets/icons';
 
 import { timeSlots, activities } from '../../utils/dummyData';
-import { Button } from '@deposits/ui-kit-react';
 
 const Explore = () => {
   return (
@@ -24,7 +26,7 @@ const Explore = () => {
             Overview
           </Heading2>
 
-          <div className="mt-4 w-fit xl:w-5/6 flex justify-between">
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-x-1 lg:gap-x-4">
             <OverviewCard
               title="total sessions"
               figures="10"
@@ -66,13 +68,12 @@ const Explore = () => {
             <Heading2 className="text-renaissance-black text-sm lg:text-lg font-bold">
               Recent Activities
             </Heading2>
-            <Button
-              colorScheme="invisible"
-              size="small"
-              className="font-montserrat capitalize text-renaissance-black !text-sm font-semibold underline"
-            >
-              See all
-            </Button>
+
+            <Link to="/dashboard/notifications">
+              <span className="capitalize cursor-pointer text-renaissance-black text-sm font-semibold underline">
+                see all
+              </span>
+            </Link>
           </div>
 
           <div>
@@ -83,7 +84,7 @@ const Explore = () => {
         </article>
       </section>
 
-      <section className="col-span-1 bg-white py-10 !px-8 text-base font-semibold text-renaissance-black">
+      <section className="col-span-1  bg-white py-10 !px-4 lg:!px-0 xl:!px-8 text-base font-semibold text-renaissance-black">
         <UpcomingSession />
       </section>
     </div>
