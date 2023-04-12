@@ -113,7 +113,7 @@ const BookNew = () => {
 
           <div className='mt-10 text-left '>
             {!selectedPlan ? (
-              <div className='flex items-center gap-5'>
+              <div className='flex items-center gap-5 w-full'>
                 <p> Choose preferred session to see available time </p>
                 <img src={manStandDumbell} alt="manStandDumbell" />
               </div>
