@@ -18,25 +18,30 @@ const ResetPassword = () => {
   const {
     register,
     handleSubmit,
+    setError,
     reset,
     formState: { errors },
   } = useForm();
 
-  const submitResetPassword = async (data) => {
-    setIsSubmitting(true);
+  const submitResetPassword = async (form) => {
+    if (form.password !== form.confirm_password) {
+      setError('confirm_password', { type: 'custom', message: 'Passwords dont match' });
+      return
+    }
 
-    const res = await supabase.auth.resetPasswordForEmail({
-      password: data.password,
-      confirm_password: data.confirm_password,
-    });
-    console.log(res);
-    if (res?.data?.user && !res?.error) {
+    setIsSubmitting(true);
+    const { data, error } = await supabase.auth.updateUser({
+      password: form.password
+    })
+
+
+    if (data?.user && !error) {
       toast.success('Request sent.');
       setIsSubmitting(false);
       reset();
-      // navigate(`/reset-password`);
+      navigate(`/login`);
     } else {
-      toast.error(res?.error?.message);
+      toast.error(error?.message);
       setIsSubmitting(false);
     }
   }
@@ -87,13 +92,13 @@ const ResetPassword = () => {
               className="w-full border border-dark-3 rounded text-base p-3 focus:outline-0 focus:border-dark-2"
               type="password"
               placeholder="Confirm New Password"
-              {...register('confirm-password', {
+              {...register('confirm_password', {
                 required: true,
                 minLength: 8,
               })}
             />
-            {errors.password && (
-              <div className="text-red-400">Password must be more than 8!</div>
+            {errors.confirm_password && (
+              <div className="text-red-400">{errors?.confirm_password?.message || 'Password must be more than 8!'}</div>
             )}
           </div>
 
