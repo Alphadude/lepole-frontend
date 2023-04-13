@@ -2,7 +2,7 @@ import React from 'react';
 
 const H1 = ({ children, className, ...props }) => {
   return (
-    <h1 className={'font-bold font-droid ' + className} {...props}>
+    <h1 className={'font-bold font-droid lg:text-[32px] ' + className} {...props}>
       {children}
     </h1>
   );
