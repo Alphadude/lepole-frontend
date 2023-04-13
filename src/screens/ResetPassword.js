@@ -8,6 +8,7 @@ import { LePoleLogo, BackArrow } from '../assets/icons';
 // import { useCookies } from 'react-cookie';
 import { supabase } from '../utils/supabaseConfig';
 import { toast } from 'react-toastify';
+import { H1 } from '../components/Headings';
 
 const ResetPassword = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -25,14 +26,15 @@ const ResetPassword = () => {
     setIsSubmitting(true);
 
     const res = await supabase.auth.resetPasswordForEmail({
-      email: data.email,
+      password: data.password,
+      confirm_password: data.confirm_password,
     });
     console.log(res);
     if (res?.data?.user && !res?.error) {
       toast.success('Request sent.');
       setIsSubmitting(false);
       reset();
-      navigate(`/reset-password`);
+      // navigate(`/reset-password`);
     } else {
       toast.error(res?.error?.message);
       setIsSubmitting(false);
@@ -41,22 +43,22 @@ const ResetPassword = () => {
 
 
   return (
-    <div className="min-h-screen flex flex-col items-center pb-8 bg-lepole-pattern bg-no-repeat bg-left-bottom bg-black/95 ">
+    <div className="min-h-screen flex flex-col items-center lg:pb-8 bg-lepole-pattern bg-no-repeat bg-left-bottom bg-black/95 ">
       <section>
         <img src={LePoleLogo} alt="Le Pole logo" />
       </section>
 
-      <section className="bg-white w-full max-w-[600px] h-fit p-6 lg:p-10 text-left rounded-lg">
+      <section className="bg-white flex-1 w-full lg:max-w-[600px] h-fit p-6 lg:p-10 text-left rounded-t-2xl lg:rounded-lg">
         <Link to="/login">
           <img src={BackArrow} alt="back arrow" />
         </Link>
 
-        <h1 className="text-black font-bold text-3xl mt-4">Reset Password</h1>
-        <p className="text-black text-base font-normal mt-1">
+        <H1 className=" mt-11 lg:mt-4">Reset Password</H1>
+        <p className="text-black text-xs lg:text-base font-normal mt-1">
           Please enter your new password
         </p>
 
-        <form onSubmit={handleSubmit(submitResetPassword)} className="mt-4 grid grid-cols-1  gap-6">
+        <form onSubmit={handleSubmit(submitResetPassword)} className="mt-10 lg:mt-4 grid grid-cols-1  gap-6">
           <div>
             <label className="block capitalize text-xs mb-1">
               New Password
@@ -88,7 +90,6 @@ const ResetPassword = () => {
               {...register('confirm-password', {
                 required: true,
                 minLength: 8,
-
               })}
             />
             {errors.password && (
@@ -96,7 +97,7 @@ const ResetPassword = () => {
             )}
           </div>
 
-          <div className="mt-3">
+          <div className="mt-2 lg:mt-3">
             <Button
               className="!bg-primary-green !w-full !border-0 !px-8 !text-primary-white"
               size="xlarge"
@@ -105,11 +106,17 @@ const ResetPassword = () => {
             </Button>
           </div>
         </form>
+
+        <Link to="/login" className='lg:hidden'>
+          <div className="mt-6 cursor-pointer text-renaissance-black text-center text-[14px] font-[600]">
+            Back to Login
+          </div>
+        </Link>
       </section>
 
-      <section className="text-base mt-0">
+      <section className="text-base mt-4 hidden lg:block">
         <Link to="/login">
-          <div className="mt-3 cursor-pointer text-white text-[14px] font-[600]">
+          <div className="mt-3 cursor-pointer text-white text-sm font-semibold">
             Back to Login
           </div>
         </Link>
