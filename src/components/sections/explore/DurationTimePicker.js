@@ -1,5 +1,5 @@
 import React from 'react'
-import { durationSlots, timeSlotsData } from '../../../utils/dummyData'
+import { plans } from '../../../utils/dummyData'
 import { Button } from '@deposits/ui-kit-react'
 
 const TimeCard = ({ content, id, selected, setSelected, ...props }) => {
@@ -30,7 +30,7 @@ const DurationTimePicker = ({
       <div className=''>
         <p className='mb-4 font-medium text-base text-center lg:text-left'> {selectedDate.toDateString()}  <span className='font-semibold'> - Choose Time </span></p>
         <div className='lg: grid  grid-cols-1 lg:grid-cols-3 xl:grid-cols-4  gap-2 lg:gap-4 w-full lg:w-max  '>
-          {timeSlotsData.map(time => (
+          {plans[selectedPlan - 1]?.timeSlotsData.map(time => (
             <TimeCard key={time.id} id={time.id} content={time.time} selected={selectedTime} setSelected={setSelectedTime} />
           ))}
         </div>
@@ -39,8 +39,8 @@ const DurationTimePicker = ({
       <div className=''>
         <p className='mb-4 font-medium text-base text-center lg:text-left'> Choose Hours </p>
         <div className='lg: grid  grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-2 lg:gap-4 w-full lg:w-max  '>
-          {durationSlots.map(duration => (
-            <TimeCard key={duration.id} id={duration.id} content={`${duration.duration} Hours`} selected={selectedDuration} setSelected={setSelectedDuration} />
+          {plans[selectedPlan - 1]?.timeSlotsData.map(duration => (
+            <TimeCard key={duration.id} id={duration.id} content={`${duration.id} Hours`} selected={selectedDuration} setSelected={setSelectedDuration} />
           ))}
         </div>
       </div>
