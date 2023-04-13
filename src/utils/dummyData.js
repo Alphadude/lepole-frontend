@@ -75,26 +75,24 @@ export const upcoming = [
   },
 ];
 
-
-
 export const timeSlotsData = [
   {
     id: 1,
-    time: '12:00 AM'
+    time: '12:00 AM',
   },
   {
     id: 2,
-    time: '1:00 AM'
+    time: '1:00 AM',
   },
   {
     id: 3,
-    time: '2:00 AM'
+    time: '2:00 AM',
   },
   {
     id: 4,
-    time: '3:00 AM'
+    time: '3:00 AM',
   },
-]
+];
 
 export const durationSlots = [
   {
@@ -113,4 +111,64 @@ export const durationSlots = [
     id: 4,
     duration: 4,
   },
-]
+];
+
+export const notifications = [
+  {
+    id: 1,
+    type: 'wallet',
+    text: 'You purchased 8 coins for £54 👍',
+    timeStamp: '2023-04-15T10:27:18.869Z',
+    seen: false,
+  },
+  {
+    id: 2,
+    type: 'reminder',
+    text: 'You have an upcoming session.',
+    timeStamp: '2023-04-14T11:27:18.869Z',
+    seen: false,
+  },
+  {
+    id: 3,
+    type: 'announcement',
+    text: 'Announcement: 💪We are adding more gym locations',
+    timeStamp: '2023-04-13T11:27:18.869Z',
+    seen: true,
+  },
+  {
+    id: 4,
+    type: 'wallet',
+    text: 'You purchased 4 coins for £60 👍',
+    timeStamp: '2023-04-13T11:27:18.869Z',
+    seen: false,
+  },
+  {
+    id: 5,
+    type: 'announcement',
+    text: 'Announcement: 💪We are adding more gym locations',
+    timeStamp: '2023-04-12T11:27:18.869Z',
+    seen: true,
+  },
+
+  {
+    id: 6,
+    type: 'reminder',
+    text: 'You have an upcoming session.',
+    timeStamp: '2023-04-12T11:27:18.869Z',
+    seen: false,
+  },
+  {
+    id: 7,
+    type: 'reminder',
+    text: 'You have an upcoming session.',
+    timeStamp: '2023-04-10T11:27:18.869Z',
+    seen: true,
+  },
+  {
+    id: 8,
+    type: 'wallet',
+    text: 'You purchased 8 coins for £54 👍',
+    timeStamp: '2023-04-09T11:27:18.869Z',
+    seen: true,
+  },
+];

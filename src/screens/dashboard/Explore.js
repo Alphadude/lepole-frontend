@@ -38,21 +38,21 @@ const Explore = () => {
               figures="10"
               icon={DumbellOrange}
               textColor="text-orange-1"
-              bgColor="bg-orange-light"
+              bgColor="bg-orange-light dark:bg-orange-1/20"
             />
             <OverviewCard
               title="Coin balance"
               figures="3,500"
               icon={CoinGreen}
               textColor="text-green-2"
-              bgColor="bg-green-light"
+              bgColor="bg-green-light dark:bg-primary-green/20"
             />
             <OverviewCard
               title="total coins spent"
               figures="10, 030"
               icon={MoneyBlue}
               textColor="text-primary-blue"
-              bgColor="bg-blue-light"
+              bgColor="bg-blue-light dark:bg-primary-blue/20"
             />
           </div>
         </article>
