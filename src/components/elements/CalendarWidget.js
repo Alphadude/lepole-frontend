@@ -1,7 +1,6 @@
-import styled from "styled-components";
+import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "./calendar.css";
-import { useEffect, useState } from "react";
 import { upcoming } from "../../utils/dummyData";
 import { formatDate } from "../../helpers/functions";
 
@@ -79,8 +78,10 @@ const CalendarWidget = ({ dateValue, setDateValue }) => {
       ),
     );
   }, [dates]);
+
+
   return (
-    <div className="text-center -ml-2 flex justify-center md:justify-normal ">
+    <div className="text-center -ml-2 flex justify-center md:justify-normal font-semibold ">
       <Calendar
         onChange={setDateValue}
         value={dateValue}
