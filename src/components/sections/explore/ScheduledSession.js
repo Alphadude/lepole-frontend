@@ -7,9 +7,9 @@ import { routes } from '../../../router/routes';
 
 const ScheduledSession = ({ session }) => {
   return (
-    <div className="bg-primary-green flex justify-between items-center text-white p-6  rounded-lg">
+    <div className="bg-primary-green flex justify-between items-center text-white p-4  xl:p-6  rounded-lg">
       <div className="flex-1 flex items-center">
-        <div className="mr-8">
+        <div className="mr-8 lg:mr-4 xl:mr-8">
           <span className="text-base block font-medium">
             {moment(session.date).format('ddd')}
           </span>
