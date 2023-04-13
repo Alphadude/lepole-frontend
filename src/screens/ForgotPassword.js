@@ -26,14 +26,15 @@ const ForgotPassword = () => {
   } = useForm();
 
   const submitForgotPassword = async (form) => {
-    setIsSubmitting(true);
+    const redirectLink = `${window.location.origin}/reset-password`
 
+    setIsSubmitting(true);
     const { data, error } = await supabase.auth.resetPasswordForEmail(form.email, {
-      redirectTo: `${window.location.origin}/reset-password`,
+      redirectTo: redirectLink
     })
 
-    if (data?.user && !error) {
-      toast.success('Request sent.');
+    if (!error) {
+      toast.success('Request sent. Check your mail for reset link.');
       setIsSubmitting(false);
       reset();
       // navigate(`/reset-password`);
@@ -49,7 +50,7 @@ const ForgotPassword = () => {
         <img src={LePoleLogo} alt="Le Pole logo" />
       </section>
 
-      <section className="bg-white flex-1 w-full lg:max-w-[600px] h-fit p-6 lg:p-10 text-left rounded-t-2xl lg:rounded-lg">
+      <section className="bg-white flex-1 lg:flex-initial w-full lg:max-w-[600px] h-fit p-6 lg:p-10 text-left rounded-t-2xl lg:rounded-lg">
         <Link to="/login">
           <img src={BackArrow} alt="back arrow" />
         </Link>
