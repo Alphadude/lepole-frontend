@@ -13,6 +13,16 @@ import { useCookies } from 'react-cookie'
 import { useSessions, useTotalCoins } from '../../../helpers/hooks/queries/useSessions'
 
 
+export const formatTime = (time) => {
+  if (time === 0) {
+    return `12:00 AM`
+  } else if (time > 12) {
+    return `${time - 12}:00 PM`
+  } else {
+    return `${time}:00 AM`
+  }
+}
+
 
 const PlanCard = ({ id, name, desc, startTime, endTime, fiat_price, coin_price, selected, setSelected }) => {
   return (
@@ -40,7 +50,7 @@ const PlanCard = ({ id, name, desc, startTime, endTime, fiat_price, coin_price, 
         <div className='flex-1 flex items-baseline  gap-x-1 lg:gap-x-8'>
           <div className='bg-badge-gray font-normal py-0.5 px-2 text-xxs rounded-xlg text-neutral-700'>Available Time</div>
           <p className='font-semibold text-xxs lg:text-xs'>
-            {startTime}:00 AM - {endTime}:00 PM
+            {formatTime(startTime) + ' - ' + formatTime(endTime)}
           </p>
         </div>
 
@@ -65,7 +75,7 @@ const BookNew = () => {
 
   console.log(dataCoins);
   return (
-    <div className=' text-renaissance-black dark:text-renaissance-dark-black p-[4%] 2xl:pr-[8%] pt-6 pb-24 transition w-full '>
+    <div className=' text-renaissance-black dark:text-renaissance-dark-black p-[4%] pt-6 pb-24 transition w-full '>
       <section className=''>
         <H3> Book a session </H3>
         <P className='  '>

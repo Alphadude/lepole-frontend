@@ -1,3 +1,5 @@
+import { formatTime } from "../screens/dashboard/session/BookNew";
+
 export const timeSlots = [
   {
     id: 1,
@@ -137,12 +139,13 @@ export const peakSlotsData = [
 ]
 
 
+
 export const plans = [
   {
     id: 1,
     name: 'Off PeaK',
     desc: 'The best value if you are someone that loves to have less people at the gym',
-    startTime: 12,
+    startTime: 0,
     endTime: 4,
     fiat_price: 5,
     coin_price: 2,
@@ -163,7 +166,7 @@ export const plans = [
     name: 'PeaK',
     desc: 'The best value if you are someone that loves to have less people at the gym',
     startTime: 6,
-    endTime: 9,
+    endTime: 21,
     fiat_price: 15,
     coin_price: 2,
     timeSlotsData: peakSlotsData
