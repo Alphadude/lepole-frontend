@@ -31,8 +31,6 @@ const Header = () => {
     localStorage.setItem('theme', enabled ? 'dark' : 'light');
   }, [enabled]);
 
-  console.log(localStorage.theme);
-
 
   const changeTheme = () => {
     setEnabled(!enabled);

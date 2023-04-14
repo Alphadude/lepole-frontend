@@ -8,36 +8,20 @@ import manStandDumbell from '../../../assets/images/man_stand_dumbell.png'
 import { useState } from 'react'
 import { Button } from '@deposits/ui-kit-react'
 import DurationTimePicker from '../../../components/sections/explore/DurationTimePicker'
+import { plans } from '../../../utils/dummyData'
+import { useCookies } from 'react-cookie'
+import { useSessions, useTotalCoins } from '../../../helpers/hooks/queries/useSessions'
 
-const plans = [
-  {
-    id: 1,
-    name: 'Off PeaK',
-    desc: 'The best value if you are someone that loves to have less people at the gym',
-    startTime: 12,
-    endTime: 4,
-    fiat_price: 5,
-    coin_price: 2
-  },
-  {
-    id: 2,
-    name: 'Mid Peak',
-    desc: 'The best value if you are someone that loves to have less people at the gym',
-    startTime: 4,
-    endTime: 6,
-    fiat_price: 10,
-    coin_price: 2
-  },
-  {
-    id: 3,
-    name: 'PeaK',
-    desc: 'The best value if you are someone that loves to have less people at the gym',
-    startTime: 6,
-    endTime: 9,
-    fiat_price: 15,
-    coin_price: 2
-  },
-]
+
+export const formatTime = (time) => {
+  if (time === 0) {
+    return `12:00 AM`
+  } else if (time > 12) {
+    return `${time - 12}:00 PM`
+  } else {
+    return `${time}:00 AM`
+  }
+}
 
 
 const PlanCard = ({ id, name, desc, startTime, endTime, fiat_price, coin_price, selected, setSelected }) => {
@@ -66,7 +50,7 @@ const PlanCard = ({ id, name, desc, startTime, endTime, fiat_price, coin_price, 
         <div className='flex-1 flex items-baseline  gap-x-1 lg:gap-x-8'>
           <div className='bg-badge-gray font-normal py-0.5 px-2 text-xxs rounded-xlg text-neutral-700'>Available Time</div>
           <p className='font-semibold text-xxs lg:text-xs'>
-            {startTime}:00 AM - {endTime}:00 PM
+            {formatTime(startTime) + ' - ' + formatTime(endTime)}
           </p>
         </div>
 
@@ -82,13 +66,16 @@ const PlanCard = ({ id, name, desc, startTime, endTime, fiat_price, coin_price, 
 
 const BookNew = () => {
   const [selectedPlan, setSelectedPlan] = useState(0)
-  const [selectedTime, setSelectedTime] = useState(0)
+  const [selectedTime, setSelectedTime] = useState(null)
   const [selectedDuration, setSelectedDuration] = useState(0)
   const [selectedDate, setSelectedDate] = useState(new Date())
 
+  const { data } = useSessions()
+  const { data: dataCoins } = useTotalCoins()
 
+  console.log(dataCoins);
   return (
-    <div className=' text-renaissance-black dark:text-renaissance-dark-black p-[4%] 2xl:pr-[8%] pt-6 pb-24 transition w-full '>
+    <div className=' text-renaissance-black dark:text-renaissance-dark-black p-[4%] pt-6 pb-24 transition w-full '>
       <section className=''>
         <H3> Book a session </H3>
         <P className='  '>
