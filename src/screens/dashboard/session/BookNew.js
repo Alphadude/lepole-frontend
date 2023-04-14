@@ -66,7 +66,7 @@ const PlanCard = ({ id, name, desc, startTime, endTime, fiat_price, coin_price, 
 
 const BookNew = () => {
   const [selectedPlan, setSelectedPlan] = useState(0)
-  const [selectedTime, setSelectedTime] = useState(0)
+  const [selectedTime, setSelectedTime] = useState(null)
   const [selectedDuration, setSelectedDuration] = useState(0)
   const [selectedDate, setSelectedDate] = useState(new Date())
 
