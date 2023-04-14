@@ -62,7 +62,7 @@ const Explore = () => {
             Pay as you go
           </Heading2>
 
-          <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-4">
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-4">
             {timeSlots.map((slot) => (
               <TimeSlot key={slot.id} slot={slot} />
             ))}
@@ -90,7 +90,7 @@ const Explore = () => {
         </article>
       </section>
 
-      <section className="col-span-1  bg-white dark:bg-dark-white py-10 !px-4 lg:!px-0 xl:!px-8 text-base font-semibold text-renaissance-black">
+      <section className="col-span-1 sm:flex justify-between sm:gap-x-4 md:gap-x-2 lg:gap-x-0 lg:block bg-white dark:bg-dark-white py-10 !px-4 lg:!px-2 xl:!px-8 text-base font-semibold text-renaissance-black">
         <UpcomingSession />
       </section>
     </div>
