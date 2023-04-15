@@ -8,15 +8,22 @@ import {
   LogoutIcon,
 } from '../../assets/icons';
 import { useCookies } from 'react-cookie';
+import { supabase } from '../../utils/supabaseConfig';
+import { toast } from 'react-toastify';
 
 const Sidebar = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
-  const handleLogout = () => {
-    removeCookie('user', { path: null });
-    navigate('/');
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (!error) {
+      removeCookie();
+      navigate('/');
+    } else {
+      toast.error('An error occured');
+    }
   };
 
   return (

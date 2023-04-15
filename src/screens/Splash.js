@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { LePoleLogo } from '../assets/icons';
-import { H2, H5 } from '../components/Headings';
+import { H1, H2, H5 } from '../components/Headings';
 import { routes } from '../router/routes';
 
 const splashRoutes = [

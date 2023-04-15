@@ -1,3 +1,5 @@
+import { formatTime } from "../screens/dashboard/session/BookNew";
+
 export const timeSlots = [
   {
     id: 1,
@@ -75,7 +77,9 @@ export const upcoming = [
   },
 ];
 
-export const timeSlotsData = [
+
+
+export const offPeakSlotsData = [
   {
     id: 1,
     time: '12:00 AM',
@@ -94,24 +98,81 @@ export const timeSlotsData = [
   },
 ];
 
-export const durationSlots = [
+
+export const midPeakSlotsData = [
   {
     id: 1,
-    duration: 1,
+    time: '12:00 AM'
   },
   {
     id: 2,
-    duration: 2,
+    time: '1:00 AM'
   },
   {
     id: 3,
-    duration: 3,
+    time: '2:00 AM'
   },
   {
     id: 4,
-    duration: 4,
+    time: '3:00 AM'
   },
-];
+]
+
+
+export const peakSlotsData = [
+  {
+    id: 1,
+    time: '12:00 AM'
+  },
+  {
+    id: 2,
+    time: '1:00 AM'
+  },
+  {
+    id: 3,
+    time: '2:00 AM'
+  },
+  {
+    id: 4,
+    time: '3:00 AM'
+  },
+]
+
+
+
+export const plans = [
+  {
+    id: 1,
+    name: 'Off PeaK',
+    desc: 'The best value if you are someone that loves to have less people at the gym',
+    startTime: 0,
+    endTime: 4,
+    fiat_price: 5,
+    coin_price: 2,
+    timeSlotsData: offPeakSlotsData
+  },
+  {
+    id: 2,
+    name: 'Mid Peak',
+    desc: 'The best value if you are someone that loves to have less people at the gym',
+    startTime: 4,
+    endTime: 6,
+    fiat_price: 10,
+    coin_price: 2,
+    timeSlotsData: midPeakSlotsData
+  },
+  {
+    id: 3,
+    name: 'PeaK',
+    desc: 'The best value if you are someone that loves to have less people at the gym',
+    startTime: 6,
+    endTime: 21,
+    fiat_price: 15,
+    coin_price: 2,
+    timeSlotsData: peakSlotsData
+  },
+]
+  ;
 
 export const notifications = [
   {

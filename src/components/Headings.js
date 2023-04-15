@@ -3,7 +3,7 @@ import React from 'react';
 const H1 = ({ children, className, ...props }) => {
   return (
     <h1
-      className={'font-bold font-droid lg:text-[32px] ' + className}
+      className={'font-bold font-droid lg:text-[28px] ' + className}
       {...props}
     >
       {children}
@@ -23,7 +23,7 @@ const H2 = ({ children, className, ...props }) => {
   return (
     <h2
       className={
-        'text-off-black dark:text-renaissance-dark-black font-semibold md:text-3xl text-base leading-[40px] font-droid ' +
+        'text-off-black dark:text-renaissance-dark-black font-semibold md:text-[28px] text-base leading-[40px] font-droid ' +
         className
       }
       {...props}
