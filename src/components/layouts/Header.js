@@ -61,9 +61,9 @@ const Header = () => {
       </div>
 
       <div className="flex items-center">
-        <div className="mr-6 hidden lg:block">
+        <div className="mr-6 hidden lg:block cursor-pointer">
           <img
-            className="ml-1"
+            className="ml-1 dark:invert"
             src={NotificationIcon2}
             alt="notification icon"
           />
@@ -72,13 +72,17 @@ const Header = () => {
         <div className="hidden lg:flex items-center cursor-pointer mr-8">
           <Avatar
             avatar={{
-              colorScheme: 'blue',
+              colorScheme: 'blue ',
               name: 'Emmanuel Stephen',
             }}
             subtle
           />
 
-          <img className="ml-1" src={DropdownIcon} alt="dropdown icon" />
+          <img
+            className="ml-1 dark:invert"
+            src={DropdownIcon}
+            alt="dropdown icon"
+          />
         </div>
 
         <CustomSwitch onChange={changeTheme} enabled={enabled} />
