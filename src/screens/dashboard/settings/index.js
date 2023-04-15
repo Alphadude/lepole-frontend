@@ -6,7 +6,7 @@ const Settings = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   return (
-    <section className="p-4 lg:!px-6 lg:py-10">
+    <section className="p-6 lg:px-6 xl:px-12 lg:py-10">
       <H2 className="mb-10 hidden dark:text-renaissance-dark-black lg:block font-bold text-xl lg:text-xl text-renaissance-black">
         Account Settings
       </H2>

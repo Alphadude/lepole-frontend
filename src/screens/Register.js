@@ -9,6 +9,8 @@ import { LePoleLogo } from '../assets/icons';
 import { supabase } from '../utils/supabaseConfig';
 import { toast } from 'react-toastify';
 
+import { H1 } from '../components/Headings';
+
 const Register = () => {
   const navigate = useNavigate();
 
@@ -40,7 +42,7 @@ const Register = () => {
     return (
       <span
         className={`${
-          checker ? 'text-primary-green' : 'text-gray-2 '
+          checker ? ' text-gray-2/50 line-through' : 'text-gray-2 '
         } block text-xs`}
       >
         {text}
@@ -84,7 +86,7 @@ const Register = () => {
       </section>
 
       <section className="bg-white xl:w-[600px] xl:min-h-[600px] p-6 lg:p-10 text-left rounded-lg">
-        <h1 className="text-black font-bold text-3xl">Create an account</h1>
+        <H1 className="!text-3xl">Create an account</H1>
         <p className="text-black text-base font-normal mt-1">
           Create an account to start booking for your gym sessions
         </p>
@@ -181,7 +183,8 @@ const Register = () => {
               {...register('password', {
                 required: true,
                 minLength: 8,
-                pattern: /((?=.\d)|(?=.\W+))(?![.\n])(?=.[A-Z])(?=.[a-z]).*$/,
+                pattern:
+                  /^(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/,
               })}
             />
             {errors.password && (

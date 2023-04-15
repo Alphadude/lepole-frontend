@@ -6,7 +6,7 @@ import { NotifCard } from '../../components/sections';
 const Notifications = () => {
   const lastItem = notifications[notifications?.length - 1];
   return (
-    <div className="p-4 lg:!px-6 lg:py-10">
+    <div className="p-6 lg:px-6 xl:px-12 lg:py-10">
       <h2 className="text-xl font-bold text-renaissance-black dark:text-primary-white">
         Notifications
       </h2>
