@@ -1,4 +1,3 @@
-import { Button } from '@deposits/ui-kit-react';
 import { Link } from 'react-router-dom';
 
 const TimeSlot = ({ slot }) => {
@@ -28,11 +27,9 @@ const TimeSlot = ({ slot }) => {
 
       <div>
         <Link to="/dashboard/session/new">
-          <Button
-            className="font-montserrat !bg-transparent !text-3xl !border !border-primary-green !text-primary-green capitalize  !rounded-3xl !font-medium"
-            size="large"
-            text="book now"
-          />
+          <button className="font-montserrat py-2 !px-8 bg-transparent text-sm border border-primary-green text-primary-green capitalize rounded-full font-medium">
+            book now
+          </button>
         </Link>
       </div>
     </div>

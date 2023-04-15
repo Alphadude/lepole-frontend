@@ -2,7 +2,10 @@ import React from 'react';
 
 const H1 = ({ children, className, ...props }) => {
   return (
-    <h1 className={'font-bold font-droid lg:text-[32px] ' + className} {...props}>
+    <h1
+      className={'font-bold font-droid lg:text-[32px] ' + className}
+      {...props}
+    >
       {children}
     </h1>
   );
@@ -10,7 +13,7 @@ const H1 = ({ children, className, ...props }) => {
 
 const Heading2 = ({ children, className, ...props }) => {
   return (
-    <h2 className={'font-bold font-droid ' + className} {...props}>
+    <h2 className={'font-semibold font-montserrat ' + className} {...props}>
       {children}
     </h2>
   );
@@ -70,6 +73,5 @@ const P = ({ children, className, ...props }) => {
     </p>
   );
 };
-
 
 export { H1, H2, H3, H5, Heading2, P };
