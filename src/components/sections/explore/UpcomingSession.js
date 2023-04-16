@@ -57,7 +57,7 @@ const UpcomingSession = () => {
         />
       </article>
 
-      <article className="text-renaissance-black">
+      <article className="flex-1 text-renaissance-black">
         <div className="mt-10 mb-3 capitalize text-renaissance-black dark:text-primary-white">
           scheduled Session
         </div>

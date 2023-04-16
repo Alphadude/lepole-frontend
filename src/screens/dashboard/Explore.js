@@ -13,7 +13,7 @@ import { Heading2 } from '../../components/Headings';
 
 import { DumbellOrange, CoinGreen, MoneyBlue } from '../../assets/icons';
 
-import { timeSlots, activities } from '../../utils/dummyData';
+import { timeSlots, notifications } from '../../utils/dummyData';
 
 import { useCookies } from 'react-cookie';
 
@@ -24,11 +24,11 @@ const Explore = () => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 h-full">
-      <section className="col-span-1 lg:col-span-2 p-4 lg:!px-6 lg:py-10">
+      <section className="col-span-1 lg:col-span-2 p-6 lg:px-6 xl:px-12 lg:py-10">
         <ExploreBanner name={firstname} />
 
         <article className="my-12">
-          <Heading2 className="text-renaissance-black dark:text-primary-white text-sm lg:text-lg font-bold">
+          <Heading2 className="text-renaissance-black dark:text-primary-white text-sm lg:text-base">
             Overview
           </Heading2>
 
@@ -58,11 +58,11 @@ const Explore = () => {
         </article>
 
         <article>
-          <Heading2 className="text-renaissance-black dark:text-primary-white text-sm lg:text-lg font-bold">
+          <Heading2 className="text-renaissance-black dark:text-primary-white text-sm lg:text-base">
             Pay as you go
           </Heading2>
 
-          <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-4">
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-4">
             {timeSlots.map((slot) => (
               <TimeSlot key={slot.id} slot={slot} />
             ))}
@@ -71,7 +71,7 @@ const Explore = () => {
 
         <article className="mt-12">
           <div className="flex items-center justify-between">
-            <Heading2 className="text-renaissance-black dark:text-primary-white text-sm lg:text-lg font-bold">
+            <Heading2 className="text-renaissance-black dark:text-primary-white text-sm lg:text-base font-semibold">
               Recent Activities
             </Heading2>
 
@@ -83,14 +83,14 @@ const Explore = () => {
           </div>
 
           <div>
-            {activities.map((item) => (
+            {notifications.slice(0, 3).map((item) => (
               <Activity key={item.id} item={item} />
             ))}
           </div>
         </article>
       </section>
 
-      <section className="col-span-1  bg-white dark:bg-dark-white py-10 !px-4 lg:!px-0 xl:!px-8 text-base font-semibold text-renaissance-black">
+      <section className="py-10 !px-6 lg:!px-2 xl:!px-8  col-span-1 sm:flex justify-between sm:gap-x-4 md:gap-x-2 lg:gap-x-0 lg:block bg-white dark:bg-dark-white text-base font-semibold text-renaissance-black">
         <UpcomingSession />
       </section>
     </div>

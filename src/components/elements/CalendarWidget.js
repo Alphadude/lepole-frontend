@@ -81,7 +81,7 @@ const CalendarWidget = ({ dateValue, setDateValue }) => {
 
 
   return (
-    <div className="text-center -ml-2 flex justify-center md:justify-normal font-semibold ">
+    <div className="text-center -ml-2 flex justify-center md:justify-normal font-medium ">
       <Calendar
         onChange={setDateValue}
         value={dateValue}

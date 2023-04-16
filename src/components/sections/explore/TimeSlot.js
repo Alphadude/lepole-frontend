@@ -1,4 +1,3 @@
-import { Button } from '@deposits/ui-kit-react';
 import { Link } from 'react-router-dom';
 
 const TimeSlot = ({ slot }) => {
@@ -10,7 +9,7 @@ const TimeSlot = ({ slot }) => {
           : slot.id === 2
           ? 'bg-[#F5F9F7] dark:bg-[#151515]'
           : 'bg-[#C7C9CC1A]'
-      } p-4 flex lg:block justify-between items-end rounded-lg`}
+      } p-4 flex md:block justify-between items-end rounded-lg`}
     >
       <div>
         <h3 className="capitalize font-semibold text-renaissance-black dark:text-primary-white text-sm lg:text-base">
@@ -21,18 +20,16 @@ const TimeSlot = ({ slot }) => {
           {slot?.time}
         </span>
 
-        <span className="block lg:mb-4 text-xs text-renaissance-black dark:text-primary-white font-medium">
+        <span className="block md:mb-4 text-xs text-renaissance-black dark:text-primary-white font-medium">
           {slot.fee}
         </span>
       </div>
 
       <div>
         <Link to="/dashboard/session/new">
-          <Button
-            className="font-montserrat !bg-transparent !text-3xl !border !border-primary-green !text-primary-green capitalize  !rounded-3xl !font-medium"
-            size="large"
-            text="book now"
-          />
+          <button className="font-montserrat py-2 !px-8 bg-transparent text-sm border border-primary-green text-primary-green capitalize rounded-full font-medium">
+            book now
+          </button>
         </Link>
       </div>
     </div>

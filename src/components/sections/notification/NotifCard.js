@@ -1,14 +1,19 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { ReactComponent as CalendarIcon } from '../../../assets/icons/calendar.svg';
 import { ReactComponent as NotificationIcon } from '../../../assets/icons/notification.svg';
 import { ReactComponent as GoldCoins } from '../../../assets/icons/coins-gold.svg';
 
-import { Button } from '@deposits/ui-kit-react';
-
 import moment from 'moment';
 
 const NotifCard = ({ item, lastItem }) => {
+  const notifLink =
+    item?.type === 'wallet'
+      ? '/dashboard/wallet'
+      : item.type === 'reminder'
+      ? '/dashboard/session/upcoming'
+      : '/dashboard/notifications';
   return (
     <div
       className={`${
@@ -40,13 +45,13 @@ const NotifCard = ({ item, lastItem }) => {
         {item.seen ? (
           ''
         ) : (
-          <div>
-            <Button
-              className="!text-primary-green !shadow-none !focus:outline-0 !font-bold !font-montserrat !text-sm"
-              colorScheme="invisible"
-              text="View"
-            />
-          </div>
+          <Link to={notifLink}>
+            <div>
+              <button className="text-sm  font-semibold text-primary-green bg-transparent capitalize !shadow-none !focus:outline-0">
+                view
+              </button>
+            </div>
+          </Link>
         )}
       </div>
     </div>

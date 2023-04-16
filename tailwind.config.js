@@ -37,6 +37,7 @@ module.exports = {
         'orange-light': '#FFF0DB',
         'avatarBg': '#BDF3FC',
         'avatarText': '#085E7A',
+        'avatar-headerText': '#08294C',
         'table-header-black': '#141414',
         'table-border-gray': '#1D262E',
         'table-dark-text': '#E5E5E5'

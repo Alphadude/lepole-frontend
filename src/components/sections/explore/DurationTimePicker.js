@@ -1,6 +1,20 @@
 import React from 'react'
-import { durationSlots, timeSlotsData } from '../../../utils/dummyData'
+import { plans } from '../../../utils/dummyData'
 import { Button } from '@deposits/ui-kit-react'
+import { formatTime } from '../../../screens/dashboard/session/BookNew'
+
+
+
+export const slotsCreator = (start, end) => {
+  return Array(end - start).fill(1).map((item, index) => ({
+    id: index,
+    time: formatTime(start + index)
+  }))
+}
+
+export const intervalCreator = (start, end) => {
+  return Array(end - start).fill(1).map((item, index) => index + 1)
+}
 
 const TimeCard = ({ content, id, selected, setSelected, ...props }) => {
   return (
@@ -25,12 +39,14 @@ const DurationTimePicker = ({
   setSelectedTime,
   selectedDuration,
   setSelectedDuration }) => {
+
+  const { startTime, endTime } = plans[selectedPlan - 1]
   return (
     <div className='flex flex-col gap-6 lg:gap-12 '>
       <div className=''>
         <p className='mb-4 font-medium text-base text-center lg:text-left'> {selectedDate.toDateString()}  <span className='font-semibold'> - Choose Time </span></p>
         <div className='lg: grid  grid-cols-1 lg:grid-cols-3 xl:grid-cols-4  gap-2 lg:gap-4 w-full lg:w-max  '>
-          {timeSlotsData.map(time => (
+          {slotsCreator(startTime, endTime).map(time => (
             <TimeCard key={time.id} id={time.id} content={time.time} selected={selectedTime} setSelected={setSelectedTime} />
           ))}
         </div>
@@ -39,8 +55,8 @@ const DurationTimePicker = ({
       <div className=''>
         <p className='mb-4 font-medium text-base text-center lg:text-left'> Choose Hours </p>
         <div className='lg: grid  grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-2 lg:gap-4 w-full lg:w-max  '>
-          {durationSlots.map(duration => (
-            <TimeCard key={duration.id} id={duration.id} content={`${duration.duration} Hours`} selected={selectedDuration} setSelected={setSelectedDuration} />
+          {intervalCreator(startTime, endTime).map(duration => (
+            <TimeCard key={duration} id={duration} content={`${duration} Hours`} selected={selectedDuration} setSelected={setSelectedDuration} />
           ))}
         </div>
       </div>
@@ -56,9 +72,9 @@ const DurationTimePicker = ({
 
       <div>
         <Button
-          disabled={!selectedDuration || !selectedPlan || !selectedTime}
+          disabled={!selectedDuration || !selectedPlan || selectedTime === null}
           className={`!w-full !border-0 !px-8 !text-primary-white 
-                    ${(!selectedDuration || !selectedPlan || !selectedTime) ? '!bg-gray-4' : ' !bg-primary-green '}`}
+                    ${(!selectedDuration || !selectedPlan || selectedTime === null) ? '!bg-gray-4' : ' !bg-primary-green '}`}
           size="xlarge"
         >
           Book Session for {selectedDate.toDateString()}

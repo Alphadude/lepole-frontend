@@ -18,6 +18,12 @@ const Settings = () => {
 
   const firstname = cookies?.user?.firstname;
 
+  const lastname = cookies?.user?.lastname;
+
+  const email = cookies?.user?.email;
+
+  const phoneNumber = cookies?.user?.phone;
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const watchPassword = watch('password', '');
@@ -47,17 +53,17 @@ const Settings = () => {
   };
 
   return (
-    <section className="p-5">
+    <section className="p-6 lg:px-6 xl:px-12 lg:py-10">
       <H2 className="mb-10 hidden dark:text-renaissance-dark-black lg:block font-bold text-xl lg:text-xl text-renaissance-black">
         Account Settings
       </H2>
 
       <div className="mb-[40px] flex items-center">
         <div className="w-[80px] h-[80px] text-3xl mr-2 rounded-full bg-avatarBg text-avatarText flex items-center justify-center ">
-          DJ
+          {firstname[0]}{lastname[0]}
         </div>
         <H2 className="dark:text-renaissance-dark-black lg:block font-bold text-lg lg:text-2xl text-renaissance-black">
-          {firstname} Joyce
+          {firstname} {lastname}
         </H2>
       </div>
 
@@ -71,7 +77,7 @@ const Settings = () => {
             First Name
           </H5>
           <H5 className="dark:text-renaissance-dark-black lg:block font-medium lg:text-sm text-renaissance-black">
-            Dolce
+            {firstname}
           </H5>
         </div>
 
@@ -80,7 +86,7 @@ const Settings = () => {
             Last Name
           </H5>
           <H5 className="dark:text-renaissance-dark-black lg:block font-medium lg:text-sm text-renaissance-black">
-            Joyce
+            {lastname}
           </H5>
         </div>
 
@@ -89,7 +95,7 @@ const Settings = () => {
             Email Address
           </H5>
           <H5 className="dark:text-renaissance-dark-black lg:block font-medium lg:text-sm text-renaissance-black">
-            dolcejoyce@gmail.com
+            {email}
           </H5>
         </div>
 
@@ -98,7 +104,7 @@ const Settings = () => {
             Phone Number
           </H5>
           <H5 className="dark:text-renaissance-dark-black lg:block font-medium lg:text-sm text-renaissance-black">
-            +222 787 345 6789
+            {phoneNumber}
           </H5>
         </div>
       </div>
@@ -174,12 +180,15 @@ const Settings = () => {
               {...register('confirmpassword', {
                 required: true,
                 minLength: 8,
-                pattern: /((?=.\d)|(?=.\W+))(?![.\n])(?=.[A-Z])(?=.[a-z]).*$/,
+                validate: (value) =>
+                  value === watchPassword || 'The passwords do not match',
               })}
             />
 
             {errors.confirmpassword && (
-              <div className="text-red-500">Password is required</div>
+              <div className="text-red-400 text-xs mt-1">
+                Password must be a match
+              </div>
             )}
 
           </div>
@@ -187,7 +196,7 @@ const Settings = () => {
 
         <Button
           disabled={isSubmitting}
-          className="!bg-primary-green w-[274px] h-[48px] !border-0 !px-8 my-10 !text-primary-white"
+          className="!bg-primary-green w-full lg:w-[274px] h-[48px] !border-0 !px-8 my-10 !text-primary-white"
           size="xlarge"
         >
           {isSubmitting ? 'Updating Profile' : 'Update Profile'}
