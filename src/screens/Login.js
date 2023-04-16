@@ -11,6 +11,8 @@ import { toast } from 'react-toastify';
 
 import { useCookies } from 'react-cookie';
 
+import { H1 } from '../components/Headings';
+
 const Login = () => {
   const navigate = useNavigate();
 
@@ -71,7 +73,7 @@ const Login = () => {
       </section>
 
       <section className="bg-white w-full max-w-[600px] h-fit p-6 lg:p-10 text-left rounded-lg">
-        <h1 className="text-black font-bold text-3xl">Sign in</h1>
+        <H1 className="!text-3xl">Sign in</H1>
         <p className="text-black text-base font-normal mt-1">
           Please fill correctly
         </p>
