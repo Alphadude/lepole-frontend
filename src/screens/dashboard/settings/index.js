@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { H1, H2, H5 } from '../../../components/Headings';
 import { TextField, Button } from '@deposits/ui-kit-react';
 import { useForm } from 'react-hook-form';
+import { useCookies } from 'react-cookie';
 
 const Settings = () => {
 
@@ -12,6 +13,10 @@ const Settings = () => {
     formState: { errors },
     reset,
   } = useForm();
+
+  const [cookies] = useCookies(['user']);
+
+  const firstname = cookies?.user?.firstname;
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -52,7 +57,7 @@ const Settings = () => {
           DJ
         </div>
         <H2 className="dark:text-renaissance-dark-black lg:block font-bold text-lg lg:text-2xl text-renaissance-black">
-          Dolce Joyce
+          {firstname} Joyce
         </H2>
       </div>
 
