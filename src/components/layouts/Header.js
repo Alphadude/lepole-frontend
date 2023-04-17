@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { sidebarItems } from './SidebarItem';
 
 import { Avatar } from '@deposits/ui-kit-react';
+import { useCookies } from 'react-cookie';
 
 import {
   DropdownIcon,
@@ -38,6 +39,12 @@ const Header = () => {
     setEnabled(!enabled);
   };
 
+  const [cookies] = useCookies(['user']);
+
+  const firstname = cookies?.user?.firstname;
+
+  const lastname = cookies?.user?.lastname;
+
   return (
     <div className="flex bg-primary-white dark:bg-gray-dark-4  items-center justify-between !px-8 lg:!px-6 xl:!px-12 py-4 lg:py-8  lg:border-b border-gray-4 dark:border-gray-dark-4 ">
       <H1 className="hidden lg:block font-bold text-lg lg:text-2xl text-renaissance-black dark:text-renaissance-dark-black ">
@@ -70,13 +77,18 @@ const Header = () => {
         </div>
 
         <div className="hidden lg:flex items-center cursor-pointer mr-8">
-          <Avatar
+
+          <div className="w-[40px] h-[40px] text-[12px] mr-2 rounded-full bg-blue-light text-avatar-headerText font-medium font-montserrat flex items-center justify-center ">
+            {firstname[0]}{lastname[0]}
+          </div>
+
+          {/* <Avatar
             avatar={{
               colorScheme: 'blue ',
-              name: 'Emmanuel Stephen',
+              name: `Emmanuel Stephen`,
             }}
             subtle
-          />
+          /> */}
 
           <img
             className="ml-1 dark:invert"
