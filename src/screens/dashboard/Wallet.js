@@ -109,7 +109,7 @@ const Wallet = ({
       ) : (
         <div>
           <div className='flex justify-between'>
-            <p className="mt-2 text-sm font-normal text-renaissance-black dark:text-primary-white">
+            <p className="mt-2 text-lg font-montserrat font-semibold text-renaissance-black dark:text-primary-white">
               Transaction History
             </p>
 
