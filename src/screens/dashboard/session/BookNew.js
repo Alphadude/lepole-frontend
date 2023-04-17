@@ -1,7 +1,7 @@
 import React from 'react';
 import { H3, P } from '../../../components/Headings';
 import { BackArrow } from '../../../assets/icons';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { routes } from '../../../router/routes';
 import CalendarWidget from '../../../components/elements/CalendarWidget';
 import manStandDumbell from '../../../assets/images/man_stand_dumbell.png';
@@ -80,7 +80,10 @@ const PlanCard = ({
 };
 
 const BookNew = () => {
-  const [selectedPlan, setSelectedPlan] = useState(0);
+  let { state } = useLocation();
+
+
+  const [selectedPlan, setSelectedPlan] = useState(state?.planId || 0);
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedDuration, setSelectedDuration] = useState(0);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -88,7 +91,6 @@ const BookNew = () => {
   const { data } = useSessions();
   const { data: dataCoins } = useTotalCoins();
 
-  console.log(dataCoins);
   return (
     <div className=" text-renaissance-black dark:text-renaissance-dark-black !px-6 lg:!px-6 xl:!px-12  pt-6 pb-24 transition w-full ">
       <section className="">
