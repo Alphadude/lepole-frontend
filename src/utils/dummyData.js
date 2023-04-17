@@ -149,7 +149,7 @@ export const plans = [
     endTime: 4,
     fiat_price: 5,
     coin_price: 2,
-    timeSlotsData: offPeakSlotsData
+    // timeSlotsData: offPeakSlotsData
   },
   {
     id: 2,
@@ -159,7 +159,7 @@ export const plans = [
     endTime: 6,
     fiat_price: 10,
     coin_price: 2,
-    timeSlotsData: midPeakSlotsData
+    // timeSlotsData: midPeakSlotsData
   },
   {
     id: 3,
@@ -169,7 +169,7 @@ export const plans = [
     endTime: 21,
     fiat_price: 15,
     coin_price: 2,
-    timeSlotsData: peakSlotsData
+    // timeSlotsData: peakSlotsData
   },
 ]
   ;
@@ -302,5 +302,5 @@ export const bundle = [
     coins: '48 coins',
     amount: '£264',
   },
-  
+
 ];

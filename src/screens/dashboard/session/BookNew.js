@@ -92,7 +92,7 @@ const BookNew = () => {
   const { data: dataCoins } = useTotalCoins();
 
   return (
-    <div className=" text-renaissance-black dark:text-renaissance-dark-black !px-6 lg:!px-6 xl:!px-12  pt-6 pb-24 transition w-full ">
+    <div className=" text-renaissance-black dark:text-renaissance-dark-black !pl-6 lg:!pl-6 xl:!pl-12  pt-6 pb-24 transition w-full ">
       <section className="">
         <H3> Book a session </H3>
         <P className="  ">
@@ -107,8 +107,8 @@ const BookNew = () => {
         </Link>
       </section>
 
-      <section className="flex lg:flex-row flex-col items-center lg:items-start gap-y-20 lg:gap-y-0 justify-between">
-        <div className=" lg:pr-[5%] xl:pr-[20%] text-center lg:text-left">
+      <section className="flex lg:flex-row flex-col items-center lg:items-start gap-y-20 lg:gap-y-0 justify-between ">
+        <div className=" max-w-sm flex- text-center lg:text-left">
           <div>
             <H3>Select Date and Time</H3>
             <P className="pt-2 pb-10">
@@ -121,7 +121,7 @@ const BookNew = () => {
             />
           </div>
 
-          <div className="mt-20 text-left hidden lg:block">
+          <div className="mt-20 text-left hidden lg:block ">
             {!selectedPlan ? (
               <div className="flex items-center gap-5 w-full">
                 <p> Choose preferred session to see available time </p>
@@ -142,44 +142,47 @@ const BookNew = () => {
           </div>
         </div>
 
-        <div className="w-full max-w-2xl">
-          <H3>Pay-As-You-Go</H3>
-          <P className="pt-2 pb-10">
-            In your local time GMT +8{' '}
-            <span className="text-renaissance-blue pl-2">Update </span>
-          </P>
+        <div className='flex-1 '>
+          <div className="  flex-1 w-max mx-auto ">
+            <H3>Pay-As-You-Go</H3>
+            <P className="pt-2 pb-10">
+              In your local time GMT +8{' '}
+              <span className="text-renaissance-blue pl-2">Update </span>
+            </P>
 
-          <div className="space-y-6">
-            {plans.map((plan) => (
-              <PlanCard
-                key={plan.id}
-                {...plan}
-                selected={selectedPlan}
-                setSelected={setSelectedPlan}
-              />
-            ))}
-          </div>
+            <div className="space-y-6">
+              {plans.map((plan) => (
+                <PlanCard
+                  key={plan.id}
+                  {...plan}
+                  selected={selectedPlan}
+                  setSelected={setSelectedPlan}
+                />
+              ))}
+            </div>
 
-          <div className="mt-20 text-left lg:hidden">
-            {!selectedPlan ? (
-              <div className="flex items-center gap-5 w-full">
-                <p> Choose preferred session to see available time </p>
-                <img src={manStandDumbell} alt="manStandDumbell" />
-              </div>
-            ) : (
-              <DurationTimePicker
-                selectedPlan={selectedPlan}
-                setSelectedPlan={setSelectedPlan}
-                setSelectedDate={setSelectedDate}
-                selectedDate={selectedDate}
-                selectedTime={selectedTime}
-                setSelectedTime={setSelectedTime}
-                selectedDuration={selectedDuration}
-                setSelectedDuration={setSelectedDuration}
-              />
-            )}
+            <div className="mt-20 text-left lg:hidden">
+              {!selectedPlan ? (
+                <div className="flex items-center gap-5 w-full">
+                  <p> Choose preferred session to see available time </p>
+                  <img src={manStandDumbell} alt="manStandDumbell" />
+                </div>
+              ) : (
+                <DurationTimePicker
+                  selectedPlan={selectedPlan}
+                  setSelectedPlan={setSelectedPlan}
+                  setSelectedDate={setSelectedDate}
+                  selectedDate={selectedDate}
+                  selectedTime={selectedTime}
+                  setSelectedTime={setSelectedTime}
+                  selectedDuration={selectedDuration}
+                  setSelectedDuration={setSelectedDuration}
+                />
+              )}
+            </div>
           </div>
         </div>
+
       </section>
     </div>
   );

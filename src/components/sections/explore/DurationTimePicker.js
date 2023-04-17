@@ -6,20 +6,20 @@ import { formatTime } from '../../../screens/dashboard/session/BookNew'
 
 
 export const slotsCreator = (start, end) => {
-  return Array(end - start).fill(1).map((item, index) => ({
+  return Array(end - start).fill(0).map((item, index) => ({
     id: index,
-    time: formatTime(start + index)
+    formattedTime: formatTime(start + index),
+    start: start + index
   }))
 }
 
 export const intervalCreator = (start, end) => {
-  return Array(end - start).fill(1).map((item, index) => index + 1)
+  return Array(end - start).fill(0).map((item, index) => index + 1)
 }
 
 const TimeCard = ({ content, id, selected, setSelected, ...props }) => {
   return (
     <button
-      onClick={() => setSelected(id)}
       className={`w-full lg:w-[84px] h-9 flex items-center justify-center border border-gray-4  font-semibold text-xs rounded-lg
     ${selected === id && 'bg-primary-green/30 !text-primary-green !border-primary-green dark:!border-primary-dark-green dark:!text-primary-dark-green '}`}
       {...props}
@@ -45,17 +45,17 @@ const DurationTimePicker = ({
     <div className='flex flex-col gap-6 lg:gap-12 '>
       <div className=''>
         <p className='mb-4 font-medium text-base text-center lg:text-left'> {selectedDate.toDateString()}  <span className='font-semibold'> - Choose Time </span></p>
-        <div className='lg: grid  grid-cols-1 lg:grid-cols-3 xl:grid-cols-4  gap-2 lg:gap-4 w-full lg:w-max  '>
+        <div className=' grid grid-cols-1 lg:grid-cols-4 gap-y-2 lg:gap-y-6 w-full '>
           {slotsCreator(startTime, endTime).map(time => (
-            <TimeCard key={time.id} id={time.id} content={time.time} selected={selectedTime} setSelected={setSelectedTime} />
+            <TimeCard key={time.id} id={time.start} content={time.formattedTime} selected={selectedTime} setSelected={setSelectedTime} onClick={() => setSelectedTime(time.start)} />
           ))}
         </div>
       </div>
 
       <div className=''>
         <p className='mb-4 font-medium text-base text-center lg:text-left'> Choose Hours </p>
-        <div className='lg: grid  grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-2 lg:gap-4 w-full lg:w-max  '>
-          {intervalCreator(startTime, endTime).map(duration => (
+        <div className='lg: grid  grid-cols-1 lg:grid-cols-4 gap-y-2 lg:gap-y-6 w-full'>
+          {intervalCreator(selectedTime || startTime, endTime).map(duration => (
             <TimeCard key={duration} id={duration} content={`${duration} Hours`} selected={selectedDuration} setSelected={setSelectedDuration} />
           ))}
         </div>
