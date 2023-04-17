@@ -233,3 +233,74 @@ export const notifications = [
     seen: true,
   },
 ];
+
+export const transactionHistory = [
+  {
+    title: 'Coin Bundle Purchase',
+    description: '25 Mar 2023    10:48 GMT',
+    amount: '€ 225',
+    date: '9th March, 2023',
+    status: 'Coin Balance',
+  },
+  {
+    title: 'Session Booking',
+    description: '25 Mar 2023    10:48 GMT',
+    amount: '€ 15',
+    date: '9th March, 2023',
+    status: 'Debit Card',
+  },
+  {
+    title: 'Coin Bundle Purchase',
+    description: '25 Mar 2023    10:48 GMT',
+    amount: '€ 225',
+    date: '9th March, 2023',
+    status: 'Debit Card',
+  },
+  {
+    title: 'Session Booking',
+    description: '25 Mar 2023    10:48 GMT',
+    amount: '€ 15',
+    date: '9th March, 2023',
+    status: 'Debit Card',
+  },
+];
+
+export const bundle = [
+  {
+    id: 1,
+    type: 'less-coins',
+    coins: '8 coins',
+    amount: '£54',
+  },
+  {
+    id: 1,
+    type: 'less-coins',
+    coins: '16 coins',
+    amount: '£104',
+  },
+  {
+    id: 1,
+    type: 'less-coins',
+    coins: '24 coins',
+    amount: '£150',
+  },
+  {
+    id: 1,
+    type: 'more-coins',
+    coins: '32 coins',
+    amount: '£189',
+  },
+  {
+    id: 1,
+    type: 'more-coins',
+    coins: '40 coins',
+    amount: '£225',
+  },
+  {
+    id: 1,
+    type: 'more-coins',
+    coins: '48 coins',
+    amount: '£264',
+  },
+  
+];
