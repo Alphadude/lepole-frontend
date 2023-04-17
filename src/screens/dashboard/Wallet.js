@@ -68,18 +68,18 @@ const Wallet = ({
 
       <div className='flex space-x-1 items-center'>
         <p className="mt-2 text-base font-montserrat font-normal text-renaissance-black dark:text-primary-white">
-        How coins work
-      </p>
-      <IconInfo className="h-8" />
+          How coins work
+        </p>
+        <IconInfo className="h-8" />
       </div>
 
       <div className='mt-6 space-x-2'>
         <span className="mt-2 text-base font-montserrat font-normal text-renaissance-black dark:text-primary-white">
-        Coin Balance
-      </span>
-      <span className='text-5xl font-droid font-bold text-renaissance-black dark:text-primary-white'>
-        0.00
-      </span>
+          Coin Balance
+        </span>
+        <span className='text-5xl font-droid font-bold text-renaissance-black dark:text-primary-white'>
+          0.00
+        </span>
       </div>
 
       <h2 className="mt-6 text-xl font-droid font-bold text-renaissance-black dark:text-primary-white">
@@ -92,8 +92,8 @@ const Wallet = ({
 
       <section className='grid grid-cols-1 lg:grid-cols-3 gap-x-10 gap-y-8 mt-6 mb-12'>
         {bundle.map((item) => (
-            <WalletCard key={item.id} item={item} lastItem={lastItem} />
-          ))}
+          <WalletCard key={item.id} item={item} lastItem={lastItem} />
+        ))}
       </section>
 
       {loading ? (
@@ -114,20 +114,20 @@ const Wallet = ({
             </p>
 
             <Link to={`/${routes.dashboard_home}/${routes.wallet}/${routes.transaction}`}>
-              <p className="mt-2 text-sm font-normal text-renaissance-black hover:text-primary-green hover:dark:text-primary-green dark:text-primary-white">
-              View all transaciton
-            </p>
+              <p className="mt-2 text-sm font-normal text-renaissance-black underline hover:no-underline  dark:text-primary-white">
+                View all transaction
+              </p>
             </Link>
-            
+
           </div>
           <div className='text-xs mt-6 font-normal overflow-auto'>
             <Tables
               columns={columns}
               data={rows}
             />
+          </div>
         </div>
-        </div>
-        
+
       )}
     </section>
   );
