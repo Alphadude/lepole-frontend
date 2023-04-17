@@ -81,18 +81,18 @@ const Transactions = ({
       ) : (
         <div className='mt-8'>
           <div className='flex justify-end space-x-8'>
-            <div className='flex p-2 space-x-2 rounded-md bg-filter-bg'>
+            <div className='flex p-2 space-x-2 rounded-md bg-filter-bg dark:bg-dark-white'>
                 <Filter className="h-8" />
 
-                <p className="mt-2 text-sm font-normal text-renaissance-black dark:text-renaissance-black">
+                <p className="mt-2 text-sm font-normal text-renaissance-black dark:text-table-dark-text">
                 Filter by: Amount
                 </p>
             </div>
 
-            <div className='flex p-2 space-x-2 rounded-md bg-filter-bg'>
+            <div className='flex p-2 space-x-2 rounded-md bg-filter-bg dark:bg-dark-white'>
                 <Filter className="h-8" />
 
-                <p className="mt-2 text-sm font-normal text-renaissance-black dark:text-renaissance-black">
+                <p className="mt-2 text-sm font-normal text-renaissance-black dark:text-table-dark-text">
                 Filter by: Date
                 </p>
             </div>

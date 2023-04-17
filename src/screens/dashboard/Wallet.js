@@ -114,7 +114,7 @@ const Wallet = ({
             </p>
 
             <Link to={`/${routes.dashboard_home}/${routes.wallet}/${routes.transaction}`}>
-              <p className="mt-2 text-sm font-normal text-renaissance-black dark:text-primary-white">
+              <p className="mt-2 text-sm font-normal text-renaissance-black hover:text-primary-green hover:dark:text-primary-green dark:text-primary-white">
               View all transaciton
             </p>
             </Link>
