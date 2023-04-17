@@ -19,6 +19,7 @@ import SessionsLayout from '../components/layouts/SessionsLayout';
 import Upcoming from '../screens/dashboard/session/Upcoming';
 import History from '../screens/dashboard/session/History';
 import BookNew from '../screens/dashboard/session/BookNew';
+import Transactions from '../screens/dashboard/Transactions';
 
 const AppRouter = () => (
   <LoaderLayout>
@@ -45,7 +46,11 @@ const AppRouter = () => (
             <Route path={routes.new} element={<BookNew />} />
           </Route>
 
-          <Route path={routes.wallet} element={<Wallet />} />
+          <Route path={routes.wallet} >
+            <Route index element={<Wallet />} />
+            <Route path={routes.transaction} element={<Transactions />} />
+          </Route>
+
           <Route path={routes.settings} element={<Settings />} />
           <Route path={routes.notifications} element={<Notifications />} />
         </Route>
