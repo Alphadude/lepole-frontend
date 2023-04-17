@@ -14,6 +14,7 @@ const routes = {
   wallet: 'wallet',
   settings: 'settings',
   notifications: 'notifications',
+  transaction: 'transaction',
 };
 
 export { routes };
