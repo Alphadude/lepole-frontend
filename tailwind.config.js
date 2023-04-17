@@ -32,6 +32,7 @@ module.exports = {
         'renaissance-blue': '#177AE5',
         'renaissance-gray-2': '#ABAFB2',
         'off-black': '#1e1e1e',
+        'bundle-coin-bg': '#252525',
         'badge-gray': '#E1E7EC',
         'orange-1': '#E08304',
         'orange-light': '#FFF0DB',

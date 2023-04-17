@@ -37,7 +37,7 @@ const Tables = ({ columns, data, currentPage, setCurrentPage, totalPage }) => {
           </thead>
           <tbody className="">
             {table?.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="relativ  dark:text-renaissance-dark-black ">
+              <tr key={row.id} className="relative border-b-2 border-[#F5F8FA] dark:text-renaissance-dark-black ">
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
