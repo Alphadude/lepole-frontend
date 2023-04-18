@@ -41,7 +41,7 @@ const DurationTimePicker = ({
   setSelectedDuration }) => {
 
   const { startTime, endTime } = plans[selectedPlan - 1]
-  console.log({ selectedTime, startTime, endTime })
+
   return (
     <div className='flex flex-col gap-6 lg:gap-12 '>
       <div className=''>
