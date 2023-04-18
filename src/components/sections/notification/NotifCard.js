@@ -20,7 +20,7 @@ const NotifCard = ({ item, lastItem }) => {
         item.id === lastItem.id ? 'border-none' : 'border-b border-gray-4'
       } py-6`}
     >
-      <div className="flex items-start justify-between lg:w-5/6 xl:w-2/3">
+      <div className="flex items-start justify-between">
         <div className="flex-1 flex items-start">
           <div className="mr-2.5">
             {item.type === 'wallet' ? (

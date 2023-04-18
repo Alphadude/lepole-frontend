@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { routes } from '../../router/routes'
+import { routes } from '../../router/routes';
 import { sidebarItems } from './SidebarItem';
 
 import { Avatar } from '@deposits/ui-kit-react';
@@ -45,6 +45,8 @@ const Header = () => {
 
   const lastname = cookies?.user?.lastname;
 
+  const [notifications, setNotifications] = useState([]);
+
   return (
     <div className="flex bg-primary-white dark:bg-gray-dark-4  items-center justify-between !px-8 lg:!px-6 xl:!px-12 py-4 lg:py-8  lg:border-b border-gray-4 dark:border-gray-dark-4 ">
       <H1 className="hidden lg:block font-bold text-lg lg:text-2xl text-renaissance-black dark:text-renaissance-dark-black ">
@@ -68,20 +70,27 @@ const Header = () => {
       </div>
 
       <div className="flex items-center">
-        <div className="mr-6 hidden lg:block cursor-pointer">
-          <img
-            className="ml-1 dark:invert"
-            src={NotificationIcon2}
-            alt="notification icon"
-          />
-        </div>
+        <Link to="/dashboard/notifications">
+          <div className="hidden lg:block mr-6 relative">
+            <div className="cursor-pointer">
+              <img
+                className="ml-1 dark:invert"
+                src={NotificationIcon2}
+                alt="notification icon"
+              />
+            </div>
+            <div className="absolute -top-4 -right-1.5 h-6 w-6 flex items-center justify-center text-xs rounded-full bg-orange-1 text-white">
+              {notifications?.length}
+            </div>
+          </div>
+        </Link>
 
         <div className="hidden lg:flex items-center cursor-pointer mr-8">
-
           <Link to={`/${routes.dashboard_home}/${routes.settings}`}>
             <div className="w-[40px] h-[40px] text-[12px] mr-2 rounded-full bg-blue-light text-avatar-headerText font-medium font-montserrat flex items-center justify-center ">
-            {firstname[0]}{lastname[0]}
-          </div>
+              {firstname[0]}
+              {lastname[0]}
+            </div>
           </Link>
 
           {/* <Avatar

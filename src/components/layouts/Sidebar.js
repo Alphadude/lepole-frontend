@@ -27,7 +27,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="hidden lg:flex shadow-3xl flex-col w-60 h-full pb-8 bg-white text-gray-5 dark:bg-dark-white ">
+    <div className="hidden lg:flex drop-shadow-3xl flex-col w-60 h-full pb-8 bg-white text-gray-5 dark:bg-dark-white ">
       <div className="px-6">
         <div className="text-center flex items-center justify-center ">
           <img
