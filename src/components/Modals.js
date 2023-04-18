@@ -21,24 +21,24 @@ export const RescheduleModal = ({ toggleModal, planId, headerSubtitle, buttonTex
   };
 
   return (
-    <div className=' max- w-[948px] text-sm font-normal py-5 pb-40 bg-transparent '>
+    <div className=' px-2 max- lg:w-[948px] text-sm font-normal pt-5 bg-transparent '>
       <div className='bg-white '>
-        <header className='flex px-8 py-5 justify-between pb-'>
+        <header className='flex px-2 lg:!px-8 py-5 justify-between '>
           <H2>Reschedule</H2>
           <button>
             <CloseSvg />
           </button>
         </header>
-        <main className='bg-neutral py-9 px-8'>
-          <section className='mb-'>
+        <main className='bg-neutral py-9 px-2 lg:!px-8'>
+          <section className=''>
             <H5 className='font-montserrat'>Reschedule a session</H5>
             <P className=''>You can reschedule your session within 30 minutes of booking and this will cost you half your booking price</P>
           </section>
 
 
 
-          <section className='flex gap-20 mt-12'>
-            <div className=' max-w-xs '>
+          <section className='flex flex-col lg:flex-row lg:gap-20 mt-12'>
+            <div className=' lg:max-w-xs '>
               <H3>Select Date and Time</H3>
               <P className="pt-2 pb-10">
                 In your local time GMT +8{' '}
@@ -51,7 +51,7 @@ export const RescheduleModal = ({ toggleModal, planId, headerSubtitle, buttonTex
               />
             </div>
 
-            <div className="mt-20 text-left flex-1">
+            <div className="mt-20 text-left flex-1 ">
               <DurationTimePicker
                 selectedPlan={planId}
                 setSelectedPlan={setSelectedPlan}

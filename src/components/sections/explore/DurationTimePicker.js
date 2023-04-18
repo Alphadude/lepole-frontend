@@ -74,7 +74,7 @@ const DurationTimePicker = ({
       <div>
         <Button
           disabled={!selectedDuration || !selectedPlan || selectedTime === null}
-          className={`!w-full !border-0 !px-8 !text-primary-white 
+          className={`!w-full !border-0 px-0 lg:!px-8 !text-primary-white 
                     ${(!selectedDuration || !selectedPlan || selectedTime === null) ? '!bg-gray-4' : ' !bg-primary-green '}`}
           size="xlarge"
         >
