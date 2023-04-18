@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, Link } from 'react-router-dom';
-
+import { Link, useLocation } from 'react-router-dom';
+import { routes } from '../../router/routes';
 import { sidebarItems } from './SidebarItem';
 
 import { Avatar } from '@deposits/ui-kit-react';
@@ -86,10 +86,12 @@ const Header = () => {
         </Link>
 
         <div className="hidden lg:flex items-center cursor-pointer mr-8">
-          <div className="w-[40px] h-[40px] text-[12px] mr-2 rounded-full bg-blue-light text-avatar-headerText font-medium font-montserrat flex items-center justify-center ">
-            {firstname[0]}
-            {lastname[0]}
-          </div>
+          <Link to={`/${routes.dashboard_home}/${routes.settings}`}>
+            <div className="w-[40px] h-[40px] text-[12px] mr-2 rounded-full bg-blue-light text-avatar-headerText font-medium font-montserrat flex items-center justify-center ">
+              {firstname[0]}
+              {lastname[0]}
+            </div>
+          </Link>
 
           {/* <Avatar
             avatar={{
@@ -99,11 +101,11 @@ const Header = () => {
             subtle
           /> */}
 
-          <img
+          {/* <img
             className="ml-1 dark:invert"
             src={DropdownIcon}
             alt="dropdown icon"
-          />
+          /> */}
         </div>
 
         <CustomSwitch onChange={changeTheme} enabled={enabled} />
