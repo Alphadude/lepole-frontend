@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { H2, H3, H5 } from './Headings';
 import { ReactComponent as CloseSvg } from '../assets/icons/close.svg'
+import { ReactComponent as CloseWhiteSvg } from '../assets/icons/close-white.svg'
 import DurationTimePicker from './sections/explore/DurationTimePicker';
 import CalendarWidget from './elements/CalendarWidget';
 import { P } from './Headings';
@@ -17,21 +18,24 @@ export const RescheduleModal = ({ toggleModal, planId, headerSubtitle, buttonTex
 
 
   const reschedule = async (data) => {
-
   };
+
 
   return (
     <div className=' px-2 max- lg:w-[948px] text-sm font-normal pt-5 bg-transparent '>
-      <div className='bg-white '>
+      <div className='bg-white dark:bg-table-border-gray  '>
         <header className='flex px-2 lg:!px-8 py-5 justify-between '>
           <H2>Reschedule</H2>
-          <button onClick={toggleModal}>
+          <button className='inline dark:hidden' onClick={toggleModal}>
             <CloseSvg />
           </button>
+          <button className='hidden dark:inline' onClick={toggleModal}>
+            <CloseWhiteSvg />
+          </button>
         </header>
-        <main className='bg-neutral py-9 px-2 lg:!px-8'>
+        <main className='bg-neutral dark:bg-table-border-gray py-9 px-2 lg:!px-8'>
           <section className=''>
-            <H5 className='font-montserrat'>Reschedule a session</H5>
+            <H5 className='font-montserrat dark:text-renaissance-dark-black '>Reschedule a session</H5>
             <P className=''>You can reschedule your session within 30 minutes of booking and this will cost you half your booking price</P>
           </section>
 
