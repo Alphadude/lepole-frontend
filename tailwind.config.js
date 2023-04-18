@@ -24,7 +24,7 @@ module.exports = {
         'gray-4': '#C7C9CC',
         'gray-dark-4': '#101010',
         'gray-5': '#526581',
-        'neutral': '#F5F8FA',
+        neutral: '#F5F8FA',
         'neutral-700': '#2A2E33',
         'grey-6': '#ABAFB2',
         'renaissance-black': '#1A1A1A',
@@ -36,12 +36,12 @@ module.exports = {
         'badge-gray': '#E1E7EC',
         'orange-1': '#E08304',
         'orange-light': '#FFF0DB',
-        'avatarBg': '#BDF3FC',
-        'avatarText': '#085E7A',
+        avatarBg: '#BDF3FC',
+        avatarText: '#085E7A',
         'avatar-headerText': '#08294C',
         'table-header-black': '#141414',
         'table-border-gray': '#1D262E',
-        'table-dark-text': '#E5E5E5'
+        'table-dark-text': '#E5E5E5',
       },
       backgroundImage: {
         'lepole-pattern': "url('/public/lePole-bg.png')",
@@ -62,11 +62,14 @@ module.exports = {
         droid: ['Droid Serif', 'serif'],
       },
       fontSize: {
-        'xxs': '10px'
+        xxs: '10px',
       },
       borderRadius: {
-        'xlg': '10px'
-      }
+        xlg: '10px',
+      },
+      dropShadow: {
+        '3xl': '0px 0px 20px rgba(0, 0, 0, 0.1)',
+      },
     },
   },
   plugins: [],
