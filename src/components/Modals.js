@@ -25,7 +25,7 @@ export const RescheduleModal = ({ toggleModal, planId, headerSubtitle, buttonTex
       <div className='bg-white '>
         <header className='flex px-2 lg:!px-8 py-5 justify-between '>
           <H2>Reschedule</H2>
-          <button>
+          <button onClick={toggleModal}>
             <CloseSvg />
           </button>
         </header>
