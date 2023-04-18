@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import SessionsLayout from '../../../components/layouts/SessionsLayout'
 import { createColumnHelper } from '@tanstack/react-table';
 import Tables from '../../../components/Tables';
+import ModalContainer from '../../../components/layouts/ModalContainer';
+import { RescheduleModal } from '../../../components/Modals';
 // import Loader from '../../../components/Loader';
 
 const upComingRows = [
@@ -24,6 +26,16 @@ const Upcoming = ({
   totalPage,
   limit,
 }) => {
+  const [modalOpen, setModalOpen] = useState(false)
+  const [selectedSession, setSelectedSession] = useState({
+    id: '',
+    planId: 3
+  })
+  const toggleModal = (session) => {
+    setModalOpen(prev => !prev)
+    session.id && setSelectedSession(session)
+  }
+
   const columnHelper = createColumnHelper();
 
   const columns = [
@@ -124,20 +136,24 @@ const Upcoming = ({
     columnHelper.accessor(() => 'actions', {
       id: 'Actions',
       cell: (info) => {
-        const { row } = info;
-        const applicant = row?.original;
+        const { row: { original } } = info;
+        const applicant = original;
 
         return (
-          <button>
+          <button onClick={() => { toggleModal({ planId: original.planId, id: original.id }) }}>
             <p className='underline hover:no-underline'>Reschedule</p>
           </button>
         );
       },
     }),
   ];
-
+  console.log(selectedSession);
   return (
     <SessionsLayout>
+      <ModalContainer modalOpen={modalOpen} toggleModal={toggleModal}>
+        <RescheduleModal toggleModal={toggleModal} setSelectedSession={setSelectedSession} selectedSession={selectedSession} planId={selectedSession?.planId} />
+      </ModalContainer>
+
       {loading ? (
         <div>
 
