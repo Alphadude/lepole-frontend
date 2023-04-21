@@ -52,8 +52,6 @@ const Header = () => {
     (item) => item?.isRead === false,
   );
 
-  console.log({ unReadNotifications });
-
   return (
     <div className="flex bg-primary-white dark:bg-gray-dark-4  items-center justify-between !px-8 lg:!px-6 xl:!px-12 py-4 lg:py-8  lg:border-b border-gray-4 dark:border-gray-dark-4 ">
       <H1 className="hidden lg:block font-bold text-lg lg:text-2xl text-renaissance-black dark:text-renaissance-dark-black ">
