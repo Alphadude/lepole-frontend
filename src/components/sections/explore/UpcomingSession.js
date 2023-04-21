@@ -8,17 +8,7 @@ import ScheduledSession from './ScheduledSession';
 
 import { formatDate } from '../../../helpers/functions';
 
-const UpcomingSession = ({ scheduled }) => {
-  const arrDates =
-    scheduled?.length !== 0
-      ? scheduled?.map((item) => new Date(item?.date))
-      : [];
-
-  //sets the calendar to the first day of upcoming dates if available
-  const [dates, setDate] = useState(
-    arrDates?.length === 0 ? new Date() : arrDates?.[0],
-  );
-
+const UpcomingSession = ({ scheduled, dates, setDate }) => {
   // create the scheduled array for more session details
   const [upcoming, setUpcoming] = useState([]);
 
@@ -51,9 +41,9 @@ const UpcomingSession = ({ scheduled }) => {
           }
           tileClassName={({ date, view }) => {
             if (
-              arrDates?.find(
+              scheduled?.find(
                 (item) =>
-                  formatDate(item, 'DD-MM-YYYY') ===
+                  formatDate(item?.date, 'DD-MM-YYYY') ===
                   formatDate(date, 'DD-MM-YYYY'),
               )
             ) {
@@ -87,7 +77,7 @@ const UpcomingSession = ({ scheduled }) => {
             </div>
 
             {upcoming?.length >= 3 && (
-              <Link to="/dashboard/session">
+              <Link to="/dashboard/session/upcoming">
                 <span className="capitalize cursor-pointer text-primary-green text-base font-semibold">
                   see more
                 </span>

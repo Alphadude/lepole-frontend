@@ -31,12 +31,11 @@ const Explore = () => {
   const wallet = cookies?.user?.wallet;
 
   const [scheduled, setScheduled] = useState([]);
+  const [dates, setDate] = useState(new Date());
   const [loading, setIsLoading] = useState(false);
 
   const { data: totalSessions } = useSessions();
-
   const { data: totalCoinsSpent } = useTotalCoins();
-
   const { data: notifications } = useGetNotifications();
 
   useEffect(() => {
@@ -52,9 +51,16 @@ const Explore = () => {
           .eq('user_id', userId)
           .gt('date', dateString);
 
-        if (response?.data !== 0 || response?.data?.length !== 0) {
+        console.log({ response }, response?.data?.length);
+
+        if (response?.status === 200 && response?.data?.length !== 0) {
           setScheduled(response?.data);
+
+          setDate(response?.data?.map?.((item) => new Date(item?.date))[0]);
           setIsLoading(false);
+        } else {
+          setDate(new Date());
+          setScheduled([]);
         }
       } catch (error) {
         setIsLoading(false);
@@ -144,7 +150,11 @@ const Explore = () => {
       </section>
 
       <section className="py-10 !px-6 lg:!px-2 xl:!px-8  col-span-1 sm:flex justify-between sm:gap-x-4 md:gap-x-2 lg:gap-x-0 lg:block bg-white dark:bg-dark-white text-base font-semibold text-renaissance-black">
-        <UpcomingSession loading={loading} scheduled={scheduled} />
+        <UpcomingSession
+          scheduled={scheduled}
+          dates={dates}
+          setDate={setDate}
+        />
       </section>
     </div>
   );
