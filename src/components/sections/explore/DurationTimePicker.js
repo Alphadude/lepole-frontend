@@ -13,8 +13,8 @@ export const slotsCreator = (start, end) => {
   }))
 }
 
-export const intervalCreator = (start, end) => {
-  return Array(end - start).fill(0).map((item, index) => index + 1)
+export const intervalCreator = (start, end, startConstant) => {
+  return Array(end - ((end > start) ? start : startConstant)).fill(0).map((item, index) => index + 1)
 }
 
 const TimeCard = ({ content, id, selected, setSelected, ...props }) => {
@@ -41,6 +41,7 @@ const DurationTimePicker = ({
   setSelectedDuration }) => {
 
   const { startTime, endTime } = plans[selectedPlan - 1]
+
   return (
     <div className='flex flex-col gap-6 lg:gap-12 '>
       <div className=''>
@@ -55,8 +56,8 @@ const DurationTimePicker = ({
       <div className=''>
         <p className='mb-4 font-medium text-base text-center lg:text-left'> Choose Hours </p>
         <div className='lg: grid  grid-cols-1 lg:grid-cols-4 gap-y-2 lg:gap-y-6 w-full'>
-          {intervalCreator(selectedTime || startTime, endTime).map(duration => (
-            <TimeCard key={duration} id={duration} content={`${duration} Hours`} selected={selectedDuration} setSelected={setSelectedDuration} />
+          {intervalCreator(selectedTime || startTime, endTime, startTime).map(duration => (
+            <TimeCard key={duration} id={duration} content={`${duration} Hours`} selected={selectedDuration} setSelected={setSelectedDuration} onClick={() => setSelectedDuration(duration)} />
           ))}
         </div>
       </div>
@@ -73,7 +74,7 @@ const DurationTimePicker = ({
       <div>
         <Button
           disabled={!selectedDuration || !selectedPlan || selectedTime === null}
-          className={`!w-full !border-0 !px-8 !text-primary-white 
+          className={`!w-full !border-0 px-0 lg:!px-8 !text-primary-white 
                     ${(!selectedDuration || !selectedPlan || selectedTime === null) ? '!bg-gray-4' : ' !bg-primary-green '}`}
           size="xlarge"
         >

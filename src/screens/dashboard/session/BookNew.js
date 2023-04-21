@@ -39,14 +39,14 @@ const PlanCard = ({
   return (
     <div
       role="button"
-      className={` border border-gray-4 rounded-2xl h-36w-80 lg:h-[174px] lg:w-[446px] p-4 lg:p-6 gap-x-3 space-y-4 lg:space-y-8 text-renaissance-black dark:text-renaissance-dark-black  
+      className={` border border-gray-4 rounded-2xl min-h-36 w-full lg:h-[174px] lg:w-[446px] p-4 lg:p-6 gap-x-3 space-y-4 lg:space-y-8 text-renaissance-black dark:text-renaissance-dark-black  
       ${selected === id && ' bg-primary-green/30'}`}
       onClick={() => setSelected(id)}
     >
       <section className={`flex`}>
         <div className="flex-1 space-y-1 lg:space-y-4">
           <h5 className="text-base lg:text-lg font-semibold"> {name} </h5>
-          <p className="text-primary-gray font-normal text-sm lg:text-sm">
+          <p className="text-primary-gray font-normal text-sm lg:text-sm text-ellipsis">
             {' '}
             {desc}{' '}
           </p>
@@ -92,7 +92,7 @@ const BookNew = () => {
   const { data: dataCoins } = useTotalCoins();
 
   return (
-    <div className=" text-renaissance-black dark:text-renaissance-dark-black !pl-6 lg:!pl-6 xl:!pl-12  pt-6 pb-24 transition w-full ">
+    <div className=" text-renaissance-black dark:text-renaissance-dark-black !px-6 lg:!pl-6 xl:!pl-12  pt-6 pb-24 transition w-full ">
       <section className="">
         <H3> Book a session </H3>
         <P className="  ">
@@ -143,7 +143,7 @@ const BookNew = () => {
         </div>
 
         <div className='flex-1 '>
-          <div className="  flex-1 w-max mx-auto ">
+          <div className="  flex-1 max-w-max mx-auto ">
             <H3>Pay-As-You-Go</H3>
             <P className="pt-2 pb-10">
               In your local time GMT +8{' '}
