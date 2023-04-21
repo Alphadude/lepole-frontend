@@ -21,7 +21,7 @@ const Notifications = () => {
 
       <section className="mt-6 border border-gray-4 !px-4 md:!pl-7 md:!pr-8 rounded-t-2xl w-full lg:w-[680px] xl:w-[700px]">
         {notifications?.data?.length === 0 ? (
-          <div className="py-6 text-xl font-bold text-renaissance-black dark:text-primary-white">
+          <div className="py-6 text-base font-semibold text-renaissance-black dark:text-primary-white">
             You do not have any notification yet.
           </div>
         ) : (

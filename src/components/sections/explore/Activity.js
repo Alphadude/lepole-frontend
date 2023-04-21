@@ -1,16 +1,11 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useQuery, useMutation } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../../utils/supabaseConfig';
 
 import { ReactComponent as CalendarIcon } from '../../../assets/icons/calendar.svg';
 import { ReactComponent as GoldCoins } from '../../../assets/icons/coins-gold.svg';
 
-import { useReadNotifications } from '../../../helpers/hooks/queries/useNotifications';
-
 const Activity = ({ item }) => {
-  const id = item?.id;
-
   const navigate = useNavigate();
 
   const notifLink =
@@ -18,26 +13,26 @@ const Activity = ({ item }) => {
       ? '/dashboard/session/upcoming'
       : '/dashboard/wallet';
 
-  // const { mutate: mutateChangeNotifStatus, isLoading } =
-  //   useReadNotifications1();
-
   const editNotification = async () => {
-    const { data, error } = await supabase
-      .from('notifications')
-      .update({ isRead: true })
-      .eq('id', item?.id)
-      .select();
+    if (!item?.isRead) {
+      const { error } = await supabase
+        .from('notifications')
+        .update({ isRead: true })
+        .eq('id', item?.id)
+        .select();
 
-    if (data) {
+      if (error === null) {
+        navigate(notifLink);
+      }
+    } else {
       navigate(notifLink);
     }
-    console.log(data, error);
   };
 
   return (
     <div
       onClick={editNotification}
-      className="mt-6 p-2.5 border border-gray-4 rounded-tl-lg flex items-center"
+      className="cursor-pointer mt-6 p-2.5 border border-gray-4 rounded-tl-lg flex items-center"
     >
       <div className="flex items-center">
         {item?.type === 'session' ? (
@@ -53,13 +48,11 @@ const Activity = ({ item }) => {
       {item?.isRead ? (
         ''
       ) : (
-        <Link to={notifLink}>
-          <div className="ml-4">
-            <button className="text-sm  font-semibold text-primary-green bg-transparent capitalize !shadow-none !focus:outline-0">
-              view
-            </button>
-          </div>
-        </Link>
+        <div className="ml-4">
+          <button className="text-sm  font-semibold text-primary-green bg-transparent capitalize !shadow-none !focus:outline-0">
+            view
+          </button>
+        </div>
       )}
     </div>
   );

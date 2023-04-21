@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { supabase } from '../../../utils/supabaseConfig';
 
@@ -17,18 +17,20 @@ const NotifCard = ({ item, lastItem }) => {
       : '/dashboard/wallet';
 
   const editNotification = async () => {
-    const { data, error } = await supabase
-      .from('notifications')
-      .update({ isRead: true })
-      .eq('id', item?.id)
-      .select();
+    if (!item?.isRead) {
+      const { error } = await supabase
+        .from('notifications')
+        .update({ isRead: true })
+        .eq('id', item?.id)
+        .select();
 
-    if (data) {
+      if (error === null) {
+        navigate(notifLink);
+      }
+    } else {
       navigate(notifLink);
     }
-    console.log(data, error);
   };
-
   return (
     <div
       onClick={editNotification}
@@ -59,13 +61,11 @@ const NotifCard = ({ item, lastItem }) => {
         {item?.isRead ? (
           ''
         ) : (
-          <Link to={notifLink}>
-            <div>
-              <button className="text-sm  font-semibold text-primary-green bg-transparent capitalize !shadow-none !focus:outline-0">
-                view
-              </button>
-            </div>
-          </Link>
+          <div>
+            <button className="text-sm  font-semibold text-primary-green bg-transparent capitalize !shadow-none !focus:outline-0">
+              view
+            </button>
+          </div>
         )}
       </div>
     </div>
