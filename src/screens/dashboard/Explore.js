@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+
+import { useCookies } from 'react-cookie';
+
+import { supabase } from '../../utils/supabaseConfig';
 
 import {
   ExploreBanner,
@@ -9,18 +13,63 @@ import {
   UpcomingSession,
 } from '../../components/sections';
 
+import {
+  useTotalCoins,
+  useSessions,
+} from '../../helpers/hooks/queries/useSessions';
+
+import { useGetNotifications } from '../../helpers/hooks/queries/useNotifications';
+
 import { Heading2 } from '../../components/Headings';
-
 import { DumbellOrange, CoinGreen, MoneyBlue } from '../../assets/icons';
-
-import { timeSlots, notifications } from '../../utils/dummyData';
-
-import { useCookies } from 'react-cookie';
+import { timeSlots } from '../../utils/dummyData';
 
 const Explore = () => {
   const [cookies] = useCookies(['user']);
-
   const firstname = cookies?.user?.firstname;
+  const userId = cookies?.user?.id;
+  const wallet = cookies?.user?.wallet;
+
+  const [scheduled, setScheduled] = useState([]);
+  const [dates, setDate] = useState(new Date());
+  const [loading, setIsLoading] = useState(false);
+
+  const { data: totalSessions } = useSessions();
+  const { data: totalCoinsSpent } = useTotalCoins();
+  const { data: notifications } = useGetNotifications();
+
+  useEffect(() => {
+    const getUpcomingSessions = async () => {
+      setIsLoading(true);
+      try {
+        const date = new Date(Date.now());
+        const dateString = date.toISOString().substring(0, 10);
+
+        const response = await supabase
+          .from('session')
+          .select('*')
+          .eq('user_id', userId)
+          .gt('date', dateString);
+
+        console.log({ response }, response?.data?.length);
+
+        if (response?.status === 200 && response?.data?.length !== 0) {
+          setScheduled(response?.data);
+
+          setDate(response?.data?.map?.((item) => new Date(item?.date))[0]);
+          setIsLoading(false);
+        } else {
+          setDate(new Date());
+          setScheduled([]);
+        }
+      } catch (error) {
+        setIsLoading(false);
+        return error;
+      }
+    };
+
+    getUpcomingSessions();
+  }, [userId]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 h-full">
@@ -35,21 +84,23 @@ const Explore = () => {
           <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-2 lg:gap-4">
             <OverviewCard
               title="total sessions"
-              figures="10"
+              figures={totalSessions?.data}
               icon={DumbellOrange}
               textColor="text-orange-1"
               bgColor="bg-orange-light dark:bg-orange-1/20"
             />
             <OverviewCard
               title="Coin balance"
-              figures="3,500"
+              figures={wallet}
               icon={CoinGreen}
               textColor="text-green-2"
               bgColor="bg-green-light dark:bg-primary-green/20"
             />
             <OverviewCard
               title="total coins spent"
-              figures="10, 030"
+              figures={
+                totalCoinsSpent?.data !== null ? totalCoinsSpent?.data : 0
+              }
               icon={MoneyBlue}
               textColor="text-primary-blue"
               bgColor="bg-blue-light dark:bg-primary-blue/20"
@@ -75,23 +126,35 @@ const Explore = () => {
               Recent Activities
             </Heading2>
 
-            <Link to="/dashboard/notifications">
-              <span className="capitalize cursor-pointer text-renaissance-black dark:text-primary-white text-sm font-semibold underline">
-                see all
-              </span>
-            </Link>
+            {notifications?.data?.length !== 0 && (
+              <Link to="/dashboard/notifications">
+                <span className="capitalize cursor-pointer text-renaissance-black dark:text-primary-white text-sm font-semibold underline">
+                  see all
+                </span>
+              </Link>
+            )}
           </div>
 
-          <div>
-            {notifications.slice(0, 3).map((item) => (
-              <Activity key={item.id} item={item} />
-            ))}
-          </div>
+          {notifications?.data?.length === 0 ? (
+            <div className="mt-4 dark:text-primary-white text-renaissance-black teext-base">
+              There are no recent activities yet.
+            </div>
+          ) : (
+            <div>
+              {notifications?.data?.slice(0, 3).map((item) => (
+                <Activity key={item.id} item={item} />
+              ))}
+            </div>
+          )}
         </article>
       </section>
 
       <section className="py-10 !px-6 lg:!px-2 xl:!px-8  col-span-1 sm:flex justify-between sm:gap-x-4 md:gap-x-2 lg:gap-x-0 lg:block bg-white dark:bg-dark-white text-base font-semibold text-renaissance-black">
-        <UpcomingSession />
+        <UpcomingSession
+          scheduled={scheduled}
+          dates={dates}
+          setDate={setDate}
+        />
       </section>
     </div>
   );

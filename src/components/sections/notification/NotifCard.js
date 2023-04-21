@@ -1,57 +1,71 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+import { supabase } from '../../../utils/supabaseConfig';
 
 import { ReactComponent as CalendarIcon } from '../../../assets/icons/calendar.svg';
-import { ReactComponent as NotificationIcon } from '../../../assets/icons/notification.svg';
 import { ReactComponent as GoldCoins } from '../../../assets/icons/coins-gold.svg';
 
 import moment from 'moment';
 
 const NotifCard = ({ item, lastItem }) => {
+  const navigate = useNavigate();
+
   const notifLink =
-    item?.type === 'wallet'
-      ? '/dashboard/wallet'
-      : item.type === 'reminder'
+    item?.type === 'session'
       ? '/dashboard/session/upcoming'
-      : '/dashboard/notifications';
+      : '/dashboard/wallet';
+
+  const editNotification = async () => {
+    if (!item?.isRead) {
+      const { error } = await supabase
+        .from('notifications')
+        .update({ isRead: true })
+        .eq('id', item?.id)
+        .select();
+
+      if (error === null) {
+        navigate(notifLink);
+      }
+    } else {
+      navigate(notifLink);
+    }
+  };
   return (
     <div
+      onClick={editNotification}
       className={`${
-        item.id === lastItem.id ? 'border-none' : 'border-b border-gray-4'
+        item?.id === lastItem?.id ? 'border-none' : 'border-b border-gray-4'
       } py-6`}
     >
-      <div className="flex items-start justify-between">
+      <div className="cursor-pointer flex items-start justify-between">
         <div className="flex-1 flex items-start">
           <div className="mr-2.5">
-            {item.type === 'wallet' ? (
-              <GoldCoins className="h-6" />
-            ) : item.type === 'reminder' ? (
-              <CalendarIcon className="stroke-renaissance-black dark:stroke-primary-white h-6 w-6" />
+            {item?.type === 'session' ? (
+              <CalendarIcon className="stroke-renaissance-black dark:stroke-primary-white" />
             ) : (
-              <NotificationIcon className=" stroke-renaissance-black dark:stroke-primary-white h-6 w-6" />
+              <GoldCoins />
             )}
           </div>
 
           <div>
             <h3 className="font-semibold text-sm text-renaissance-black dark:text-primary-white mb-1">
-              {item.text}
+              {item?.message}
             </h3>
             <span className="text-xs text-gray-2 font-medium">
-              {moment(item.timeStamp).format('D MMMM, YYYY, h:mm:ss A')}
+              {moment(item?.created_at).format('D MMMM, YYYY, h:mm:ss A')}
             </span>
           </div>
         </div>
 
-        {item.seen ? (
+        {item?.isRead ? (
           ''
         ) : (
-          <Link to={notifLink}>
-            <div>
-              <button className="text-sm  font-semibold text-primary-green bg-transparent capitalize !shadow-none !focus:outline-0">
-                view
-              </button>
-            </div>
-          </Link>
+          <div>
+            <button className="text-sm  font-semibold text-primary-green bg-transparent capitalize !shadow-none !focus:outline-0">
+              view
+            </button>
+          </div>
         )}
       </div>
     </div>
