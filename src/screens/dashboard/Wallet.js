@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useEffect} from 'react';
 import { Link } from 'react-router-dom'
 import { routes } from '../../router/routes'
 import { createColumnHelper } from '@tanstack/react-table';
@@ -7,14 +7,34 @@ import { transactionHistory } from '../../utils/dummyData';
 import { bundle } from '../../utils/dummyData';
 import WalletCard from '../../components/sections/wallet/WalletCard';
 import { ReactComponent as IconInfo } from '../../assets/icons/icon-Info.svg';
+import { supabase } from '../../utils/supabaseConfig';
+import { useCookies } from 'react-cookie';
 
 const Wallet = ({
   loading = false,
   rows = transactionHistory,
 }) => {
+
+  useEffect(() => {
+  getTransactions();
+}, []);
+
   const columnHelper = createColumnHelper();
 
   const lastItem = bundle[bundle?.length - 1];
+
+  const [cookies] = useCookies(['user']);
+
+  const id = cookies?.user?.id;
+
+  const getTransactions = async () => {
+   const { data, error } = await supabase
+     .from("transactions")
+     .select("*")
+     .eq("user_id", id);
+   console.log(data, error);
+ };
+
 
   const columns = [
     columnHelper.accessor((row) => 'DESCRIPTION', {
