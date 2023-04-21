@@ -7,7 +7,6 @@ import { Avatar } from '@deposits/ui-kit-react';
 import { useCookies } from 'react-cookie';
 
 import {
-  DropdownIcon,
   NotificationIcon2,
   LePoleLogoBlack,
   LePoleLogoWhite,
@@ -16,6 +15,8 @@ import {
 import { CustomSwitch } from '../elements';
 
 import { H1 } from '../Headings';
+
+import { useGetNotifications } from '../../helpers/hooks/queries/useNotifications';
 
 const Header = () => {
   const darkState =
@@ -45,7 +46,13 @@ const Header = () => {
 
   const lastname = cookies?.user?.lastname;
 
-  const [notifications, setNotifications] = useState([]);
+  const { data: notifications } = useGetNotifications();
+
+  const unReadNotifications = notifications?.data?.filter(
+    (item) => item?.isRead === false,
+  );
+
+  console.log({ unReadNotifications });
 
   return (
     <div className="flex bg-primary-white dark:bg-gray-dark-4  items-center justify-between !px-8 lg:!px-6 xl:!px-12 py-4 lg:py-8  lg:border-b border-gray-4 dark:border-gray-dark-4 ">
@@ -80,7 +87,7 @@ const Header = () => {
               />
             </div>
             <div className="absolute -top-4 -right-1.5 h-6 w-6 flex items-center justify-center text-xs rounded-full bg-orange-1 text-white">
-              {notifications?.length}
+              {unReadNotifications?.length}
             </div>
           </div>
         </Link>
