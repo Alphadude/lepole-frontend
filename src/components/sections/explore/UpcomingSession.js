@@ -7,26 +7,22 @@ import './exploreCalendar.css';
 import ScheduledSession from './ScheduledSession';
 
 import { formatDate } from '../../../helpers/functions';
-import { upcoming } from '../../../utils/dummyData';
 
-const UpcomingSession = () => {
-  const arrDates = upcoming.map((item) => new Date(item.date));
-
-  const [dates, setDate] = useState(
-    arrDates?.length !== 0 ? arrDates[0] : new Date(),
-  );
-
-  const [scheduled, setScheduled] = useState([]);
+const UpcomingSession = ({ scheduled, dates, setDate }) => {
+  // create the scheduled array for more session details
+  const [upcoming, setUpcoming] = useState([]);
 
   useEffect(() => {
-    setScheduled(
-      upcoming?.filter(
-        (item) =>
-          formatDate(item.date, 'DD-MM-YYYY') ===
-          formatDate(dates, 'DD-MM-YYYY'),
-      ),
-    );
-  }, [dates]);
+    if (scheduled?.length !== 0) {
+      setUpcoming(
+        scheduled?.filter(
+          (item) =>
+            formatDate(item?.date, 'DD-MM-YYYY') ===
+            formatDate(dates, 'DD-MM-YYYY'),
+        ),
+      );
+    }
+  }, [dates, scheduled]);
 
   return (
     <>
@@ -45,9 +41,9 @@ const UpcomingSession = () => {
           }
           tileClassName={({ date, view }) => {
             if (
-              arrDates.find(
+              scheduled?.find(
                 (item) =>
-                  formatDate(item, 'DD-MM-YYYY') ===
+                  formatDate(item?.date, 'DD-MM-YYYY') ===
                   formatDate(date, 'DD-MM-YYYY'),
               )
             ) {
@@ -62,7 +58,7 @@ const UpcomingSession = () => {
           scheduled Session
         </div>
 
-        {upcoming.length === 0 || scheduled?.length === 0 ? (
+        {scheduled?.length === 0 || upcoming?.length === 0 ? (
           <p className="text-sm font-normal text-renaissance-black dark:text-primary-white">
             You do not have any session for today, Go to{' '}
             <span className="text-primary-green">sessions </span>
@@ -75,13 +71,13 @@ const UpcomingSession = () => {
             </p>
 
             <div className="grid grid-cols-1 gap-4 mb-3">
-              {scheduled?.slice(0, 2)?.map((item) => (
+              {upcoming?.slice(0, 2)?.map((item) => (
                 <ScheduledSession key={item.id} session={item} />
               ))}
             </div>
 
-            {scheduled?.length >= 3 && (
-              <Link to="/dashboard/session">
+            {upcoming?.length >= 3 && (
+              <Link to="/dashboard/session/upcoming">
                 <span className="capitalize cursor-pointer text-primary-green text-base font-semibold">
                   see more
                 </span>
