@@ -78,7 +78,7 @@ const Explore = () => {
           <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-2 lg:gap-4">
             <OverviewCard
               title="total sessions"
-              figures={totalSessions?.data?.length}
+              figures={totalSessions?.data}
               icon={DumbellOrange}
               textColor="text-orange-1"
               bgColor="bg-orange-light dark:bg-orange-1/20"
@@ -144,11 +144,7 @@ const Explore = () => {
       </section>
 
       <section className="py-10 !px-6 lg:!px-2 xl:!px-8  col-span-1 sm:flex justify-between sm:gap-x-4 md:gap-x-2 lg:gap-x-0 lg:block bg-white dark:bg-dark-white text-base font-semibold text-renaissance-black">
-        <UpcomingSession
-          // upcoming={scheduled}
-          loading={loading}
-          scheduled={scheduled}
-        />
+        <UpcomingSession loading={loading} scheduled={scheduled} />
       </section>
     </div>
   );
