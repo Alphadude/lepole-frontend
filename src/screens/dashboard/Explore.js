@@ -15,7 +15,7 @@ import {
 
 import {
   useTotalCoins,
-  useSessions,
+  useTotalSessions,
 } from '../../helpers/hooks/queries/useSessions';
 
 import { useGetNotifications } from '../../helpers/hooks/queries/useNotifications';
@@ -34,24 +34,21 @@ const Explore = () => {
   const [dates, setDate] = useState(new Date());
   const [loading, setIsLoading] = useState(false);
 
-  const { data: totalSessions } = useSessions();
+  const { data: totalSessions } = useTotalSessions();
   const { data: totalCoinsSpent } = useTotalCoins();
   const { data: notifications } = useGetNotifications();
 
   useEffect(() => {
     const getUpcomingSessions = async () => {
+      const date = new Date(Date.now());
+      const dateString = date.toISOString().substring(0, 10);
       setIsLoading(true);
       try {
-        const date = new Date(Date.now());
-        const dateString = date.toISOString().substring(0, 10);
-
         const response = await supabase
           .from('session')
           .select('*')
           .eq('user_id', userId)
           .gt('date', dateString);
-
-        console.log({ response }, response?.data?.length);
 
         if (response?.status === 200 && response?.data?.length !== 0) {
           setScheduled(response?.data);
@@ -69,7 +66,7 @@ const Explore = () => {
     };
 
     getUpcomingSessions();
-  }, [userId]);
+  }, []);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 h-full">
@@ -84,7 +81,7 @@ const Explore = () => {
           <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-2 lg:gap-4">
             <OverviewCard
               title="total sessions"
-              figures={totalSessions?.data}
+              figures={totalSessions?.data?.length || totalSessions?.data}
               icon={DumbellOrange}
               textColor="text-orange-1"
               bgColor="bg-orange-light dark:bg-orange-1/20"
