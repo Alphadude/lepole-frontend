@@ -4,16 +4,27 @@ import { createColumnHelper } from '@tanstack/react-table';
 import Tables from '../../../components/Tables';
 import ModalContainer from '../../../components/layouts/ModalContainer';
 import { RescheduleModal } from '../../../components/Modals';
+import { useSessions } from '../../../helpers/hooks/queries/useSessions';
 // import Loader from '../../../components/Loader';
+import gymCouple from '../../../assets/images/gym_couple.png'
+import { Link } from 'react-router-dom';
+import { Button } from '@deposits/ui-kit-react';
+import { routes } from '../../../router/routes';
+
 
 const upComingRows = [
   {
-    session: 'Off Peak',
-    date: '9th March, 2023',
-    hours: '3 hours',
-    start: '12:00 AM',
-    end: '3:00 AM',
-    time: '3:00 AM',
+    amount: 6,
+    created_at: "2023-04-23T00:50:24.922936+00:00",
+    date: "2023-04-23",
+    duration: "3 hrs",
+    endTime: "2023-04-23T02:00:00+00:00",
+    id: 35,
+    paymentType: "coin balance",
+    startTime: "2023-04-22T23:00:00+00:00",
+    status: "pending",
+    type: "Off PeaK",
+    user_id: "c753c13c-4218-4e44-9420-7c90be48cf0d",
   }
 ]
 
@@ -29,8 +40,12 @@ const Upcoming = ({
   const [modalOpen, setModalOpen] = useState(false)
   const [selectedSession, setSelectedSession] = useState({
     id: '',
-    planId: 3
+    planId: 2
   })
+
+  const { data, isLoading } = useSessions()
+
+
   const toggleModal = (session) => {
     setModalOpen(prev => !prev)
     session.id && setSelectedSession(session)
@@ -46,7 +61,7 @@ const Upcoming = ({
 
         return (
           <div className="text-priBlack  text-sm capitalize">
-            <span> {value.session} </span>
+            <span> {value.type} </span>
           </div>
         );
       },
@@ -69,7 +84,7 @@ const Upcoming = ({
       id: 'Time',
       cell: (info) => (
         <span className="text-priBlack text-sm ">
-          {info.row.original.time}
+          {new Date(info.row.original.startTime).toLocaleTimeString()}
         </span>
       ),
     }),
@@ -78,7 +93,7 @@ const Upcoming = ({
       id: 'Hours',
       cell: (info) => (
         <span className="text-priBlack text-sm ">
-          {info.row.original.hours}
+          {info.row.original.duration}
         </span>
       ),
     }),
@@ -154,24 +169,54 @@ const Upcoming = ({
         <RescheduleModal toggleModal={toggleModal} setSelectedSession={setSelectedSession} selectedSession={selectedSession} planId={selectedSession?.planId} />
       </ModalContainer>
 
-      {loading ? (
-        <div>
+      {isLoading
 
+        ? <div className=' text-center pt-52 '>
+          <p> loading... </p>
         </div>
-      ) : rows?.length < 1 ? (
-        <div className="p-6 rounded-lg ">
-          <p className="mt-20 text-gray-500 text-2xl text-center font-medium">
-            No Session Found
-          </p>
-        </div>
-      ) : (
-        <div className='text-xs mt-6 font-normal overflow-auto'>
-          <Tables
-            columns={columns}
-            data={rows}
-          />
-        </div>
-      )}
+        : data?.data?.length === 0 ? (
+          <section className=' py-16 lg:py-12 w-full h-full flex justify-center items-center'>
+            <div className='flex flex-col items-center'>
+              <img src={gymCouple} alt="empty state" className='w-3/5 lg:w-full' />
+              <p className='mt-10 mb-8'>
+                Oops! You do not have any active session
+              </p>
+              <Link to={`/${routes.dashboard_home}/${routes.session}/${routes.new}`}>
+                <Button
+                  className="!bg-primary-green !w-full !border-0 !px-8 !text-primary-white"
+                  size="xlarge"
+                >
+                  Book Session
+                </Button>
+              </Link>
+            </div>
+          </section>
+        ) : (
+          <section className='text-xs mt-6 w-full  font-normal'>
+            {/* <Link to={`/${routes.dashboard_home}/${routes.session}/${routes.new}`} className=' flex justify-end '>
+              <Button
+                className="!bg-primary-green border-0 !px-8 mb-6 !text-primary-white !hidden lg:!inline"
+                size="large"
+              >
+                Book New Session
+              </Button>
+              <Button
+                className="!bg-primary-green border-0 !px-4 mb-6 !text-primary-white lg:!hidden"
+                size="medium"
+              >
+                Book New Session
+              </Button>
+            </Link> */}
+
+            <Tables
+              columns={columns}
+              data={data?.data}
+            />
+          </section>
+        )
+      }
+
+
     </SessionsLayout>
   );
 };
