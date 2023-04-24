@@ -9,6 +9,7 @@ import WalletCard from '../../components/sections/wallet/WalletCard';
 import { ReactComponent as IconInfo } from '../../assets/icons/icon-Info.svg';
 import { ReactComponent as SingleCoin } from '../../assets/icons/single-coin.svg';
 import { useTransactions } from '../../helpers/hooks/queries/useTransactions';
+import moment from 'moment';
 
 const Wallet = ({
   loading = false,
@@ -70,7 +71,8 @@ const Wallet = ({
       id: 'DATE',
       cell: (info) => (
         <span className="text-priBlack text-sm ">
-          {info.row.original.date}
+          {moment(info.row.original.created_at).format('D MMMM, YYYY, h:mm:ss A')}
+          {/* {info.row.original.created_at} */}
         </span>
       ),
     }),
@@ -157,7 +159,7 @@ const Wallet = ({
           ) : (
             <Tables
               columns={columns}
-              data={rows}
+              data={transactions?.data?.slice(0, 4)}
             />
           )}
             

@@ -5,6 +5,7 @@ import Tables from '../../components/Tables';
 import { ReactComponent as Filter } from '../../assets/icons/filter.svg';
 import { ReactComponent as SingleCoin } from '../../assets/icons/single-coin.svg';
 import { useTransactions } from '../../helpers/hooks/queries/useTransactions';
+import moment from 'moment';
 
 const Transactions = ({
   loading = false,
@@ -47,7 +48,7 @@ const Transactions = ({
       id: 'DATE',
       cell: (info) => (
         <span className="text-priBlack text-sm ">
-          {info.row.original.date}
+          {moment(info.row.original.created_at).format('D MMMM, YYYY, h:mm:ss A')}
         </span>
       ),
     }),
@@ -112,7 +113,7 @@ const Transactions = ({
           ) : (
             <Tables
               columns={columns}
-              data={rows}
+              data={transactions?.data}
             />
           )}
         </div>

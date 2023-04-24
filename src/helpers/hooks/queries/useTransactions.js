@@ -13,5 +13,8 @@ export const useTransactions = () => {
      .select("*")
      .eq("user_id", userId);
   });
+
+  console.log(query);
+  
   return query;
 };
