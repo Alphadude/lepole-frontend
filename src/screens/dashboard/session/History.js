@@ -2,7 +2,13 @@ import React from 'react'
 import SessionsLayout from '../../../components/layouts/SessionsLayout'
 import { createColumnHelper } from '@tanstack/react-table';
 import Tables from '../../../components/Tables';
+import { useSessions } from '../../../helpers/hooks/queries/useSessions';
+import { routes } from '../../../router/routes';
+import { Link } from 'react-router-dom';
+import { Button } from '@deposits/ui-kit-react';
 // import Loader from '../../../components/Loader';
+import gymCouple from '../../../assets/images/gym_couple.png'
+
 
 const upComingRows = [
   {
@@ -17,7 +23,7 @@ const upComingRows = [
 ]
 
 
-const Upcoming = ({
+const History = ({
   loading = false,
   rows = upComingRows,
   currentPage,
@@ -25,6 +31,8 @@ const Upcoming = ({
   totalPage,
   limit,
 }) => {
+
+  const { data, isLoading } = useSessions()
   const columnHelper = createColumnHelper();
 
   const columns = [
@@ -35,7 +43,7 @@ const Upcoming = ({
 
         return (
           <div className="text-priBlack  text-sm capitalize">
-            <span> {value.session} </span>
+            <span> {value.type} </span>
           </div>
         );
       },
@@ -54,20 +62,11 @@ const Upcoming = ({
       },
     }),
 
-    // columnHelper.accessor((row) => row.role, {
-    //   id: 'Time',
-    //   cell: (info) => (
-    //     <span className="text-priBlack text-sm ">
-    //       {info.row.original.time}
-    //     </span>
-    //   ),
-    // }),
-
     columnHelper.accessor((row) => row.role, {
       id: 'Hours',
       cell: (info) => (
         <span className="text-priBlack text-sm ">
-          {info.row.original.hours}
+          {info.row.original.duration}
         </span>
       ),
     }),
@@ -77,7 +76,7 @@ const Upcoming = ({
       id: 'Start Time',
       cell: (info) => (
         <span className="text-priBlack text-sm">
-          {info.row.original.start}
+          {new Date(info.row.original.startTime).toLocaleTimeString()}
         </span>
       ),
     }),
@@ -86,7 +85,7 @@ const Upcoming = ({
       id: 'End Time',
       cell: (info) => (
         <span className="text-priBlac text-sm">
-          {info.row.original.end}
+          {new Date(info.row.original.endTime).toLocaleTimeString()}
         </span>
       ),
     }),
@@ -140,27 +139,56 @@ const Upcoming = ({
 
   return (
     <SessionsLayout>
-      {loading ? (
-        <div>
+      {isLoading
 
+        ? <div className=' text-center pt-52 '>
+          <p> loading... </p>
         </div>
-      ) : rows?.length < 1 ? (
-        <div className="p-6 rounded-lg bg-neutral-black-700">
-          <p className="mt-20 text-gray-500 text-2xl text-center font-medium">
-            No Record Found
-          </p>
-        </div>
-      ) : (
-        <div className='text-xs mt-6 font-normal'>
-          <Tables
-            columns={columns}
-            data={rows}
-          // currentPage={currentPage}
-          // setCurrentPage={setCurrentPage}
-          // totalPage={totalPage}
-          />
-        </div>
-      )}
+        : data?.data?.length === 0 ? (
+          <section className=' py-16 lg:py-12 w-full h-full flex justify-center items-center'>
+            <div className='flex flex-col items-center'>
+              <img src={gymCouple} alt="empty state" className='w-3/5 lg:w-full' />
+              <p className='mt-10 mb-8'>
+                Oops! You do not have any active session
+              </p>
+              <Link to={`/${routes.dashboard_home}/${routes.session}/${routes.new}`}>
+                <Button
+                  className="!bg-primary-green !w-full !border-0 !px-8 !text-primary-white"
+                  size="xlarge"
+                >
+                  Book Session
+                </Button>
+              </Link>
+            </div>
+          </section>
+        ) : (
+          <section className='text-xs mt-6 w-full  font-normal'>
+            {/* <Link to={`/${routes.dashboard_home}/${routes.session}/${routes.new}`} className=' flex justify-end '>
+              <Button
+                className="!bg-primary-green border-0 !px-8 mb-6 !text-primary-white !hidden lg:!inline"
+                size="large"
+              >
+                Book New Session
+              </Button>
+              <Button
+                className="!bg-primary-green border-0 !px-4 mb-6 !text-primary-white lg:!hidden"
+                size="medium"
+              >
+                Book New Session
+              </Button>
+            </Link> */}
+
+            <Tables
+              columns={columns}
+              data={data?.data}
+            // currentPage={currentPage}
+            // setCurrentPage={setCurrentPage}
+            // totalPage={totalPage}
+            />
+          </section>
+        )
+      }
+
     </SessionsLayout>
   );
 };
@@ -169,4 +197,4 @@ const Upcoming = ({
 
 
 
-export default Upcoming
+export default History

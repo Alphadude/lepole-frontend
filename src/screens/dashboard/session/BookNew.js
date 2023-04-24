@@ -13,7 +13,10 @@ import { useCookies } from 'react-cookie';
 import {
   useSessions,
   useTotalCoins,
+  useTotalSessions,
 } from '../../../helpers/hooks/queries/useSessions';
+import { supabase } from '../../../utils/supabaseConfig';
+import { toast } from 'react-toastify';
 
 export const formatTime = (time) => {
   if (time === 0) {
@@ -25,6 +28,8 @@ export const formatTime = (time) => {
   }
 };
 
+
+
 const PlanCard = ({
   id,
   name,
@@ -35,13 +40,19 @@ const PlanCard = ({
   coin_price,
   selected,
   setSelected,
+  setSelectedTime,
+  setSelectedDuration
 }) => {
   return (
     <div
       role="button"
       className={` border border-gray-4 rounded-2xl min-h-36 w-full lg:h-[174px] lg:w-[446px] p-4 lg:p-6 gap-x-3 space-y-4 lg:space-y-8 text-renaissance-black dark:text-renaissance-dark-black  
       ${selected === id && ' bg-primary-green/30'}`}
-      onClick={() => setSelected(id)}
+      onClick={() => {
+        setSelectedTime(null)
+        setSelectedDuration(0)
+        setSelected(id)
+      }}
     >
       <section className={`flex`}>
         <div className="flex-1 space-y-1 lg:space-y-4">
@@ -81,15 +92,45 @@ const PlanCard = ({
 
 const BookNew = () => {
   let { state } = useLocation();
-
-
   const [selectedPlan, setSelectedPlan] = useState(state?.planId || 0);
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedDuration, setSelectedDuration] = useState(0);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const { data } = useSessions();
+  const [cookies] = useCookies(['user']);
+  const { data: dataSessions } = useSessions();
+  const { data } = useTotalSessions();
   const { data: dataCoins } = useTotalCoins();
+
+
+  const createSession = async () => {
+    const id = cookies.user?.id;
+    const today = selectedDate.toISOString()
+    const plan = plans[selectedPlan - 1]
+    const { startTime, name, coin_price } = plan
+    const start = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), startTime]
+    const end = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), startTime + selectedDuration]
+
+    const submit = {
+      user_id: id,
+      paymentType: "coin balance",
+      amount: coin_price * selectedDuration,
+      type: name,
+      date: today.slice(0, 10),
+      duration: `${selectedDuration} hrs`,
+      startTime: new Date(...start).toISOString(),
+      endTime: new Date(...end).toISOString(),
+    }
+
+    const { data, error } = await supabase.from("session").insert([submit]);
+    console.log(data, error);
+
+    if (!error) {
+      setSelectedPlan(0)
+      toast.success('Created session Successfully')
+    }
+
+  }
 
   return (
     <div className=" text-renaissance-black dark:text-renaissance-dark-black !px-6 lg:!pl-6 xl:!pl-12  pt-6 pb-24 transition w-full ">
@@ -137,6 +178,8 @@ const BookNew = () => {
                 setSelectedTime={setSelectedTime}
                 selectedDuration={selectedDuration}
                 setSelectedDuration={setSelectedDuration}
+                submitHandler={createSession}
+                coinBalance={dataCoins?.data}
               />
             )}
           </div>
@@ -157,6 +200,8 @@ const BookNew = () => {
                   {...plan}
                   selected={selectedPlan}
                   setSelected={setSelectedPlan}
+                  setSelectedTime={setSelectedTime}
+                  setSelectedDuration={setSelectedDuration}
                 />
               ))}
             </div>
@@ -177,6 +222,8 @@ const BookNew = () => {
                   setSelectedTime={setSelectedTime}
                   selectedDuration={selectedDuration}
                   setSelectedDuration={setSelectedDuration}
+                  submitHandler={createSession}
+                  coinBalance={dataCoins?.data}
                 />
               )}
             </div>

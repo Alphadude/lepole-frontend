@@ -38,9 +38,11 @@ const DurationTimePicker = ({
   selectedTime,
   setSelectedTime,
   selectedDuration,
-  setSelectedDuration }) => {
+  setSelectedDuration,
+  submitHandler,
+  coinBalance }) => {
 
-  const { startTime, endTime } = plans[selectedPlan - 1]
+  const { startTime, endTime, coin_price } = plans[selectedPlan - 1]
 
   return (
     <div className='flex flex-col gap-6 lg:gap-12 '>
@@ -68,7 +70,7 @@ const DurationTimePicker = ({
           <span className='self-start px-1 text-xs lg:text-base'>£</span>
           <span className='font-bold font-droid text-[32px] lg:text-5xl text-renaissance-black dark:text-renaissance-dark-black'> {0} </span>
         </p>
-        <p className='font-semibold'>{0} coins</p>
+        <p className='font-semibold'>{selectedDuration * coin_price} coins</p>
       </div>
 
       <div>
@@ -77,10 +79,11 @@ const DurationTimePicker = ({
           className={`!w-full !border-0 px-0 lg:!px-8 !text-primary-white 
                     ${(!selectedDuration || !selectedPlan || selectedTime === null) ? '!bg-gray-4' : ' !bg-primary-green '}`}
           size="xlarge"
+          onClick={submitHandler}
         >
           Book Session for {selectedDate.toDateString()}
         </Button>
-        <p className='font-semibold mt-6'> Coin Balance: {48} Coins </p>
+        <p className='font-semibold mt-6'> Coin Balance: {coinBalance} Coins </p>
       </div>
     </div>
   )
