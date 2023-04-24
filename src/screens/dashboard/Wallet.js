@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useEffect} from 'react';
 import { Link } from 'react-router-dom'
 import { routes } from '../../router/routes'
 import { createColumnHelper } from '@tanstack/react-table';
@@ -7,14 +7,36 @@ import { transactionHistory } from '../../utils/dummyData';
 import { bundle } from '../../utils/dummyData';
 import WalletCard from '../../components/sections/wallet/WalletCard';
 import { ReactComponent as IconInfo } from '../../assets/icons/icon-Info.svg';
+import { ReactComponent as SingleCoin } from '../../assets/icons/single-coin.svg';
+import { useTransactions } from '../../helpers/hooks/queries/useTransactions';
 
 const Wallet = ({
   loading = false,
   rows = transactionHistory,
 }) => {
+
+//   useEffect(() => {
+//   getTransactions();
+// }, []);
+
   const columnHelper = createColumnHelper();
 
   const lastItem = bundle[bundle?.length - 1];
+
+  const { data: transactions } = useTransactions();
+
+  // const [cookies] = useCookies(['user']);
+
+  // const id = cookies?.user?.id;
+
+//   const getTransactions = async () => {
+//    const { data, error } = await supabase
+//      .from("transactions")
+//      .select("*")
+//      .eq("user_id", id);
+//    console.log({data}, {error}, data?.data?.length);
+//  };
+
 
   const columns = [
     columnHelper.accessor((row) => 'DESCRIPTION', {
@@ -113,18 +135,32 @@ const Wallet = ({
               Transaction History
             </p>
 
-            <Link to={`/${routes.dashboard_home}/${routes.wallet}/${routes.transaction}`}>
+            {transactions?.data?.length !== 0 && (
+              <Link to={`/${routes.dashboard_home}/${routes.wallet}/${routes.transaction}`}>
               <p className="mt-2 text-sm font-normal text-renaissance-black underline hover:no-underline  dark:text-primary-white">
                 View all transaction
               </p>
             </Link>
+            )}
+
+            
 
           </div>
+
           <div className='text-xs mt-6 font-normal overflow-auto'>
+
+            {transactions?.data?.length === 0 ? (
+            <div className="flex flex-col items-center py-10 text-base font-semibold text-renaissance-black dark:text-primary-white">
+              <SingleCoin className="h-20" />
+            You do not have any transaction yet.
+          </div>
+          ) : (
             <Tables
               columns={columns}
               data={rows}
             />
+          )}
+            
           </div>
         </div>
 

@@ -3,11 +3,16 @@ import { allTransactions } from '../../utils/dummyData';
 import { createColumnHelper } from '@tanstack/react-table';
 import Tables from '../../components/Tables';
 import { ReactComponent as Filter } from '../../assets/icons/filter.svg';
+import { ReactComponent as SingleCoin } from '../../assets/icons/single-coin.svg';
+import { useTransactions } from '../../helpers/hooks/queries/useTransactions';
 
 const Transactions = ({
   loading = false,
   rows = allTransactions,
 }) => {
+
+  const { data: transactions } = useTransactions();
+
   const columnHelper = createColumnHelper();
 
   const columns = [
@@ -99,10 +104,17 @@ const Transactions = ({
             
           </div>
           <div className='text-xs mt-6 font-normal overflow-auto'>
+           {transactions?.data?.length === 0 ? (
+            <div className="flex flex-col items-center py-10 text-base font-semibold text-renaissance-black dark:text-primary-white">
+              <SingleCoin className="h-20" />
+            You do not have any transaction yet.
+          </div>
+          ) : (
             <Tables
               columns={columns}
               data={rows}
             />
+          )}
         </div>
         </div>
         
