@@ -17,6 +17,45 @@ export const useSessions = () => {
   return query;
 };
 
+
+export const useActiveSessions = () => {
+  const [cookies] = useCookies(['user']);
+  const id = cookies.user?.id;
+  const date = new Date();
+  const currentTime = date.toISOString().substring(0, 10);
+  const end = new Date(date.setHours(date.getHours() + 4));
+  const endTime = end.toISOString().substring(0, 10);
+
+
+  const query = useQuery(['active-sessions', id], () => {
+    return supabase
+      .from("session")
+      .select("*")
+      .eq("user_id", id)
+      .gte("startTime", currentTime)
+      .lte("endTime", endTime);
+  })
+  return query
+}
+
+
+export const useUpcomingSessions = () => {
+  const [cookies] = useCookies(['user']);
+  const id = cookies.user?.id;
+  const date = new Date(Date.now());
+  const dateString = date.toISOString().substring(0, 10);
+
+  const query = useQuery(['upcoming-sessions', id], () => {
+    return supabase
+      .from("session")
+      .select("*")
+      .eq("user_id", id)
+      .gte("date", dateString);
+  })
+  return query
+}
+
+
 export const useTotalSessions = () => {
   const [cookies] = useCookies(['user']);
   const id = cookies.user?.id;

@@ -21,6 +21,8 @@ import { toast } from 'react-toastify';
 export const formatTime = (time) => {
   if (time === 0) {
     return `12:00 AM`;
+  } else if (time === 12) {
+    return `12:00 PM`;
   } else if (time > 12) {
     return `${time - 12}:00 PM`;
   } else {
@@ -107,13 +109,13 @@ const BookNew = () => {
     const id = cookies.user?.id;
     const today = selectedDate.toISOString()
     const plan = plans[selectedPlan - 1]
-    const { startTime, name, coin_price } = plan
-    const start = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), startTime]
-    const end = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), startTime + selectedDuration]
+    const { name, coin_price } = plan
+    const start = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), selectedTime]
+    const end = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), selectedTime + selectedDuration]
 
     const submit = {
       user_id: id,
-      paymentType: "coin balance",
+      payment: "coin balance",
       amount: coin_price * selectedDuration,
       type: name,
       date: today.slice(0, 10),
@@ -121,6 +123,7 @@ const BookNew = () => {
       startTime: new Date(...start).toISOString(),
       endTime: new Date(...end).toISOString(),
     }
+
 
     const { data, error } = await supabase.from("session").insert([submit]);
     console.log(data, error);

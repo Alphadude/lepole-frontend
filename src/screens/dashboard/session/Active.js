@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { routes } from '../../../router/routes'
 import Tables from '../../../components/Tables'
 import { createColumnHelper } from '@tanstack/react-table'
-import { useSessions } from '../../../helpers/hooks/queries/useSessions'
+import { useActiveSessions, useSessions } from '../../../helpers/hooks/queries/useSessions'
 
 const upComingRows = [
   {
@@ -33,7 +33,7 @@ const Active = ({
   totalPage,
   limit,
 }) => {
-  const { data, isLoading } = useSessions()
+  const { data, isLoading } = useActiveSessions()
 
   const columnHelper = createColumnHelper();
 
