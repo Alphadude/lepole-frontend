@@ -113,7 +113,7 @@ const Transactions = ({
           ) : (
             <Tables
               columns={columns}
-              data={transactions?.data}
+              data={transactions?.data?.slice(0, 4) || []}
             />
           )}
         </div>

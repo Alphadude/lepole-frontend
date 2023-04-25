@@ -3,6 +3,7 @@ import { H1, H2, H5 } from '../../../components/Headings';
 import { TextField, Button } from '@deposits/ui-kit-react';
 import { useForm } from 'react-hook-form';
 import { useCookies } from 'react-cookie';
+import { supabase } from '../../../utils/supabaseConfig';
 
 const Settings = () => {
 
@@ -51,6 +52,45 @@ const Settings = () => {
       </span>
     );
   };
+
+  const updatePassword = handleSubmit(async (data) => {
+    setIsSubmitting(true);
+
+    console.log(data.password);
+    
+   const { user, error } = await supabase.auth.update({password: data.password});
+
+   console.log({user}, {error});
+
+  //  if (res?.data?.user !== null && res?.error === null) {
+  //     toast.success('Login successful.');
+
+  //     setCookie(
+  //       'user',
+  //       JSON.stringify({
+  //         id: res?.data?.session?.user?.id,
+  //         token: res?.data?.session?.access_token,
+  //         email: res?.data?.session?.user?.email,
+  //         phone: res?.data?.session?.user?.user_metadata?.phone,
+  //         role: res?.data?.session?.user?.role,
+  //         firstname: res?.data?.session?.user?.user_metadata?.firstname,
+  //         lastname: res?.data?.session?.user?.user_metadata?.lastname,
+  //         wallet: res?.data?.session?.user?.user_metadata?.wallet,
+  //       }),
+  //     );
+
+  //     setIsSubmitting(false);
+
+  //     reset();
+
+  //     navigate(`/dashboard/explore`);
+  //   } else {
+  //     toast.error(res?.error?.message);
+
+  //     setIsSubmitting(false);
+  //   }
+
+ });
 
   return (
     <section className="p-6 lg:px-6 xl:px-12 lg:py-10">
@@ -119,7 +159,7 @@ const Settings = () => {
         Change password
       </H1>
 
-      <form>
+      <form onSubmit={updatePassword}>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-x-8 gap-y-4">
             <div>
@@ -135,8 +175,8 @@ const Settings = () => {
               placeholder="Enter new password"
               {...register('password', {
                 required: true,
-                minLength: 8,
-                pattern: /((?=.\d)|(?=.\W+))(?![.\n])(?=.[A-Z])(?=.[a-z]).*$/,
+                // minLength: 8,
+                // pattern: /^(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/,
               })}
             />
 
