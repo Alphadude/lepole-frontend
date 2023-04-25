@@ -9,15 +9,28 @@ import WalletCard from '../../components/sections/wallet/WalletCard';
 import { ReactComponent as IconInfo } from '../../assets/icons/icon-Info.svg';
 import { ReactComponent as SingleCoin } from '../../assets/icons/single-coin.svg';
 import { useTransactions } from '../../helpers/hooks/queries/useTransactions';
+import { supabase } from '../../utils/supabaseConfig';
+import { useCookies } from 'react-cookie';
+import moment from 'moment';
+
+const transactionsData= {
+  amount: 10,
+  created_at: "2023-04-24T09:34:44.340515+00:00",
+  description:"Session Booking",
+  id: 19,
+  status: "coin balance",
+  user_id: "a9767173-2dda-40d5-9ad1-4e6350763151",
+}
+
 
 const Wallet = ({
   loading = false,
   rows = transactionHistory,
 }) => {
 
-//   useEffect(() => {
-//   getTransactions();
-// }, []);
+  useEffect(() => {
+  // getTransactions();
+}, []);
 
   const columnHelper = createColumnHelper();
 
@@ -25,17 +38,18 @@ const Wallet = ({
 
   const { data: transactions } = useTransactions();
 
-  // const [cookies] = useCookies(['user']);
+  const [cookies] = useCookies(['user']);
 
-  // const id = cookies?.user?.id;
+  const id = cookies?.user?.id;
 
-//   const getTransactions = async () => {
-//    const { data, error } = await supabase
-//      .from("transactions")
-//      .select("*")
-//      .eq("user_id", id);
-//    console.log({data}, {error}, data?.data?.length);
-//  };
+  const getTransactions = async () => {
+   const { data, error } = await supabase
+     .from("transactions")
+     .select("*")
+     .eq("user_id", id);
+   console.log({data}, {error});
+ };
+
 
 
   const columns = [
@@ -56,7 +70,7 @@ const Wallet = ({
     columnHelper.accessor((row) => 'AMOUNT', {
       id: 'AMOUNT ',
       cell: (info) => {
-        const { amount, price } = info.row.original;
+        const { amount } = info.row.original;
 
         return (
           <div className="text-sm">
@@ -70,13 +84,13 @@ const Wallet = ({
       id: 'DATE',
       cell: (info) => (
         <span className="text-priBlack text-sm ">
-          {info.row.original.date}
+          {moment(info.row.original.created_at).format('D MMMM, YYYY, h:mm:ss A')}
         </span>
       ),
     }),
 
     columnHelper.accessor((row) => row.role, {
-      id: 'STATUS',
+      id: 'PAYMENT TYPE',
       cell: (info) => (
         <span className="text-priBlack text-sm ">
           {info.row.original.status}
@@ -84,6 +98,9 @@ const Wallet = ({
       ),
     }),
   ];
+
+
+
 
   return (
     <section className='p-6 md:p-8 lg:px-6 xl:px-12'>
@@ -157,7 +174,7 @@ const Wallet = ({
           ) : (
             <Tables
               columns={columns}
-              data={rows}
+              data={transactions?.data?.slice(0, 4) || []}
             />
           )}
             
