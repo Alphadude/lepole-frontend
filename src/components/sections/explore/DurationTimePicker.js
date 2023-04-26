@@ -43,7 +43,7 @@ const DurationTimePicker = ({
   submitHandler,
   coinBalance }) => {
 
-  const { startTime, endTime, coin_price } = plans[selectedPlan - 1]
+  const { startTime, endTime, coin_price, fiat_price } = plans[selectedPlan - 1]
 
   return (
     <div className='flex flex-col gap-6 lg:gap-12 '>
@@ -69,9 +69,9 @@ const DurationTimePicker = ({
         <p className='flex items-baseline text-primary-gray'>
           <span>Total Coin Amount</span>
           <span className='self-start px-1 text-xs lg:text-base'>£</span>
-          <span className='font-bold font-droid text-[32px] lg:text-5xl text-renaissance-black dark:text-renaissance-dark-black'> {0} </span>
+          <span className='font-bold font-droid text-[32px] lg:text-5xl text-renaissance-black dark:text-renaissance-dark-black'> {type === 'reschedule' ? (selectedDuration * fiat_price) / 2 : selectedDuration * fiat_price}  </span>
         </p>
-        <p className='font-semibold'>{type === 'reschedule' ? '0' : selectedDuration * coin_price} coins</p>
+        <p className='font-semibold'>{type === 'reschedule' ? (selectedDuration * coin_price) / 2 : selectedDuration * coin_price} coins</p>
       </div>
 
       <div>

@@ -47,6 +47,14 @@ const H3 = ({ children, className, ...props }) => {
   );
 };
 
+const H4 = ({ children, className, ...props }) => {
+  return (
+    <h2 className={'font-semibold font-montserrat text-xl  dark:text-renaissance-dark-black ' + className} {...props}>
+      {children}
+    </h2>
+  );
+};
+
 const H5 = ({ children, className, ...props }) => {
   return (
     <h5
@@ -74,4 +82,4 @@ const P = ({ children, className, ...props }) => {
   );
 };
 
-export { H1, H2, H3, H5, Heading2, P };
+export { H1, H2, H3, H4, H5, Heading2, P };

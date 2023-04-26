@@ -40,11 +40,11 @@ const SessionsLayout = ({ children }) => {
               : `/${routes.dashboard_home}/${routes.session}/${tab.link}`;
           return (
             <Link
+              key={link}
               to={link}
-              className={`text-sm md:text-base ${
-                location.pathname === link &&
+              className={`text-sm md:text-base ${location.pathname === link &&
                 'border-b-2 border-primary-green  text-primary-green dark:border-primary-dark-green dark:text-primary-dark-green font-semibold '
-              }`}
+                }`}
             >
               {tab.name}
             </Link>

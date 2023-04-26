@@ -17,23 +17,34 @@ export const useSessions = () => {
   return query;
 };
 
+export const useSessionsHistory = () => {
+  const [cookies] = useCookies(['user']);
+  const id = cookies.user?.id;
+  const dateString = new Date().toISOString().substring(0, 10);
+
+  const query = useQuery(['sessions-history', id], () => {
+    return supabase
+      .from("session")
+      .select("*")
+      .eq("user_id", "c753c13c-4218-4e44-9420-7c90be48cf0d")
+      .lte("date", dateString);
+  });
+  return query;
+};
+
 
 export const useActiveSessions = () => {
   const [cookies] = useCookies(['user']);
   const id = cookies.user?.id;
   const date = new Date();
-  const currentTime = date.toISOString().substring(0, 10);
   const end = new Date(date.setHours(date.getHours() + 4));
-  const endTime = end.toISOString().substring(0, 10);
-
 
   const query = useQuery(['active-sessions', id], () => {
     return supabase
-      .from("session")
-      .select("*")
-      .eq("user_id", id)
-      .gte("startTime", currentTime)
-      .lte("endTime", endTime);
+      .rpc("get_active_sessions", {
+        userid: id,
+      });
+
   })
   return query
 }

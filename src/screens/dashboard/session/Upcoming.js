@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@deposits/ui-kit-react';
 import { routes } from '../../../router/routes';
 import { plans } from '../../../utils/dummyData';
+import moment from 'moment';
 
 
 const upComingRows = [
@@ -91,7 +92,7 @@ const Upcoming = ({
 
         return (
           <div className="text-sm">
-            <span className=" text-sm text-priBlack">{date}</span>
+            <span className=" text-sm text-priBlack">{moment(date).format('Do MMMM, YYYY')}</span>
           </div>
         );
       },
@@ -101,7 +102,7 @@ const Upcoming = ({
       id: 'Time',
       cell: (info) => (
         <span className="text-priBlack text-sm ">
-          {new Date(info.row.original.startTime).toLocaleTimeString()}
+          {moment(info.row.original.startTime).format('h:mm A')}
         </span>
       ),
     }),

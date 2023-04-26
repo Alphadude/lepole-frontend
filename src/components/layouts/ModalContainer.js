@@ -8,10 +8,10 @@ const ModalContainer = ({ children, modalOpen, toggleModal, zIndex, ...props }) 
 
       {...props}
     >
-      <div onClick={toggleModal} className='w-full items-center flex-1 overflow-y-auto border-red-500 flex flex-col '>
+      <div onClick={toggleModal} className='w-full px-2 items-center justify-center flex-1 overflow-y-auto border-red-500 flex flex-col '>
         {children}
 
-        <div className='p-10 flex flex-col justify-center text-center '>
+        <div onClick={e => e.stopPropagation()} className='p-6 flex flex-col justify-center text-center '>
           <button onClick={toggleModal} className='text-primary-white'>
             Go back
           </button>

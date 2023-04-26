@@ -7,6 +7,7 @@ import { routes } from '../../../router/routes'
 import Tables from '../../../components/Tables'
 import { createColumnHelper } from '@tanstack/react-table'
 import { useActiveSessions, useSessions } from '../../../helpers/hooks/queries/useSessions'
+import moment from 'moment'
 
 const upComingRows = [
   {
@@ -59,7 +60,7 @@ const Active = ({
 
         return (
           <div className="text-sm">
-            <span className=" text-sm text-priBlack">{date}</span>
+            <span className=" text-sm text-priBlack">{moment(date).format('Do MMMM, YYYY')}</span>
           </div>
         );
       },
@@ -79,7 +80,7 @@ const Active = ({
       id: 'Start Time',
       cell: (info) => (
         <span className="text-priBlack text-sm">
-          {new Date(info.row.original.startTime).toLocaleTimeString()}
+          {moment(info.row.original.startTime).format('h:mm A')}
         </span>
       ),
     }),
@@ -88,7 +89,7 @@ const Active = ({
       id: 'End Time',
       cell: (info) => (
         <span className="text-priBlac text-sm">
-          {new Date(info.row.original.endTime).toLocaleTimeString()}
+          {moment(info.row.original.endTime).format('h:mm A')}
         </span>
       ),
     }),
