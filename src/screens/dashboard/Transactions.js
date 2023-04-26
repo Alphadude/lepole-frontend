@@ -54,7 +54,7 @@ const Transactions = ({
     }),
 
     columnHelper.accessor((row) => row.role, {
-      id: 'STATUS',
+      id: 'PAYMENT TYPE',
       cell: (info) => (
         <span className="text-priBlack text-sm ">
           {info.row.original.status}
