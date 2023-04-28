@@ -71,13 +71,13 @@ const DurationTimePicker = ({
           <span className='self-start px-1 text-xs lg:text-base'>£</span>
           <span className='font-bold font-droid text-[32px] lg:text-5xl text-renaissance-black dark:text-renaissance-dark-black'> {type === 'reschedule' ? (selectedDuration * fiat_price) / 2 : selectedDuration * fiat_price}  </span>
         </p>
-        <p className='font-semibold'>{type === 'reschedule' ? (selectedDuration * coin_price) / 2 : selectedDuration * coin_price} coins</p>
+        <p className='font-semibold'>{type === 'reschedule' ? ((selectedDuration * coin_price) / 2) : selectedDuration * coin_price} coins</p>
       </div>
 
       <div>
         <Button
           disabled={!selectedDuration || !selectedPlan || selectedTime === null}
-          className={`!w-full !border-0 px-0 lg:!px-8 !text-primary-white 
+          className={`!w-full !border-0 px-1 lg:!px-8 !text-primary-white 
                     ${(!selectedDuration || !selectedPlan || selectedTime === null) ? '!bg-gray-4' : ' !bg-primary-green '}`}
           size="xlarge"
           onClick={submitHandler}

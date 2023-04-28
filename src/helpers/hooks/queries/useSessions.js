@@ -83,10 +83,18 @@ export const useTotalCoins = () => {
   const [cookies] = useCookies(['user']);
   const id = cookies.user?.id;
 
-  const query = useQuery(['total-coin', id], () => {
+  const query = useQuery(['total-coins-spent', id], () => {
     return supabase.rpc('get_total_coins_spent', {
       userid: id,
     });
+  });
+  return query;
+};
+
+
+export const useProfile = () => {
+  const query = useQuery('profile', () => {
+    return supabase.auth.getUser()
   });
   return query;
 };

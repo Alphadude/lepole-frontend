@@ -10,15 +10,13 @@ import { Button } from '@deposits/ui-kit-react';
 import DurationTimePicker from '../../../components/sections/explore/DurationTimePicker';
 import { plans } from '../../../utils/dummyData';
 import { useCookies } from 'react-cookie';
-import {
-  useSessions,
-  useTotalCoins,
-  useTotalSessions,
-} from '../../../helpers/hooks/queries/useSessions';
+import { useProfile } from '../../../helpers/hooks/queries/useSessions';
 import { supabase } from '../../../utils/supabaseConfig';
 import { toast } from 'react-toastify';
 import ModalContainer from '../../../components/layouts/ModalContainer';
 import { RescheduleModal, SelectPaymentOption } from '../../../components/Modals';
+import { QueryClient, useQueryClient } from 'react-query';
+import { deductCoins } from '../../../helpers/functions/deductCoins';
 
 export const formatTime = (time) => {
   if (time === 0) {
@@ -104,10 +102,10 @@ const BookNew = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const [cookies] = useCookies(['user']);
-  const { data: dataSessions } = useSessions();
-  const { data } = useTotalSessions();
-  const { data: dataCoins } = useTotalCoins();
+  const { data: dataProfile } = useProfile();
+  const queryClient = useQueryClient()
 
+  const dataCoins = dataProfile?.data?.user?.user_metadata?.wallet
 
   const toggleModal = () => {
     setModalOpen(prev => !prev)
@@ -133,17 +131,21 @@ const BookNew = () => {
       endTime: new Date(...end).toISOString(),
     }
 
+    const res = await deductCoins(submit.amount)
+    if (!res) return
 
+    queryClient.invalidateQueries('profile')
     const { data, error } = await supabase.from("session").insert([submit]);
-    console.log(data, error);
+    console.log({ data, error });
     setLoading(false)
 
     if (!error) {
       setSelectedPlan(0)
       toast.success('Created session Successfully')
       toggleModal()
+    } else {
+      toast.error('Failed to save session')
     }
-
   }
 
 
@@ -202,7 +204,7 @@ const BookNew = () => {
                   selectedDuration={selectedDuration}
                   setSelectedDuration={setSelectedDuration}
                   submitHandler={toggleModal}
-                  coinBalance={dataCoins?.data}
+                  coinBalance={dataCoins}
                 />
               )}
             </div>
@@ -246,7 +248,7 @@ const BookNew = () => {
                     selectedDuration={selectedDuration}
                     setSelectedDuration={setSelectedDuration}
                     submitHandler={toggleModal}
-                    coinBalance={dataCoins?.data}
+                    coinBalance={dataCoins}
                   />
                 )}
               </div>

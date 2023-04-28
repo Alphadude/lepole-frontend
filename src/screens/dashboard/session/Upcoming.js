@@ -66,7 +66,7 @@ const Upcoming = ({
 
   const toggleModal = (session) => {
     setModalOpen(prev => !prev)
-    session.id && setSelectedSession(session)
+    session?.id && setSelectedSession(session)
   }
 
   const columnHelper = createColumnHelper();
@@ -187,7 +187,7 @@ const Upcoming = ({
   return (
     <SessionsLayout>
       {modalOpen && (
-        <ModalContainer modalOpen={modalOpen} toggleModal={toggleModal}>
+        <ModalContainer scrollable modalOpen={modalOpen} toggleModal={toggleModal}>
           <RescheduleModal toggleModal={toggleModal} setSelectedSession={setSelectedSession} selectedSession={selectedSession} planId={selectedSession?.planId} />
         </ModalContainer>
       )}

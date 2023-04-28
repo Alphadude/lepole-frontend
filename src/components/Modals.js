@@ -11,45 +11,61 @@ import { plans } from '../utils/dummyData';
 import { supabase } from '../utils/supabaseConfig';
 import { toast } from 'react-toastify';
 import { Banner, Button, Radio } from '@deposits/ui-kit-react';
+import { useProfile, useTotalCoins } from '../helpers/hooks/queries/useSessions';
+import { useQueryClient } from 'react-query';
+import { deductCoins } from '../helpers/functions/deductCoins';
 
 
 
 export const RescheduleModal = ({ toggleModal, selectedSession = initialDataSessions, headerSubtitle, buttonText, label, placeholder }) => {
   const currentPlanId = plans.findIndex(item => (item.name === selectedSession.data.type)) + 1
 
-  // const [selectedPlan, setSelectedPlan] = useState((currentPlanId > 0) ? currentPlanId : 3);
+
   const [selectedTime, setSelectedTime] = useState(null);
-  const [selectedDuration, setSelectedDuration] = useState(0);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
+  const { data: dataProfile } = useProfile();
+  const queryClient = useQueryClient()
+
+
   const time = selectedTime || new Date(selectedSession?.data?.startTime).getHours()
-  const duration = selectedDuration || Number(selectedSession.data.duration[0])
-
-  let maxHour
-  if (currentPlanId) {
-    const { startTime, endTime, coin_price } = plans[currentPlanId - 1]
-    maxHour = intervalCreator(selectedTime || startTime, endTime, startTime)?.length
-  }
+  const duration = Number(selectedSession.data.duration[0])
+  const dataCoins = dataProfile?.data?.user?.user_metadata?.wallet
 
 
+  const { startTime, endTime, coin_price } = plans[currentPlanId - 1]
+  const maxDuration = intervalCreator(selectedTime || startTime, endTime, startTime)?.length
+  const isDurationReduced = maxDuration < duration
+  const acceptedDuration = isDurationReduced ? maxDuration : duration
 
-  const reschedule = async (data) => {
+
+  const rescheduleSession = async () => {
     const start = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), time]
-    const end = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), time + selectedDuration]
+    const end = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), time + acceptedDuration]
 
-    const response = await supabase
+    const submit = {
+      date: selectedDate.toISOString().slice(0, 10),
+      duration: `${acceptedDuration} hours`,
+      startTime: new Date(...start).toISOString(),
+      endTime: new Date(...end).toISOString(),
+    }
+    console.log(submit);
+
+    const res = await deductCoins((acceptedDuration * coin_price) / 2)
+    if (!res) return
+
+    queryClient.invalidateQueries('profile')
+    const { data, error } = await supabase
       .from("session")
-      .select("*")
+      .update(submit)
       .eq("id", selectedSession?.data?.id)
-      .update({
-        date: selectedDate.toISOString().slice(0, 10),
-        duration: `${maxHour < selectedDuration ? maxHour : selectedDuration} hrs`,
-        startTime: new Date(...start).toISOString(),
-        endTime: new Date(...end).toISOString(),
-      });
 
-    if (response) {
+    console.log(data, error);
+
+    if (!error) {
+      queryClient.invalidateQueries('upcoming-sessions')
       toast.success('Reschedule Successful')
+      toggleModal()
     }
   };
 
@@ -91,7 +107,7 @@ export const RescheduleModal = ({ toggleModal, selectedSession = initialDataSess
             <div className=" text-left flex-1 ">
 
               <div className='mt-20 mb-10 ' >
-                {(maxHour < Number(selectedSession?.data?.duration[0])) && < Banner colorScheme='warning' description='You will forfeit some of your time if you continue' />}
+                {(isDurationReduced) && < Banner colorScheme='warning' description='You will forfeit some of your time if you continue' />}
               </div>
               <DurationTimePicker
                 type={'reschedule'}
@@ -101,9 +117,9 @@ export const RescheduleModal = ({ toggleModal, selectedSession = initialDataSess
                 selectedDate={selectedDate}
                 selectedTime={time}
                 setSelectedTime={setSelectedTime}
-                selectedDuration={duration}
-                setSelectedDuration={setSelectedDuration}
-                submitHandler={reschedule}
+                selectedDuration={acceptedDuration}
+                // setSelectedDuration={setSelectedDuration}
+                submitHandler={rescheduleSession}
               />
             </div>
           </section>
@@ -154,7 +170,7 @@ export const SelectPaymentOption = ({ toggleModal, fromWalletNext, loading }) =>
             className={`flex px-3 py-3 items-center gap-x-3 border-l-4 cursor-pointer ${selected === option.id ? 'border-primary-green dark:border-primary-dark-green bg-[#00808022] ' : 'border-transparent'} `}
           >
             <div className=' w-6'>
-              <input style={{ boxShadow: selected === option.id ? '0 0 0 5px #006666' : '0 0 0 1px #8F9499' }} type='radio' id='selectedOption' checked={selected === option.id} className={`accent-primary-green bg-primary-green appearance-none rounded-[50%] border-white box-content  ${selected === option.id ? 'border-[5px]' : 'border-[7px]'} `} />
+              <input readOnly style={{ boxShadow: selected === option.id ? '0 0 0 5px #006666' : '0 0 0 1px #8F9499' }} type='radio' id='selectedOption' checked={selected === option.id} className={`accent-primary-green bg-primary-green appearance-none rounded-[50%] border-white box-content  ${selected === option.id ? 'border-[5px]' : 'border-[7px]'} `} />
             </div>
 
             <div className='space-y-2'>
@@ -166,9 +182,6 @@ export const SelectPaymentOption = ({ toggleModal, fromWalletNext, loading }) =>
                 {option.desc}
               </p>
             </div>
-
-
-
           </div>
         ))}
       </div>
