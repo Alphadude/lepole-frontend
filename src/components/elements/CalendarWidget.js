@@ -6,24 +6,6 @@ import { formatDate } from "../../helpers/functions";
 
 
 const CalendarWidget = ({ dateValue, setDateValue }) => {
-  const arrDates = upcoming.map((item) => new Date(item.date));
-
-  const [dates, setDate] = useState(
-    arrDates?.length !== 0 ? arrDates[0] : new Date(),
-  );
-
-  const [scheduled, setScheduled] = useState([]);
-
-  useEffect(() => {
-    setScheduled(
-      upcoming?.filter(
-        (item) =>
-          formatDate(item.date, 'DD-MM-YYYY') ===
-          formatDate(dates, 'DD-MM-YYYY'),
-      ),
-    );
-  }, [dates]);
-
 
   return (
     <div className="text-center -ml-2 flex justify-center md:justify-normal font-medium ">
@@ -35,17 +17,7 @@ const CalendarWidget = ({ dateValue, setDateValue }) => {
         }
         next2Label={null}
         prev2Label={null}
-        tileClassName={({ date, view }) => {
-          if (
-            arrDates.find(
-              (item) =>
-                formatDate(item, 'DD-MM-YYYY') ===
-                formatDate(date, 'DD-MM-YYYY'),
-            )
-          ) {
-            return 'highlights';
-          }
-        }}
+        minDate={new Date()}
       />
     </div>
   );

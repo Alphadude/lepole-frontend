@@ -23,14 +23,11 @@ export const RescheduleModal = ({ toggleModal, selectedSession = initialDataSess
 
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
-
-  const { data: dataProfile } = useProfile();
   const queryClient = useQueryClient()
 
 
   const time = selectedTime || new Date(selectedSession?.data?.startTime).getHours()
   const duration = Number(selectedSession.data.duration[0])
-  const dataCoins = dataProfile?.data?.user?.user_metadata?.wallet
 
 
   const { startTime, endTime, coin_price } = plans[currentPlanId - 1]
@@ -49,7 +46,6 @@ export const RescheduleModal = ({ toggleModal, selectedSession = initialDataSess
       startTime: new Date(...start).toISOString(),
       endTime: new Date(...end).toISOString(),
     }
-    console.log(submit);
 
     const res = await deductCoins((acceptedDuration * coin_price) / 2)
     if (!res) return
@@ -146,7 +142,7 @@ const paymentOptions = [
     title: 'Wallet Balance',
     desc: 'Use a credit card or debit card to initiate payment and get access to your booking session',
     recommended: true,
-    next: () => { console.log('Trigger Stripe') }
+    next: () => { console.log('Trigger coin deduction') }
   },
 ]
 
