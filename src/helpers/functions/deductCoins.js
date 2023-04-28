@@ -18,7 +18,7 @@ export const deductCoins = async (amount = 0) => {
     return
   }
 
-  const { data, error } = await supabase.auth.updateUser({ wallet: currentCoins - amount });
+  const { data, error } = await supabase.auth.updateUser({ data: { wallet: currentCoins - amount } })
   console.log({ data, error });
 
   if (error) {
