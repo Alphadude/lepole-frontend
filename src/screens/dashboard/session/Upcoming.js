@@ -198,11 +198,11 @@ const Upcoming = ({
           <p> loading... </p>
         </div>
         : data?.data?.length === 0 ? (
-          <section className=' py-16 lg:py-12 w-full h-full flex justify-center items-center'>
+          <section className=' py-16 lg:py-12 qw-full h-full flex justify-center items-center'>
             <div className='flex flex-col items-center'>
               <img src={gymCouple} alt="empty state" className='w-3/5 lg:w-full' />
               <p className='mt-10 mb-8'>
-                Oops! You do not have any active session
+                Oops! You do not have any upcoming session
               </p>
               <Link to={`/${routes.dashboard_home}/${routes.session}/${routes.new}`}>
                 <Button
@@ -216,7 +216,7 @@ const Upcoming = ({
           </section>
         ) : (
           <section className='text-xs mt-6 w-full  font-normal'>
-            {/* <Link to={`/${routes.dashboard_home}/${routes.session}/${routes.new}`} className=' flex justify-end '>
+            <Link to={`/${routes.dashboard_home}/${routes.session}/${routes.new}`} className=' flex justify-end '>
               <Button
                 className="!bg-primary-green border-0 !px-8 mb-6 !text-primary-white !hidden lg:!inline"
                 size="large"
@@ -229,7 +229,7 @@ const Upcoming = ({
               >
                 Book New Session
               </Button>
-            </Link> */}
+            </Link>
 
             <Tables
               columns={columns}
