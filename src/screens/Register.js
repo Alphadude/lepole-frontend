@@ -91,6 +91,10 @@ const Register = () => {
           Create an account to start booking for your gym sessions
         </p>
 
+        <a href='https://buy.stripe.com/test_5kA5mK0i66Lpgw0eUU'>
+          hellos
+        </a>
+
         <form
           onSubmit={signUp}
           className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-6"

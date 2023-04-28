@@ -54,8 +54,9 @@ const Wallet = ({
 
         return (
           <div>
-            <span className='text-priBlack text-[12px] font-medium'> {value.title} </span>
-            <p className='text-grey-2 text-[10px] font-normal'>{value.description}</p>
+            <span className=" text-sm text-priBlack">{value.description}</span>
+            {/* <span className='text-priBlack text-[12px] font-medium'> {value.title} </span>
+            <p className='text-grey-2 text-[10px] font-normal'>{value.description}</p> */}
           </div>
         );
       },
@@ -174,10 +175,6 @@ const Wallet = ({
       <p className="mt-2 text-base font-montserrat font-normal text-renaissance-black dark:text-primary-white">
         Buy a bundle and get more with coin bundles
       </p>
-
-      <button onClick={buyCoin}>
-        hello
-      </button>
 
       <section className='grid grid-cols-1 lg:grid-cols-3 gap-x-10 gap-y-8 mt-6 mb-12'>
         {bundle.map((item) => (
