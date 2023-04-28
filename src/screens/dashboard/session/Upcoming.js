@@ -4,12 +4,14 @@ import { createColumnHelper } from '@tanstack/react-table';
 import Tables from '../../../components/Tables';
 import ModalContainer from '../../../components/layouts/ModalContainer';
 import { RescheduleModal } from '../../../components/Modals';
-import { useSessions } from '../../../helpers/hooks/queries/useSessions';
+import { useSessions, useUpcomingSessions } from '../../../helpers/hooks/queries/useSessions';
 // import Loader from '../../../components/Loader';
 import gymCouple from '../../../assets/images/gym_couple.png'
 import { Link } from 'react-router-dom';
 import { Button } from '@deposits/ui-kit-react';
 import { routes } from '../../../router/routes';
+import { plans } from '../../../utils/dummyData';
+import moment from 'moment';
 
 
 const upComingRows = [
@@ -29,6 +31,25 @@ const upComingRows = [
 ]
 
 
+export const initialDataSessions = {
+  id: '',
+  planId: 0,
+  data: {
+    amount: 0,
+    created_at: "",
+    date: "",
+    duration: "",
+    endTime: "",
+    id: 0,
+    paymentType: "",
+    startTime: "",
+    status: "",
+    type: "",
+    user_id: "",
+  }
+}
+
+
 const Upcoming = ({
   loading = false,
   rows = upComingRows,
@@ -38,17 +59,14 @@ const Upcoming = ({
   limit,
 }) => {
   const [modalOpen, setModalOpen] = useState(false)
-  const [selectedSession, setSelectedSession] = useState({
-    id: '',
-    planId: 2
-  })
+  const [selectedSession, setSelectedSession] = useState(initialDataSessions)
 
-  const { data, isLoading } = useSessions()
+  const { data, isLoading } = useUpcomingSessions()
 
 
   const toggleModal = (session) => {
     setModalOpen(prev => !prev)
-    session.id && setSelectedSession(session)
+    session?.id && setSelectedSession(session)
   }
 
   const columnHelper = createColumnHelper();
@@ -74,7 +92,7 @@ const Upcoming = ({
 
         return (
           <div className="text-sm">
-            <span className=" text-sm text-priBlack">{date}</span>
+            <span className=" text-sm text-priBlack">{moment(date).format('Do MMMM, YYYY')}</span>
           </div>
         );
       },
@@ -84,7 +102,7 @@ const Upcoming = ({
       id: 'Time',
       cell: (info) => (
         <span className="text-priBlack text-sm ">
-          {new Date(info.row.original.startTime).toLocaleTimeString()}
+          {moment(info.row.original.startTime).format('h:mm A')}
         </span>
       ),
     }),
@@ -152,22 +170,27 @@ const Upcoming = ({
       id: 'Actions',
       cell: (info) => {
         const { row: { original } } = info;
-        const applicant = original;
+
+        const setModalValues = () => {
+          toggleModal({ planId: original.planId, id: original.id, data: original })
+        }
 
         return (
-          <button onClick={() => { toggleModal({ planId: original.planId, id: original.id }) }}>
+          <button onClick={setModalValues} >
             <p className='underline hover:no-underline'>Reschedule</p>
           </button>
         );
       },
     }),
   ];
-  console.log(selectedSession);
+
   return (
     <SessionsLayout>
-      <ModalContainer modalOpen={modalOpen} toggleModal={toggleModal}>
-        <RescheduleModal toggleModal={toggleModal} setSelectedSession={setSelectedSession} selectedSession={selectedSession} planId={selectedSession?.planId} />
-      </ModalContainer>
+      {modalOpen && (
+        <ModalContainer scrollable modalOpen={modalOpen} toggleModal={toggleModal}>
+          <RescheduleModal toggleModal={toggleModal} setSelectedSession={setSelectedSession} selectedSession={selectedSession} planId={selectedSession?.planId} />
+        </ModalContainer>
+      )}
 
       {isLoading
 

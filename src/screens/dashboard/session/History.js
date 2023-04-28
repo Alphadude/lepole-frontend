@@ -2,12 +2,13 @@ import React from 'react'
 import SessionsLayout from '../../../components/layouts/SessionsLayout'
 import { createColumnHelper } from '@tanstack/react-table';
 import Tables from '../../../components/Tables';
-import { useSessions } from '../../../helpers/hooks/queries/useSessions';
+import { useSessions, useSessionsHistory } from '../../../helpers/hooks/queries/useSessions';
 import { routes } from '../../../router/routes';
 import { Link } from 'react-router-dom';
 import { Button } from '@deposits/ui-kit-react';
 // import Loader from '../../../components/Loader';
 import gymCouple from '../../../assets/images/gym_couple.png'
+import moment from 'moment';
 
 
 const upComingRows = [
@@ -32,7 +33,7 @@ const History = ({
   limit,
 }) => {
 
-  const { data, isLoading } = useSessions()
+  const { data, isLoading } = useSessionsHistory()
   const columnHelper = createColumnHelper();
 
   const columns = [
@@ -56,7 +57,7 @@ const History = ({
 
         return (
           <div className="text-sm">
-            <span className=" text-sm text-priBlack">{date}</span>
+            <span className=" text-sm text-priBlack">{moment(date).format('Do MMMM, YYYY')}</span>
           </div>
         );
       },
@@ -76,7 +77,7 @@ const History = ({
       id: 'Start Time',
       cell: (info) => (
         <span className="text-priBlack text-sm">
-          {new Date(info.row.original.startTime).toLocaleTimeString()}
+          {moment(info.row.original.startTime).format('h:mm A')}
         </span>
       ),
     }),
@@ -85,7 +86,7 @@ const History = ({
       id: 'End Time',
       cell: (info) => (
         <span className="text-priBlac text-sm">
-          {new Date(info.row.original.endTime).toLocaleTimeString()}
+          {moment(info.row.original.endTime).format('h:mm A')}
         </span>
       ),
     }),
