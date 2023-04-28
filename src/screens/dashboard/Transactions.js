@@ -24,8 +24,7 @@ const Transactions = ({
 
         return (
           <div>
-            <span className='text-priBlack text-[12px] font-medium'> {value.title} </span>
-            <p className='text-grey-2 text-[10px] font-normal'>{value.description}</p>
+            <span className=" text-sm text-priBlack">{value.description}</span>
           </div>
         );
       },
