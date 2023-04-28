@@ -16,6 +16,7 @@ import {
 import {
   useTotalCoins,
   useTotalSessions,
+  useProfile,
 } from '../../helpers/hooks/queries/useSessions';
 
 import { useGetNotifications } from '../../helpers/hooks/queries/useNotifications';
@@ -28,7 +29,6 @@ const Explore = () => {
   const [cookies] = useCookies(['user']);
   const firstname = cookies?.user?.firstname;
   const userId = cookies?.user?.id;
-  const wallet = cookies?.user?.wallet;
 
   const [scheduled, setScheduled] = useState([]);
   const [dates, setDate] = useState(new Date());
@@ -37,6 +37,7 @@ const Explore = () => {
   const { data: totalSessions } = useTotalSessions();
   const { data: totalCoinsSpent } = useTotalCoins();
   const { data: notifications } = useGetNotifications();
+  const { data: user } = useProfile();
 
   useEffect(() => {
     const getUpcomingSessions = async () => {
@@ -68,6 +69,8 @@ const Explore = () => {
     getUpcomingSessions();
   }, []);
 
+  console.log({ user });
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 h-full">
       <section className="col-span-1 lg:col-span-2 p-6 lg:px-6 xl:px-12 lg:py-10">
@@ -88,7 +91,7 @@ const Explore = () => {
             />
             <OverviewCard
               title="Coin balance"
-              figures={wallet}
+              figures={user?.data?.user?.user_metadata?.wallet || 0}
               icon={CoinGreen}
               textColor="text-green-2"
               bgColor="bg-green-light dark:bg-primary-green/20"
