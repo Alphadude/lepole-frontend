@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 
 import { useCookies } from 'react-cookie';
 
-import { supabase } from '../../utils/supabaseConfig';
-
 import {
   ExploreBanner,
   OverviewCard,
@@ -17,6 +15,7 @@ import {
   useTotalCoins,
   useTotalSessions,
   useProfile,
+  useUpcomingSessions,
 } from '../../helpers/hooks/queries/useSessions';
 
 import { useGetNotifications } from '../../helpers/hooks/queries/useNotifications';
@@ -32,44 +31,19 @@ const Explore = () => {
 
   const [scheduled, setScheduled] = useState([]);
   const [dates, setDate] = useState(new Date());
-  const [loading, setIsLoading] = useState(false);
 
   const { data: totalSessions } = useTotalSessions();
   const { data: totalCoinsSpent } = useTotalCoins();
   const { data: notifications } = useGetNotifications();
   const { data: user } = useProfile();
+  const { data: sessions } = useUpcomingSessions();
 
   useEffect(() => {
-    const getUpcomingSessions = async () => {
-      const date = new Date(Date.now());
-      const dateString = date.toISOString().substring(0, 10);
-      setIsLoading(true);
-      try {
-        const response = await supabase
-          .from('session')
-          .select('*')
-          .eq('user_id', userId)
-          .gt('date', dateString);
-
-        if (response?.status === 200 && response?.data?.length !== 0) {
-          setScheduled(response?.data);
-
-          setDate(response?.data?.map?.((item) => new Date(item?.date))[0]);
-          setIsLoading(false);
-        } else {
-          setDate(new Date());
-          setScheduled([]);
-        }
-      } catch (error) {
-        setIsLoading(false);
-        return error;
-      }
-    };
-
-    getUpcomingSessions();
-  }, []);
-
-  console.log({ user });
+    if (sessions?.data !== null || sessions?.data?.length !== 0) {
+      setScheduled(sessions?.data);
+      setDate(sessions?.data?.map?.((item) => new Date(item?.date))[0]);
+    }
+  }, [sessions?.data]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 h-full">
