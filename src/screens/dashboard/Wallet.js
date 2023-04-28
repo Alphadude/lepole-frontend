@@ -12,6 +12,8 @@ import { useTransactions } from '../../helpers/hooks/queries/useTransactions';
 import { supabase } from '../../utils/supabaseConfig';
 import { useCookies } from 'react-cookie';
 import moment from 'moment';
+import getStripe from '../../getStripe'
+import axios from 'axios';
 
 const transactionsData= {
   amount: 10,
@@ -42,15 +44,7 @@ const Wallet = ({
 
   const id = cookies?.user?.id;
 
-  const getTransactions = async () => {
-   const { data, error } = await supabase
-     .from("transactions")
-     .select("*")
-     .eq("user_id", id);
-   console.log({data}, {error});
- };
-
-
+  const email = cookies?.user?.email;
 
   const columns = [
     columnHelper.accessor((row) => 'DESCRIPTION', {
@@ -99,6 +93,58 @@ const Wallet = ({
     }),
   ];
 
+  const stripe = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
+
+  async function handleCheckout() {
+    const stripe = await getStripe();
+    const { error } = await stripe.checkout.sessions.create({
+      lineItems: [
+        {
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: 'coin purchase',
+          },
+          unit_amount: 500,
+        },
+        quantity: 1,
+      },
+      ],
+      mode: 'payment',
+      successUrl: `http://localhost:3000/${routes.dashboard_home}/${routes.wallet}`,
+      cancelUrl: `http://localhost:3000/${routes.dashboard_home}/${routes.wallet}`,
+      // customerEmail: {email},
+    });
+    console.warn(error.message);
+  }
+
+  function buyCoin() {
+    axios
+      .post('/create-checkout-session', async (req, res) =>{
+       const session = await stripe.checkout.sessions.create({
+        lineItems: [
+        {
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: 'coin purchase',
+          },
+          unit_amount: 500,
+        },
+        quantity: 1,
+      },
+      ],
+      mode: 'payment',
+      successUrl: `http://localhost:3000/${routes.dashboard_home}/${routes.wallet}`,
+      cancelUrl: `http://localhost:3000/${routes.dashboard_home}/${routes.wallet}`,
+      // customerEmail: {email},
+       });
+
+       res.redirect(303, session.url);
+      })
+      
+  }
+
 
 
 
@@ -129,9 +175,13 @@ const Wallet = ({
         Buy a bundle and get more with coin bundles
       </p>
 
+      <button onClick={buyCoin}>
+        hello
+      </button>
+
       <section className='grid grid-cols-1 lg:grid-cols-3 gap-x-10 gap-y-8 mt-6 mb-12'>
         {bundle.map((item) => (
-          <WalletCard key={item.id} item={item} lastItem={lastItem} />
+          <WalletCard key={item.id} item={item} lastItem={lastItem} onClick={handleCheckout}/>
         ))}
       </section>
 
