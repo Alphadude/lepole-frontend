@@ -63,7 +63,7 @@ const Register = () => {
           firstname: data.firstName,
           lastname: data.lastName,
           phone: data.phone,
-          wallet: 0,
+          wallet: 100,
         },
       },
     });
