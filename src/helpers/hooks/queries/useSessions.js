@@ -20,14 +20,14 @@ export const useSessions = () => {
 export const useSessionsHistory = () => {
   const [cookies] = useCookies(['user']);
   const id = cookies.user?.id;
-  const dateString = new Date().toISOString().substring(0, 10);
+  const dateString = new Date().toISOString()
 
   const query = useQuery(['sessions-history', id], () => {
     return supabase
       .from("session")
       .select("*")
       .eq("user_id", "c753c13c-4218-4e44-9420-7c90be48cf0d")
-      .lte("date", dateString);
+      .lte("endTime", dateString);
   });
   return query;
 };
@@ -36,8 +36,6 @@ export const useSessionsHistory = () => {
 export const useActiveSessions = () => {
   const [cookies] = useCookies(['user']);
   const id = cookies.user?.id;
-  const date = new Date();
-  const end = new Date(date.setHours(date.getHours() + 4));
 
   const query = useQuery(['active-sessions', id], () => {
     return supabase

@@ -146,20 +146,20 @@ const History = ({
           <p> loading... </p>
         </div>
         : data?.data?.length === 0 ? (
-          <section className=' py-16 lg:py-12 w-full h-full flex justify-center items-center'>
+          <section className=' py-20 lg:py-12 w-full h-full flex justify-center items-center'>
             <div className='flex flex-col items-center'>
               <img src={gymCouple} alt="empty state" className='w-3/5 lg:w-full' />
               <p className='mt-10 mb-8'>
-                Oops! You do not have any active session
+                Oops! You do not have any session history
               </p>
-              <Link to={`/${routes.dashboard_home}/${routes.session}/${routes.new}`}>
+              {/* <Link to={`/${routes.dashboard_home}/${routes.session}/${routes.new}`}>
                 <Button
                   className="!bg-primary-green !w-full !border-0 !px-8 !text-primary-white"
                   size="xlarge"
                 >
                   Book Session
                 </Button>
-              </Link>
+              </Link> */}
             </div>
           </section>
         ) : (
