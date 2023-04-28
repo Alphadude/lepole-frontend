@@ -84,7 +84,7 @@ const Explore = () => {
           <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-2 lg:gap-4">
             <OverviewCard
               title="total sessions"
-              figures={totalSessions?.data?.length || totalSessions?.data}
+              figures={totalSessions?.data || 0}
               icon={DumbellOrange}
               textColor="text-orange-1"
               bgColor="bg-orange-light dark:bg-orange-1/20"
