@@ -52,7 +52,8 @@
 }
 
 .react-calendar__navigation button:disabled {
-  background-color: #f0f0f0;
+  /* background-color: #f0f0f0; */
+  color: transparent;
 }
 
 
@@ -82,6 +83,7 @@ abbr:where([title]) {
 }
 
 .react-calendar__month-view__days__day--neighboringMonth {
+  /* color: gray !important; */
   color: #b4b2b2 !important;
 }
 
@@ -98,7 +100,7 @@ abbr:where([title]) {
   max-width: 100%;
   background: none;
   text-align: center;
-  color: #878585;
+  color: #006666;
 
 }
 
@@ -107,8 +109,9 @@ abbr:where([title]) {
 }
 
 .react-calendar__tile:disabled {
-  background-color: #f0f0f0;
-  color: gray;
+  background-color: none;
+  /* color: gray; */
+  color: #b4b2b2;
 }
 
 .react-calendar__tile:enabled:hover,

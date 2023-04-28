@@ -10,17 +10,19 @@ import { Button } from '@deposits/ui-kit-react';
 import DurationTimePicker from '../../../components/sections/explore/DurationTimePicker';
 import { plans } from '../../../utils/dummyData';
 import { useCookies } from 'react-cookie';
-import {
-  useSessions,
-  useTotalCoins,
-  useTotalSessions,
-} from '../../../helpers/hooks/queries/useSessions';
+import { useProfile } from '../../../helpers/hooks/queries/useSessions';
 import { supabase } from '../../../utils/supabaseConfig';
 import { toast } from 'react-toastify';
+import ModalContainer from '../../../components/layouts/ModalContainer';
+import { RescheduleModal, SelectPaymentOption } from '../../../components/Modals';
+import { QueryClient, useQueryClient } from 'react-query';
+import { deductCoins } from '../../../helpers/functions/deductCoins';
 
 export const formatTime = (time) => {
   if (time === 0) {
     return `12:00 AM`;
+  } else if (time === 12) {
+    return `12:00 PM`;
   } else if (time > 12) {
     return `${time - 12}:00 PM`;
   } else {
@@ -92,121 +94,100 @@ const PlanCard = ({
 
 const BookNew = () => {
   let { state } = useLocation();
+  const [modalOpen, setModalOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState(state?.planId || 0);
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedDuration, setSelectedDuration] = useState(0);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const [cookies] = useCookies(['user']);
-  const { data: dataSessions } = useSessions();
-  const { data } = useTotalSessions();
-  const { data: dataCoins } = useTotalCoins();
+  const { data: dataProfile } = useProfile();
+  const queryClient = useQueryClient()
 
+  const dataCoins = dataProfile?.data?.user?.user_metadata?.wallet
+
+  const toggleModal = () => {
+    setModalOpen(prev => !prev)
+  }
 
   const createSession = async () => {
+    setLoading(true)
     const id = cookies.user?.id;
     const today = selectedDate.toISOString()
     const plan = plans[selectedPlan - 1]
-    const { startTime, name, coin_price } = plan
-    const start = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), startTime]
-    const end = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), startTime + selectedDuration]
+    const { name, coin_price } = plan
+    const start = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), selectedTime]
+    const end = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), selectedTime + selectedDuration]
 
     const submit = {
       user_id: id,
-      paymentType: "coin balance",
+      payment: "coin balance",
       amount: coin_price * selectedDuration,
       type: name,
       date: today.slice(0, 10),
-      duration: `${selectedDuration} hrs`,
+      duration: `${selectedDuration} hours`,
       startTime: new Date(...start).toISOString(),
       endTime: new Date(...end).toISOString(),
     }
 
+    const res = await deductCoins(submit.amount)
+    if (!res) return
+
+    queryClient.invalidateQueries('profile')
     const { data, error } = await supabase.from("session").insert([submit]);
-    console.log(data, error);
+    console.log({ data, error });
+    setLoading(false)
 
     if (!error) {
       setSelectedPlan(0)
       toast.success('Created session Successfully')
+      toggleModal()
+    } else {
+      toast.error('Failed to save session')
     }
-
   }
 
+
+
   return (
-    <div className=" text-renaissance-black dark:text-renaissance-dark-black !px-6 lg:!pl-6 xl:!pl-12  pt-6 pb-24 transition w-full ">
-      <section className="">
-        <H3> Book a session </H3>
-        <P className="  ">
-          After booking a session, you will be able to see extend your session
-          by 30 mins at half your booking fee
-        </P>
-      </section>
+    <>
+      {modalOpen && (
+        <ModalContainer modalOpen={modalOpen} toggleModal={toggleModal}>
+          <SelectPaymentOption toggleModal={toggleModal} fromWalletNext={createSession} loading={loading} />
+        </ModalContainer>
+      )}
 
-      <section className="py-10 ">
-        <Link to={`/${routes.dashboard_home}/${routes.session}`}>
-          <img src={BackArrow} alt="back arrow" />
-        </Link>
-      </section>
+      <div className=" text-renaissance-black dark:text-renaissance-dark-black !px-6 lg:!pl-6 xl:!pl-12  pt-6 pb-24 transition w-full ">
+        <section className="">
+          <H3> Book a session </H3>
+          <P className="  ">
+            After booking a session, you will be able to see extend your session
+            by 30 mins at half your booking fee
+          </P>
+        </section>
 
-      <section className="flex lg:flex-row flex-col items-center lg:items-start gap-y-20 lg:gap-y-0 justify-between ">
-        <div className=" max-w-sm flex- text-center lg:text-left">
-          <div>
-            <H3>Select Date and Time</H3>
-            <P className="pt-2 pb-10">
-              In your local time GMT +8{' '}
-              <span className="text-renaissance-blue pl-2">Update </span>
-            </P>
-            <CalendarWidget
-              setDateValue={setSelectedDate}
-              dateValue={selectedDate}
-            />
-          </div>
+        <section className="py-10 ">
+          <Link to={`/${routes.dashboard_home}/${routes.session}`}>
+            <img src={BackArrow} alt="back arrow" />
+          </Link>
+        </section>
 
-          <div className="mt-20 text-left hidden lg:block ">
-            {!selectedPlan ? (
-              <div className="flex items-center gap-5 w-full">
-                <p> Choose preferred session to see available time </p>
-                <img src={manStandDumbell} alt="manStandDumbell" />
-              </div>
-            ) : (
-              <DurationTimePicker
-                selectedPlan={selectedPlan}
-                setSelectedPlan={setSelectedPlan}
-                setSelectedDate={setSelectedDate}
-                selectedDate={selectedDate}
-                selectedTime={selectedTime}
-                setSelectedTime={setSelectedTime}
-                selectedDuration={selectedDuration}
-                setSelectedDuration={setSelectedDuration}
-                submitHandler={createSession}
-                coinBalance={dataCoins?.data}
+        <section className="flex lg:flex-row flex-col items-center lg:items-start gap-y-20 lg:gap-y-0 justify-between ">
+          <div className=" max-w-sm flex- text-center lg:text-left">
+            <div>
+              <H3 className={`dark:`}>Select Date and Time</H3>
+              <P className="pt-2 pb-10">
+                In your local time GMT +8{' '}
+                <span className="text-renaissance-blue pl-2">Update </span>
+              </P>
+              <CalendarWidget
+                setDateValue={setSelectedDate}
+                dateValue={selectedDate}
               />
-            )}
-          </div>
-        </div>
-
-        <div className='flex-1 '>
-          <div className="  flex-1 max-w-max mx-auto ">
-            <H3>Pay-As-You-Go</H3>
-            <P className="pt-2 pb-10">
-              In your local time GMT +8{' '}
-              <span className="text-renaissance-blue pl-2">Update </span>
-            </P>
-
-            <div className="space-y-6">
-              {plans.map((plan) => (
-                <PlanCard
-                  key={plan.id}
-                  {...plan}
-                  selected={selectedPlan}
-                  setSelected={setSelectedPlan}
-                  setSelectedTime={setSelectedTime}
-                  setSelectedDuration={setSelectedDuration}
-                />
-              ))}
             </div>
 
-            <div className="mt-20 text-left lg:hidden">
+            <div className="mt-20 text-left hidden lg:block ">
               {!selectedPlan ? (
                 <div className="flex items-center gap-5 w-full">
                   <p> Choose preferred session to see available time </p>
@@ -222,16 +203,61 @@ const BookNew = () => {
                   setSelectedTime={setSelectedTime}
                   selectedDuration={selectedDuration}
                   setSelectedDuration={setSelectedDuration}
-                  submitHandler={createSession}
-                  coinBalance={dataCoins?.data}
+                  submitHandler={toggleModal}
+                  coinBalance={dataCoins}
                 />
               )}
             </div>
           </div>
-        </div>
 
-      </section>
-    </div>
+          <div className='flex-1 '>
+            <div className="  flex-1 max-w-max mx-auto ">
+              <H3>Pay-As-You-Go</H3>
+              <P className="pt-2 pb-10">
+                In your local time GMT +8{' '}
+                <span className="text-renaissance-blue pl-2">Update </span>
+              </P>
+
+              <div className="space-y-6">
+                {plans.map((plan) => (
+                  <PlanCard
+                    key={plan.id}
+                    {...plan}
+                    selected={selectedPlan}
+                    setSelected={setSelectedPlan}
+                    setSelectedTime={setSelectedTime}
+                    setSelectedDuration={setSelectedDuration}
+                  />
+                ))}
+              </div>
+
+              <div className="mt-20 text-left lg:hidden">
+                {!selectedPlan ? (
+                  <div className="flex items-center gap-5 w-full">
+                    <p> Choose preferred session to see available time </p>
+                    <img src={manStandDumbell} alt="manStandDumbell" />
+                  </div>
+                ) : (
+                  <DurationTimePicker
+                    selectedPlan={selectedPlan}
+                    setSelectedPlan={setSelectedPlan}
+                    setSelectedDate={setSelectedDate}
+                    selectedDate={selectedDate}
+                    selectedTime={selectedTime}
+                    setSelectedTime={setSelectedTime}
+                    selectedDuration={selectedDuration}
+                    setSelectedDuration={setSelectedDuration}
+                    submitHandler={toggleModal}
+                    coinBalance={dataCoins}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+
+        </section>
+      </div>
+    </>
   );
 };
 
