@@ -15,6 +15,11 @@ import moment from 'moment';
 import getStripe from '../../getStripe'
 import axios from 'axios';
 
+import {
+  useProfile,
+  useUpcomingSessions,
+} from '../../helpers/hooks/queries/useSessions';
+
 const transactionsData= {
   amount: 10,
   created_at: "2023-04-24T09:34:44.340515+00:00",
@@ -30,9 +35,9 @@ const Wallet = ({
   rows = transactionHistory,
 }) => {
 
-  useEffect(() => {
-  // getTransactions();
-}, []);
+  const { data: sessions } = useUpcomingSessions();
+
+  const { data: user } = useProfile();
 
   const columnHelper = createColumnHelper();
 
@@ -162,7 +167,7 @@ const Wallet = ({
           Coin Balance
         </span>
         <span className='text-5xl font-droid font-bold text-renaissance-black dark:text-primary-white'>
-          0.00
+          {user?.data?.user?.user_metadata?.wallet + ".0" || 0}
         </span>
       </div>
 
@@ -184,7 +189,7 @@ const Wallet = ({
         <div>
 
         </div>
-      ) : rows?.length < 1 ? (
+      ) : transactions?.data?.length < 1 ? (
         <div className="p-6 rounded-lg ">
           <p className="mt-20 text-gray-500 text-2xl text-center font-medium">
             No Transaction Found
