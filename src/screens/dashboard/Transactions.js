@@ -77,7 +77,7 @@ const Transactions = ({
         <div>
 
         </div>
-      ) : rows?.length < 1 ? (
+      ) : transactions?.data?.length ? (
         <div className="p-6 rounded-lg ">
           <p className="mt-20 text-gray-500 text-2xl text-center font-medium">
             No Transaction Found
