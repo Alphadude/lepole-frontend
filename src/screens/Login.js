@@ -78,6 +78,7 @@ const Login = () => {
           Please fill correctly
         </p>
 
+
         <form onSubmit={loginUp} className="mt-4 grid grid-cols-1  gap-6">
           <div>
             <label className="block capitalize text-xs mb-1">

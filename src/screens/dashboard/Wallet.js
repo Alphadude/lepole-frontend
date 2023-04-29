@@ -12,6 +12,13 @@ import { useTransactions } from '../../helpers/hooks/queries/useTransactions';
 import { supabase } from '../../utils/supabaseConfig';
 import { useCookies } from 'react-cookie';
 import moment from 'moment';
+import getStripe from '../../getStripe'
+import axios from 'axios';
+
+import {
+  useProfile,
+  useUpcomingSessions,
+} from '../../helpers/hooks/queries/useSessions';
 
 const transactionsData= {
   amount: 10,
@@ -28,9 +35,9 @@ const Wallet = ({
   rows = transactionHistory,
 }) => {
 
-  useEffect(() => {
-  // getTransactions();
-}, []);
+  const { data: sessions } = useUpcomingSessions();
+
+  const { data: user } = useProfile();
 
   const columnHelper = createColumnHelper();
 
@@ -42,15 +49,7 @@ const Wallet = ({
 
   const id = cookies?.user?.id;
 
-  const getTransactions = async () => {
-   const { data, error } = await supabase
-     .from("transactions")
-     .select("*")
-     .eq("user_id", id);
-   console.log({data}, {error});
- };
-
-
+  const email = cookies?.user?.email;
 
   const columns = [
     columnHelper.accessor((row) => 'DESCRIPTION', {
@@ -60,8 +59,7 @@ const Wallet = ({
 
         return (
           <div>
-            <span className='text-priBlack text-[12px] font-medium'> {value.title} </span>
-            <p className='text-grey-2 text-[10px] font-normal'>{value.description}</p>
+            <span className=" text-sm text-priBlack">{value.description}</span>
           </div>
         );
       },
@@ -99,6 +97,58 @@ const Wallet = ({
     }),
   ];
 
+  const stripe = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
+
+  async function handleCheckout() {
+    const stripe = await getStripe();
+    const { error } = await stripe.checkout.sessions.create({
+      lineItems: [
+        {
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: 'coin purchase',
+          },
+          unit_amount: 500,
+        },
+        quantity: 1,
+      },
+      ],
+      mode: 'payment',
+      successUrl: `http://localhost:3000/${routes.dashboard_home}/${routes.wallet}`,
+      cancelUrl: `http://localhost:3000/${routes.dashboard_home}/${routes.wallet}`,
+      // customerEmail: {email},
+    });
+    console.warn(error.message);
+  }
+
+  function buyCoin() {
+    axios
+      .post('/create-checkout-session', async (req, res) =>{
+       const session = await stripe.checkout.sessions.create({
+        lineItems: [
+        {
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: 'coin purchase',
+          },
+          unit_amount: 500,
+        },
+        quantity: 1,
+      },
+      ],
+      mode: 'payment',
+      successUrl: `http://localhost:3000/${routes.dashboard_home}/${routes.wallet}`,
+      cancelUrl: `http://localhost:3000/${routes.dashboard_home}/${routes.wallet}`,
+      // customerEmail: {email},
+       });
+
+       res.redirect(303, session.url);
+      })
+      
+  }
+
 
 
 
@@ -117,7 +167,7 @@ const Wallet = ({
           Coin Balance
         </span>
         <span className='text-5xl font-droid font-bold text-renaissance-black dark:text-primary-white'>
-          0.00
+          {user?.data?.user?.user_metadata?.wallet + ".0" || 0}
         </span>
       </div>
 
@@ -131,7 +181,7 @@ const Wallet = ({
 
       <section className='grid grid-cols-1 lg:grid-cols-3 gap-x-10 gap-y-8 mt-6 mb-12'>
         {bundle.map((item) => (
-          <WalletCard key={item.id} item={item} lastItem={lastItem} />
+          <WalletCard key={item.id} item={item} lastItem={lastItem} onClick={handleCheckout}/>
         ))}
       </section>
 
@@ -139,7 +189,7 @@ const Wallet = ({
         <div>
 
         </div>
-      ) : rows?.length < 1 ? (
+      ) : transactions?.data?.length < 1 ? (
         <div className="p-6 rounded-lg ">
           <p className="mt-20 text-gray-500 text-2xl text-center font-medium">
             No Transaction Found

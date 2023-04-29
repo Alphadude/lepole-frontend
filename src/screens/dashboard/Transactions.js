@@ -24,8 +24,7 @@ const Transactions = ({
 
         return (
           <div>
-            <span className='text-priBlack text-[12px] font-medium'> {value.title} </span>
-            <p className='text-grey-2 text-[10px] font-normal'>{value.description}</p>
+            <span className=" text-sm text-priBlack">{value.description}</span>
           </div>
         );
       },
@@ -54,7 +53,7 @@ const Transactions = ({
     }),
 
     columnHelper.accessor((row) => row.role, {
-      id: 'STATUS',
+      id: 'PAYMENT TYPE',
       cell: (info) => (
         <span className="text-priBlack text-sm ">
           {info.row.original.status}
@@ -78,7 +77,7 @@ const Transactions = ({
         <div>
 
         </div>
-      ) : rows?.length < 1 ? (
+      ) : transactions?.data?.length ? (
         <div className="p-6 rounded-lg ">
           <p className="mt-20 text-gray-500 text-2xl text-center font-medium">
             No Transaction Found
@@ -113,7 +112,7 @@ const Transactions = ({
           ) : (
             <Tables
               columns={columns}
-              data={transactions?.data?.slice(0, 4) || []}
+              data={transactions?.data || []}
             />
           )}
         </div>
