@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import {useNavigate } from 'react-router-dom';
 import { H1, H2, H5 } from '../../../components/Headings';
 import { TextField, Button } from '@deposits/ui-kit-react';
 import { useForm } from 'react-hook-form';
 import { useCookies } from 'react-cookie';
 import { supabase } from '../../../utils/supabaseConfig';
+import { toast } from 'react-toastify';
 
 const Settings = () => {
 
@@ -14,6 +16,8 @@ const Settings = () => {
     formState: { errors },
     reset,
   } = useForm();
+
+  const navigate = useNavigate();
 
   const [cookies] = useCookies(['user']);
 
@@ -58,37 +62,23 @@ const Settings = () => {
 
     console.log(data.password);
     
-   const { user, error } = await supabase.auth.update({password: data.password});
+   const res = await supabase.auth.updateUser({password: data.password});
 
-   console.log({user}, {error});
+   console.log(res);
 
-  //  if (res?.data?.user !== null && res?.error === null) {
-  //     toast.success('Login successful.');
+   if (res?.data?.user !== null && res?.error === null) {
+      toast.success('Password Update successful.');
 
-  //     setCookie(
-  //       'user',
-  //       JSON.stringify({
-  //         id: res?.data?.session?.user?.id,
-  //         token: res?.data?.session?.access_token,
-  //         email: res?.data?.session?.user?.email,
-  //         phone: res?.data?.session?.user?.user_metadata?.phone,
-  //         role: res?.data?.session?.user?.role,
-  //         firstname: res?.data?.session?.user?.user_metadata?.firstname,
-  //         lastname: res?.data?.session?.user?.user_metadata?.lastname,
-  //         wallet: res?.data?.session?.user?.user_metadata?.wallet,
-  //       }),
-  //     );
+      setIsSubmitting(false);
 
-  //     setIsSubmitting(false);
+      reset();
 
-  //     reset();
+      // navigate(`/dashboard/settings`);
+    } else {
+      toast.error('Password Update Not Successful.');
 
-  //     navigate(`/dashboard/explore`);
-  //   } else {
-  //     toast.error(res?.error?.message);
-
-  //     setIsSubmitting(false);
-  //   }
+      setIsSubmitting(false);
+    }
 
  });
 

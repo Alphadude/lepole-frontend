@@ -9,11 +9,9 @@ import WalletCard from '../../components/sections/wallet/WalletCard';
 import { ReactComponent as IconInfo } from '../../assets/icons/icon-Info.svg';
 import { ReactComponent as SingleCoin } from '../../assets/icons/single-coin.svg';
 import { useTransactions } from '../../helpers/hooks/queries/useTransactions';
-import { supabase } from '../../utils/supabaseConfig';
 import { useCookies } from 'react-cookie';
 import moment from 'moment';
 import getStripe from '../../getStripe'
-import axios from 'axios';
 
 import {
   useProfile,
@@ -122,32 +120,32 @@ const Wallet = ({
     console.warn(error.message);
   }
 
-  function buyCoin() {
-    axios
-      .post('/create-checkout-session', async (req, res) =>{
-       const session = await stripe.checkout.sessions.create({
-        lineItems: [
-        {
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: 'coin purchase',
-          },
-          unit_amount: 500,
-        },
-        quantity: 1,
-      },
-      ],
-      mode: 'payment',
-      successUrl: `http://localhost:3000/${routes.dashboard_home}/${routes.wallet}`,
-      cancelUrl: `http://localhost:3000/${routes.dashboard_home}/${routes.wallet}`,
-      // customerEmail: {email},
-       });
+  // function buyCoin() {
+  //   axios
+  //     .post('/create-checkout-session', async (req, res) =>{
+  //      const session = await stripe.checkout.sessions.create({
+  //       lineItems: [
+  //       {
+  //       price_data: {
+  //         currency: 'usd',
+  //         product_data: {
+  //           name: 'coin purchase',
+  //         },
+  //         unit_amount: 500,
+  //       },
+  //       quantity: 1,
+  //     },
+  //     ],
+  //     mode: 'payment',
+  //     successUrl: `http://localhost:3000/${routes.dashboard_home}/${routes.wallet}`,
+  //     cancelUrl: `http://localhost:3000/${routes.dashboard_home}/${routes.wallet}`,
+  //     // customerEmail: {email},
+  //      });
 
-       res.redirect(303, session.url);
-      })
+  //      res.redirect(303, session.url);
+  //     })
       
-  }
+  // }
 
 
 

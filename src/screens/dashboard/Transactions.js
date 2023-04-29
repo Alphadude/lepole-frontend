@@ -1,5 +1,5 @@
 import React from 'react'
-import { allTransactions } from '../../utils/dummyData';
+import { transactionHistory } from '../../utils/dummyData';
 import { createColumnHelper } from '@tanstack/react-table';
 import Tables from '../../components/Tables';
 import { ReactComponent as Filter } from '../../assets/icons/filter.svg';
@@ -9,7 +9,7 @@ import moment from 'moment';
 
 const Transactions = ({
   loading = false,
-  rows = allTransactions,
+  rows = transactionHistory,
 }) => {
 
   const { data: transactions } = useTransactions();
@@ -77,7 +77,7 @@ const Transactions = ({
         <div>
 
         </div>
-      ) : transactions?.data?.length ? (
+      ) : transactions?.data?.length < 1 ? (
         <div className="p-6 rounded-lg ">
           <p className="mt-20 text-gray-500 text-2xl text-center font-medium">
             No Transaction Found
