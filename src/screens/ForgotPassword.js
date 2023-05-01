@@ -25,24 +25,27 @@ const ForgotPassword = () => {
     formState: { errors },
   } = useForm();
 
-  const submitForgotPassword = async (form) => {
+  const submitForgotPassword = handleSubmit(async (form) => {
+
     const redirectLink = `${window.location.origin}/reset-password`
 
     setIsSubmitting(true);
-    const { data, error } = await supabase.auth.resetPasswordForEmail(form.email, {
+    const { data } = await supabase.auth.resetPasswordForEmail(form.email, {
       redirectTo: redirectLink
-    })
+    });
 
-    if (!error) {
+    console.log(form.email);
+    console.log(data);
+
+      if (!data || []) {
       toast.success('Request sent. Check your mail for reset link.');
       setIsSubmitting(false);
       reset();
-      // navigate(`/reset-password`);
-    } else {
-      toast.error(error?.message);
+    } else if(data) {
+      toast.error(data?.message);
       setIsSubmitting(false);
     }
-  }
+  })
 
   return (
     <div className="min-h-screen flex flex-col items-center lg:pb-8 bg-lepole-pattern bg-no-repeat bg-left-bottom bg-black/95 ">
@@ -60,7 +63,7 @@ const ForgotPassword = () => {
           Please enter your email address
         </p>
 
-        <form onSubmit={handleSubmit(submitForgotPassword)} className="mt-10 lg:mt-4 grid grid-cols-1  gap-6">
+        <form onSubmit={submitForgotPassword} className="mt-10 lg:mt-4 grid grid-cols-1  gap-6">
           <div>
             <label className="block capitalize text-xs mb-1">
               email address
