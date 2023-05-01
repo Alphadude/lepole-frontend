@@ -41,9 +41,8 @@ const Register = () => {
   const PasswordChecker = ({ text, checker }) => {
     return (
       <span
-        className={`${
-          checker ? ' text-gray-2/50 line-through' : 'text-gray-2 '
-        } block text-xs`}
+        className={`${checker ? ' text-gray-2/50 line-through' : 'text-gray-2 '
+          } block text-xs`}
       >
         {text}
       </span>
@@ -64,6 +63,7 @@ const Register = () => {
           lastname: data.lastName,
           phone: data.phone,
           wallet: 100,
+          role: "user"
         },
       },
     });
