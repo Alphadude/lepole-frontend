@@ -46,7 +46,7 @@ const Login = () => {
           id: res?.data?.session?.user?.id,
           token: res?.data?.session?.access_token,
           email: res?.data?.session?.user?.email,
-          authStatus: res?.data?.session?.user?.user_metadata?.role,
+          authStatus: res?.data?.session?.user?.role,
           role: res?.data?.session?.user?.user_metadata?.role,
           firstname: res?.data?.session?.user?.user_metadata?.firstname,
           lastname: res?.data?.session?.user?.user_metadata?.lastname,
