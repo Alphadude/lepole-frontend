@@ -38,6 +38,7 @@ const Register = () => {
     eightCharsOrGreater: watchPassword.match(eightCharsOrMore),
   };
 
+
   const PasswordChecker = ({ text, checker }) => {
     return (
       <span
@@ -58,6 +59,7 @@ const Register = () => {
       phone: data.phone,
       confirmpassword: data.confirmpassword,
       options: {
+        emailRedirectTo: `${window.origin}/login`,
         data: {
           firstname: data.firstName,
           lastname: data.lastName,
