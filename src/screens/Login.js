@@ -46,10 +46,11 @@ const Login = () => {
           id: res?.data?.session?.user?.id,
           token: res?.data?.session?.access_token,
           email: res?.data?.session?.user?.email,
-          phone: res?.data?.session?.user?.user_metadata?.phone,
-          role: res?.data?.session?.user?.role,
+          authStatus: res?.data?.session?.user?.role,
+          role: res?.data?.session?.user?.user_metadata?.role,
           firstname: res?.data?.session?.user?.user_metadata?.firstname,
           lastname: res?.data?.session?.user?.user_metadata?.lastname,
+          phone: res?.data?.session?.user?.user_metadata?.phone,
           wallet: res?.data?.session?.user?.user_metadata?.wallet,
         }),
       );

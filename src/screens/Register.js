@@ -38,12 +38,12 @@ const Register = () => {
     eightCharsOrGreater: watchPassword.match(eightCharsOrMore),
   };
 
+
   const PasswordChecker = ({ text, checker }) => {
     return (
       <span
-        className={`${
-          checker ? ' text-gray-2/50 line-through' : 'text-gray-2 '
-        } block text-xs`}
+        className={`${checker ? ' text-gray-2/50 line-through' : 'text-gray-2 '
+          } block text-xs`}
       >
         {text}
       </span>
@@ -59,11 +59,13 @@ const Register = () => {
       phone: data.phone,
       confirmpassword: data.confirmpassword,
       options: {
+        emailRedirectTo: `${window.origin}/login`,
         data: {
           firstname: data.firstName,
           lastname: data.lastName,
           phone: data.phone,
           wallet: 100,
+          role: "user"
         },
       },
     });
