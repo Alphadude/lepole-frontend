@@ -14,7 +14,7 @@ export const deductCoins = async (amount = 0) => {
   const currentCoins = profileData?.user?.user_metadata?.wallet
 
   if (currentCoins < amount) {
-    toast.error('Insufficient coin balance')
+    toast.error('You do not have sufficient coins in your wallet. Go to your wallet and purchase a coin bundle to book a session')
     return
   }
 

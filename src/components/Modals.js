@@ -14,11 +14,14 @@ import { Banner, Button, Radio } from '@deposits/ui-kit-react';
 import { useProfile, useTotalCoins } from '../helpers/hooks/queries/useSessions';
 import { useQueryClient } from 'react-query';
 import { deductCoins } from '../helpers/functions/deductCoins';
+import moment from 'moment';
+
 
 
 
 export const RescheduleModal = ({ toggleModal, selectedSession = initialDataSessions, headerSubtitle, buttonText, label, placeholder }) => {
   const currentPlanId = plans.findIndex(item => (item.name === selectedSession.data.type)) + 1
+
 
 
   const [selectedTime, setSelectedTime] = useState(null);
@@ -41,7 +44,7 @@ export const RescheduleModal = ({ toggleModal, selectedSession = initialDataSess
     const end = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), time + acceptedDuration]
 
     const submit = {
-      date: selectedDate.toISOString().slice(0, 10),
+      date: moment(selectedDate).format('YYYY-MM-DD'),
       duration: `${acceptedDuration} hours`,
       reschedule_amount: (acceptedDuration * coin_price) / 2,
       startTime: new Date(...start).toISOString(),
