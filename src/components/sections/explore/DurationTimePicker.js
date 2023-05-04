@@ -17,11 +17,12 @@ export const intervalCreator = (start, end, startConstant) => {
   return Array(end - ((end > start) ? start : startConstant)).fill(0).map((item, index) => index + 1)
 }
 
-const TimeCard = ({ content, id, selected, setSelected, ...props }) => {
+const TimeCard = ({ content, id, selected, setSelected, disabled, ...props }) => {
   return (
     <button
-      className={`w-full lg:w-[84px] h-9 flex items-center justify-center border border-gray-4  font-semibold text-xs rounded-lg
-    ${selected === id && 'bg-primary-green/30 !text-primary-green !border-primary-green dark:!border-primary-dark-green dark:!text-primary-dark-green '}`}
+      className={`w-full lg:w-[84px] h-9 flex items-center justify-center border border-gray-4  font-semibold text-xs rounded-lg text-renaissance-black
+${disabled && ' border-gray-4/30 text-renaissance-black/30 '}
+    ${selected === id && ' bg-primary-green/30 !text-primary-green !border-primary-green dark:!border-primary-dark-green dark:!text-primary-dark-green '}`}
       {...props}
     >
       {content}
@@ -51,7 +52,7 @@ const DurationTimePicker = ({
         <p className='mb-4 font-medium text-base text-center lg:text-left'> {selectedDate.toDateString()}  <span className='font-semibold'> - Choose Time </span></p>
         <div className=' grid grid-cols-1 lg:grid-cols-4 gap-y-2 lg:gap-y-6 w-full '>
           {slotsCreator(startTime, endTime).map(time => (
-            <TimeCard key={time.id} id={time.start} content={time.formattedTime} selected={selectedTime} setSelected={setSelectedTime} onClick={() => setSelectedTime(time.start)} />
+            <TimeCard key={time.id} id={time.start} content={time.formattedTime} selected={selectedTime} setSelected={setSelectedTime} onClick={() => setSelectedTime(time.start)} disabled={true} />
           ))}
         </div>
       </div>
