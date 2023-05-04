@@ -3,6 +3,7 @@ import { plans } from '../../../utils/dummyData'
 import { Button } from '@deposits/ui-kit-react'
 import { formatTime } from '../../../screens/dashboard/session/BookNew'
 import { toast } from 'react-toastify'
+import { useEffect } from 'react'
 
 
 
@@ -50,6 +51,11 @@ const DurationTimePicker = ({
   const { startTime, endTime, coin_price, fiat_price } = plans[selectedPlan - 1]
   const now = new Date()
   let selectedFirstValidTime = false
+
+  useEffect(() => {
+    setSelectedTime(null)
+  }, [selectedDate])
+
 
   return (
     <div className='flex flex-col gap-6 lg:gap-12 '>
