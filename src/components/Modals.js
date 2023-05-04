@@ -43,11 +43,12 @@ export const RescheduleModal = ({ toggleModal, selectedSession = initialDataSess
     const submit = {
       date: selectedDate.toISOString().slice(0, 10),
       duration: `${acceptedDuration} hours`,
+      reschedule_amount: (acceptedDuration * coin_price) / 2,
       startTime: new Date(...start).toISOString(),
       endTime: new Date(...end).toISOString(),
     }
 
-    const res = await deductCoins((acceptedDuration * coin_price) / 2)
+    const res = await deductCoins(submit.reschedule_amount)
     if (!res) return
 
     queryClient.invalidateQueries('profile')
