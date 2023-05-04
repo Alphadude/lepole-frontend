@@ -49,6 +49,8 @@ const DurationTimePicker = ({
 
   const { startTime, endTime, coin_price, fiat_price } = plans[selectedPlan - 1]
   const now = new Date()
+  let selectedFirstValidTime = false
+
   return (
     <div className='flex flex-col gap-6 lg:gap-12 '>
       <div className=''>
@@ -58,13 +60,17 @@ const DurationTimePicker = ({
             const timeString = new Date(selectedDate).toDateString() + ' ' + time.start + ':00:00'
             const timeDateFormat = new Date(timeString)
             const isValidTime = timeDateFormat > now
+            if (isValidTime && !selectedFirstValidTime) {
+              !selectedTime && setSelectedTime(time.start)
+              selectedFirstValidTime = true
+            }
 
             return (
               <TimeCard key={time.id} id={time.start} content={time.formattedTime} selected={selectedTime} setSelected={setSelectedTime} disabled={!isValidTime}
                 onClick={() => {
                   isValidTime
                     ? setSelectedTime(time.start)
-                    : toast.error('Invalid selected time')
+                    : toast.error('Please select a valid date and time')
                 }} />
             )
           })}
@@ -75,7 +81,7 @@ const DurationTimePicker = ({
         <p className='mb-4 font-medium text-base text-center lg:text-left'> Choose Hours </p>
         <div className={`lg: grid  grid-cols-1 lg:grid-cols-4 gap-y-2 lg:gap-y-6 w-full `}>
           {intervalCreator(selectedTime || startTime, endTime, startTime).map(duration => (
-            <TimeCard key={duration} id={duration} content={`${duration} Hours`} selected={selectedDuration} setSelected={setSelectedDuration} />
+            <TimeCard key={duration} id={duration} content={`${duration} Hours`} selected={selectedDuration} setSelected={setSelectedDuration} onClick={() => setSelectedDuration(duration)} />
           ))}
         </div>
       </div>}
