@@ -2,6 +2,7 @@ import React from 'react'
 import { plans } from '../../../utils/dummyData'
 import { Button } from '@deposits/ui-kit-react'
 import { formatTime } from '../../../screens/dashboard/session/BookNew'
+import { toast } from 'react-toastify'
 
 
 
@@ -17,11 +18,14 @@ export const intervalCreator = (start, end, startConstant) => {
   return Array(end - ((end > start) ? start : startConstant)).fill(0).map((item, index) => index + 1)
 }
 
-const TimeCard = ({ content, id, selected, setSelected, ...props }) => {
+const TimeCard = ({ content, id, selected, setSelected, disabled, ...props }) => {
   return (
     <button
-      className={`w-full lg:w-[84px] h-9 flex items-center justify-center border border-gray-4  font-semibold text-xs rounded-lg
-    ${selected === id && 'bg-primary-green/30 !text-primary-green !border-primary-green dark:!border-primary-dark-green dark:!text-primary-dark-green '}`}
+      className={`
+        w-full lg:w-[84px] h-9 flex items-center justify-center border border-gray-4  font-semibold text-xs rounded-lg 
+        ${disabled && ' border-gray-4/30 text-renaissance-black/30 dark:text-renaissance-dark-black/30 '}
+        ${selected === id && ' bg-primary-green/30 !text-primary-green !border-primary-green dark:!border-primary-dark-green dark:!text-primary-dark-green '}
+        `}
       {...props}
     >
       {content}
@@ -44,23 +48,34 @@ const DurationTimePicker = ({
   coinBalance }) => {
 
   const { startTime, endTime, coin_price, fiat_price } = plans[selectedPlan - 1]
-
+  const now = new Date()
   return (
     <div className='flex flex-col gap-6 lg:gap-12 '>
       <div className=''>
         <p className='mb-4 font-medium text-base text-center lg:text-left'> {selectedDate.toDateString()}  <span className='font-semibold'> - Choose Time </span></p>
         <div className=' grid grid-cols-1 lg:grid-cols-4 gap-y-2 lg:gap-y-6 w-full '>
-          {slotsCreator(startTime, endTime).map(time => (
-            <TimeCard key={time.id} id={time.start} content={time.formattedTime} selected={selectedTime} setSelected={setSelectedTime} onClick={() => setSelectedTime(time.start)} />
-          ))}
+          {slotsCreator(startTime, endTime).map(time => {
+            const timeString = new Date(selectedDate).toDateString() + ' ' + time.start + ':00:00'
+            const timeDateFormat = new Date(timeString)
+            const isValidTime = timeDateFormat > now
+
+            return (
+              <TimeCard key={time.id} id={time.start} content={time.formattedTime} selected={selectedTime} setSelected={setSelectedTime} disabled={!isValidTime}
+                onClick={() => {
+                  isValidTime
+                    ? setSelectedTime(time.start)
+                    : toast.error('Invalid selected time')
+                }} />
+            )
+          })}
         </div>
       </div>
 
-      {type !== 'reschedule' && <div className=''>
+      {type !== 'reschedule' && typeof selectedTime === 'number' && <div className=''>
         <p className='mb-4 font-medium text-base text-center lg:text-left'> Choose Hours </p>
-        <div className='lg: grid  grid-cols-1 lg:grid-cols-4 gap-y-2 lg:gap-y-6 w-full'>
+        <div className={`lg: grid  grid-cols-1 lg:grid-cols-4 gap-y-2 lg:gap-y-6 w-full `}>
           {intervalCreator(selectedTime || startTime, endTime, startTime).map(duration => (
-            <TimeCard key={duration} id={duration} content={`${duration} Hours`} selected={selectedDuration} setSelected={setSelectedDuration} onClick={() => setSelectedDuration(duration)} />
+            <TimeCard key={duration} id={duration} content={`${duration} Hours`} selected={selectedDuration} setSelected={setSelectedDuration} />
           ))}
         </div>
       </div>}
