@@ -108,7 +108,7 @@ const History = ({
             statusStyle = 'bg-green-500';
             break;
           default:
-            statusStyle = '';
+            statusStyle = 'bg-yellow-500';
             break;
         }
 
@@ -117,7 +117,7 @@ const History = ({
             <span
               className={`inline-flex w-2 h-2 ${statusStyle} rounded-full `}
             />
-            {status}
+            {status || 'Pending'}
           </p>
         );
       },
