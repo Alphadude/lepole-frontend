@@ -1,4 +1,4 @@
-import { React, useEffect } from 'react';
+import { React, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 import { routes } from '../../router/routes'
 import { createColumnHelper } from '@tanstack/react-table';
@@ -17,6 +17,8 @@ import {
   useProfile,
   useUpcomingSessions,
 } from '../../helpers/hooks/queries/useSessions';
+import styled from 'styled-components';
+import { H4, P } from '../../components/Headings';
 
 const transactionsData = {
   amount: 10,
@@ -27,11 +29,23 @@ const transactionsData = {
   user_id: "a9767173-2dda-40d5-9ad1-4e6350763151",
 }
 
+const howList = [
+  'Use your credits on peak, off-peak or super off-peak',
+  'Buy, cancel and manage credits in-app anytime'
+]
+
+const ToolTip = styled.div`
+  position: relative;
+
+`
+
 
 const Wallet = ({
   loading = false,
   rows = transactionHistory,
 }) => {
+
+  const [hoveredToolTip, setHoveredToolTip] = useState(false)
 
   const { data: sessions } = useUpcomingSessions();
 
@@ -149,7 +163,7 @@ const Wallet = ({
 
 
 
-
+  console.log(hoveredToolTip);
   return (
     <section className='p-6 md:p-8 lg:px-6 xl:px-12'>
 
@@ -157,7 +171,20 @@ const Wallet = ({
         <p className="mt-2 text-base font-montserrat font-normal text-renaissance-black dark:text-primary-white">
           How coins work
         </p>
-        <IconInfo className="h-8" />
+        <div onMouseOver={(e) => (e.stopPropagation(), setHoveredToolTip(true))} onMouseLeave={() => setHoveredToolTip(false)} className='relative'>
+          <IconInfo className="h-8" />
+
+          <div className={` ${hoveredToolTip ? 'block' : 'hidden'} absolute p-5 z-10 w-80 rounded-xl bg-white dark:bg-table-border-gray drop-shadow-3xl `}>
+            <H4 className='mb-2'>HOW CREDITS WORK</H4>
+            <div>
+              {howList.map(item => (
+                <P key={item} className=''>  <span className={`inline-flex w-2 h-2 mr-2 bg-black rounded-full `} />
+                  {item}
+                </P>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className='mt-6 space-x-2'>
