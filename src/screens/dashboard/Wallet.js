@@ -163,7 +163,6 @@ const Wallet = ({
 
 
 
-  console.log(hoveredToolTip);
   return (
     <section className='p-6 md:p-8 lg:px-6 xl:px-12'>
 
