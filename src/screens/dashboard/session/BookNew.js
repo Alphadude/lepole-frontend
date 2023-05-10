@@ -17,7 +17,11 @@ import ModalContainer from '../../../components/layouts/ModalContainer';
 import { RescheduleModal, SelectPaymentOption } from '../../../components/Modals';
 import { QueryClient, useQueryClient } from 'react-query';
 import { deductCoins } from '../../../helpers/functions/deductCoins';
+<<<<<<< HEAD
+import StripeCheckoutComp from './StripeCheckout';
+=======
 import moment from 'moment';
+>>>>>>> 50970eb9a15a381913b6ca70ef61644a22912788
 
 export const formatTime = (time) => {
   if (time === 0) {
@@ -150,6 +154,7 @@ const BookNew = () => {
 
 
 
+
   return (
     <>
       {modalOpen && (
@@ -255,6 +260,10 @@ const BookNew = () => {
             </div>
           </div>
 
+        </section>
+
+        <section className='mt-40'>
+          <StripeCheckoutComp />
         </section>
       </div>
     </>
