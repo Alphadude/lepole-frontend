@@ -44,7 +44,7 @@ const Transactions = ({
     }),
 
     columnHelper.accessor((row) => row.role, {
-      id: 'DATE',
+      id: 'PAYMENT DATE',
       cell: (info) => (
         <span className="text-priBlack text-sm ">
           {moment(info.row.original.created_at).format('D MMMM, YYYY, h:mm:ss A')}
