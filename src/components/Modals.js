@@ -22,10 +22,8 @@ import moment from 'moment';
 export const RescheduleModal = ({ toggleModal, selectedSession = initialDataSessions, headerSubtitle, buttonText, label, placeholder }) => {
   const currentPlanId = plans.findIndex(item => (item.name === selectedSession.data.type)) + 1
 
-
-
   const [selectedTime, setSelectedTime] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date(selectedSession?.data?.startTime));
   const queryClient = useQueryClient()
 
 

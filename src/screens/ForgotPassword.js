@@ -37,11 +37,11 @@ const ForgotPassword = () => {
     console.log(form.email);
     console.log(data);
 
-      if (!data || []) {
-      toast.success('Request sent. Check your mail for reset link.');
+    if (!data || []) {
+      toast.success('Request sent. Check your mail for reset link. If not seen, check spam.');
       setIsSubmitting(false);
       reset();
-    } else if(data) {
+    } else if (data) {
       toast.error(data?.message);
       setIsSubmitting(false);
     }
