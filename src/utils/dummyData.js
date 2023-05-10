@@ -4,13 +4,13 @@ export const timeSlots = [
   {
     id: 1,
     name: 'Off peak hours',
-    time: '12:00 AM - 4:00 PM',
+    time: '12:00 AM - 4:00 AM',
     fee: '2 coins/hours',
   },
   {
     id: 2,
     name: 'mid peak hours',
-    time: '9:00PM - 12:00AM',
+    time: '4:00AM - 6:00PM',
     fee: '2 coins/hours',
   },
   {
