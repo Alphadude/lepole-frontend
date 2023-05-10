@@ -120,12 +120,12 @@ abbr:where([title]) {
 }
 
 .react-calendar__tile--now {
-  background: #006666a8 !important;
+  background: #00666660 !important;
   color: white;
 }
 
 .react-calendar__tile--active {
-  background: #006666;
+  background: #006666 !important;
   color: white;
   border-radius: 70%;
 }

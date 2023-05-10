@@ -17,7 +17,11 @@ import ModalContainer from '../../../components/layouts/ModalContainer';
 import { RescheduleModal, SelectPaymentOption } from '../../../components/Modals';
 import { QueryClient, useQueryClient } from 'react-query';
 import { deductCoins } from '../../../helpers/functions/deductCoins';
+<<<<<<< HEAD
 import StripeCheckoutComp from './StripeCheckout';
+=======
+import moment from 'moment';
+>>>>>>> 50970eb9a15a381913b6ca70ef61644a22912788
 
 export const formatTime = (time) => {
   if (time === 0) {
@@ -115,7 +119,6 @@ const BookNew = () => {
   const createSession = async () => {
     setLoading(true)
     const id = cookies.user?.id;
-    const today = selectedDate.toISOString()
     const plan = plans[selectedPlan - 1]
     const { name, coin_price } = plan
     const start = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), selectedTime]
@@ -126,7 +129,7 @@ const BookNew = () => {
       payment: "coin balance",
       amount: coin_price * selectedDuration,
       type: name,
-      date: today.slice(0, 10),
+      date: moment(selectedDate).format('YYYY-MM-DD'),
       duration: `${selectedDuration} hours`,
       startTime: new Date(...start).toISOString(),
       endTime: new Date(...end).toISOString(),

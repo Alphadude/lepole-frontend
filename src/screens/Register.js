@@ -59,7 +59,11 @@ const Register = () => {
       phone: data.phone,
       confirmpassword: data.confirmpassword,
       options: {
+<<<<<<< HEAD
         // emailRedirectTo: `${window.origin}/login`,
+=======
+        // emailRedirectTo: `${window.location.origin}/login`,
+>>>>>>> 50970eb9a15a381913b6ca70ef61644a22912788
         data: {
           firstname: data.firstName,
           lastname: data.lastName,

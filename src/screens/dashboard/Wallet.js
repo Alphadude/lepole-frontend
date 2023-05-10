@@ -1,4 +1,4 @@
-import {React, useEffect} from 'react';
+import { React, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 import { routes } from '../../router/routes'
 import { createColumnHelper } from '@tanstack/react-table';
@@ -17,21 +17,35 @@ import {
   useProfile,
   useUpcomingSessions,
 } from '../../helpers/hooks/queries/useSessions';
+import styled from 'styled-components';
+import { H4, P } from '../../components/Headings';
 
-const transactionsData= {
+const transactionsData = {
   amount: 10,
   created_at: "2023-04-24T09:34:44.340515+00:00",
-  description:"Session Booking",
+  description: "Session Booking",
   id: 19,
   status: "coin balance",
   user_id: "a9767173-2dda-40d5-9ad1-4e6350763151",
 }
+
+const howList = [
+  'Use your credits on peak, off-peak or super off-peak',
+  'Buy, cancel and manage credits in-app anytime'
+]
+
+const ToolTip = styled.div`
+  position: relative;
+
+`
 
 
 const Wallet = ({
   loading = false,
   rows = transactionHistory,
 }) => {
+
+  const [hoveredToolTip, setHoveredToolTip] = useState(false)
 
   const { data: sessions } = useUpcomingSessions();
 
@@ -77,7 +91,7 @@ const Wallet = ({
     }),
 
     columnHelper.accessor((row) => row.role, {
-      id: 'DATE',
+      id: 'PAYMENT DATE',
       cell: (info) => (
         <span className="text-priBlack text-sm ">
           {moment(info.row.original.created_at).format('D MMMM, YYYY, h:mm:ss A')}
@@ -102,15 +116,15 @@ const Wallet = ({
     const { error } = await stripe.checkout.sessions.create({
       lineItems: [
         {
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: 'coin purchase',
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: 'coin purchase',
+            },
+            unit_amount: 500,
           },
-          unit_amount: 500,
+          quantity: 1,
         },
-        quantity: 1,
-      },
       ],
       mode: 'payment',
       successUrl: `http://localhost:3000/${routes.dashboard_home}/${routes.wallet}`,
@@ -144,9 +158,8 @@ const Wallet = ({
 
   //      res.redirect(303, session.url);
   //     })
-      
-  // }
 
+  // }
 
 
 
@@ -157,7 +170,20 @@ const Wallet = ({
         <p className="mt-2 text-base font-montserrat font-normal text-renaissance-black dark:text-primary-white">
           How coins work
         </p>
-        <IconInfo className="h-8" />
+        <div onMouseOver={(e) => (e.stopPropagation(), setHoveredToolTip(true))} onMouseLeave={() => setHoveredToolTip(false)} className='relative'>
+          <IconInfo className="h-8" />
+
+          <div className={` ${hoveredToolTip ? 'block' : 'hidden'} absolute p-5 z-10 w-80 rounded-xl bg-white dark:bg-table-border-gray drop-shadow-3xl `}>
+            <H4 className='mb-2'>HOW CREDITS WORK</H4>
+            <div>
+              {howList.map(item => (
+                <P key={item} className=''>  <span className={`inline-flex w-2 h-2 mr-2 bg-black rounded-full `} />
+                  {item}
+                </P>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className='mt-6 space-x-2'>
@@ -179,7 +205,7 @@ const Wallet = ({
 
       <section className='grid grid-cols-1 lg:grid-cols-3 gap-x-10 gap-y-8 mt-6 mb-12'>
         {bundle.map((item) => (
-          <WalletCard key={item.id} item={item} lastItem={lastItem} onClick={handleCheckout}/>
+          <WalletCard key={item.id} item={item} lastItem={lastItem} onClick={handleCheckout} />
         ))}
       </section>
 
@@ -202,30 +228,30 @@ const Wallet = ({
 
             {transactions?.data?.length !== 0 && (
               <Link to={`/${routes.dashboard_home}/${routes.wallet}/${routes.transaction}`}>
-              <p className="mt-2 text-sm font-normal text-renaissance-black underline hover:no-underline  dark:text-primary-white">
-                View all transaction
-              </p>
-            </Link>
+                <p className="mt-2 text-sm font-normal text-renaissance-black underline hover:no-underline  dark:text-primary-white">
+                  View all transaction
+                </p>
+              </Link>
             )}
 
-            
+
 
           </div>
 
           <div className='text-xs mt-6 font-normal overflow-auto'>
 
             {transactions?.data?.length === 0 ? (
-            <div className="flex flex-col items-center py-10 text-base font-semibold text-renaissance-black dark:text-primary-white">
-              <SingleCoin className="h-20" />
-            You do not have any transaction yet.
-          </div>
-          ) : (
-            <Tables
-              columns={columns}
-              data={transactions?.data?.slice(0, 4) || []}
-            />
-          )}
-            
+              <div className="flex flex-col items-center py-10 text-base font-semibold text-renaissance-black dark:text-primary-white">
+                <SingleCoin className="h-20" />
+                You do not have any transaction yet.
+              </div>
+            ) : (
+              <Tables
+                columns={columns}
+                data={transactions?.data?.slice(0, 4) || []}
+              />
+            )}
+
           </div>
         </div>
 

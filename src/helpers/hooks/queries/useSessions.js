@@ -26,7 +26,7 @@ export const useSessionsHistory = () => {
     return supabase
       .from("session")
       .select("*")
-      .eq("user_id", "c753c13c-4218-4e44-9420-7c90be48cf0d")
+      .eq("user_id", id,)
       .lte("endTime", dateString);
   });
   return query;
@@ -51,15 +51,15 @@ export const useActiveSessions = () => {
 export const useUpcomingSessions = () => {
   const [cookies] = useCookies(['user']);
   const id = cookies.user?.id;
-  const date = new Date(Date.now());
-  const dateString = date.toISOString().substring(0, 10);
+  const date = new Date();
+  const dateString = date.toISOString();
 
   const query = useQuery(['upcoming-sessions', id], () => {
     return supabase
       .from("session")
       .select("*")
       .eq("user_id", id)
-      .gte("date", dateString);
+      .gte("startTime", dateString);
   })
   return query
 }
