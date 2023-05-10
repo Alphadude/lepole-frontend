@@ -66,7 +66,7 @@ const Transactions = ({
     <section className='p-6 md:p-8 lg:px-6 xl:px-12'>
 
       <h2 className="mt-6 text-xl font-droid font-bold text-renaissance-black dark:text-primary-white">
-       All Transactions
+        All Transactions
       </h2>
 
       <p className="mt-2 text-base font-montserrat font-normal text-renaissance-black dark:text-primary-white">
@@ -85,7 +85,7 @@ const Transactions = ({
         </div>
       ) : (
         <div className='mt-8'>
-          <div className='flex justify-end space-x-8'>
+          {/* <div className='flex justify-end space-x-8'>
             <div className='flex p-2 space-x-2 rounded-md bg-filter-bg dark:bg-dark-white'>
                 <Filter className="h-8" />
 
@@ -102,22 +102,22 @@ const Transactions = ({
                 </p>
             </div>
             
-          </div>
+          </div> */}
           <div className='text-xs mt-6 font-normal overflow-auto'>
-           {transactions?.data?.length === 0 ? (
-            <div className="flex flex-col items-center py-10 text-base font-semibold text-renaissance-black dark:text-primary-white">
-              <SingleCoin className="h-20" />
-            You do not have any transaction yet.
+            {transactions?.data?.length === 0 ? (
+              <div className="flex flex-col items-center py-10 text-base font-semibold text-renaissance-black dark:text-primary-white">
+                <SingleCoin className="h-20" />
+                You do not have any transaction yet.
+              </div>
+            ) : (
+              <Tables
+                columns={columns}
+                data={transactions?.data || []}
+              />
+            )}
           </div>
-          ) : (
-            <Tables
-              columns={columns}
-              data={transactions?.data || []}
-            />
-          )}
         </div>
-        </div>
-        
+
       )}
     </section>
   );
