@@ -176,11 +176,11 @@ const BookNew = () => {
         <section className="flex lg:flex-row flex-col items-center lg:items-start gap-y-20 lg:gap-y-0 justify-between ">
           <div className=" max-w-sm flex- text-center lg:text-left">
             <div>
-              <H3 className={`dark:`}>Select Date and Time</H3>
-              <P className="pt-2 pb-10">
-                In your local time GMT +8{' '}
-                <span className="text-renaissance-blue pl-2">Update </span>
-              </P>
+              <H3 className={`mb-10`}>Select Date and Time</H3>
+              {/* <P className="pt-2 pb-10">
+                In your local time GMT +8
+                <span className="text-renaissance-blue pl-2"> Update </span>
+              </P> */}
               <CalendarWidget
                 setDateValue={setSelectedDate}
                 dateValue={selectedDate}
@@ -212,11 +212,11 @@ const BookNew = () => {
 
           <div className='flex-1 '>
             <div className="  flex-1 max-w-max mx-auto ">
-              <H3>Pay-As-You-Go</H3>
-              <P className="pt-2 pb-10">
-                In your local time GMT +8{' '}
-                <span className="text-renaissance-blue pl-2">Update </span>
-              </P>
+              <H3 className={`mb-10`}>Pay-As-You-Go</H3>
+              {/* <P className="pt-2 pb-10">
+                In your local time GMT +8
+                <span className="text-renaissance-blue pl-2"> Update </span>
+              </P> */}
 
               <div className="space-y-6">
                 {plans.map((plan) => (
