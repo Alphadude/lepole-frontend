@@ -90,11 +90,11 @@ export const RescheduleModal = ({ toggleModal, selectedSession = initialDataSess
 
           <section className='flex flex-col lg:flex-row lg:gap-20 mt-12'>
             <div className=' lg:max-w-xs '>
-              <H3>Select Date and Time</H3>
-              <P className="pt-2 pb-10">
-                In your local time GMT +8{' '}
-                <span className="text-renaissance-blue pl-2">Update </span>
-              </P>
+              <H3 className={`mb-10`}>Select Date and Time</H3>
+              {/* <P className="pt-2 pb-10">
+                In your local time GMT +8
+                <span className="text-renaissance-blue pl-2"> Update </span>
+              </P> */}
 
               <CalendarWidget
                 setDateValue={setSelectedDate}

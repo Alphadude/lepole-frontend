@@ -17,7 +17,7 @@ import {
   useProfile,
   useUpcomingSessions,
 } from '../../helpers/hooks/queries/useSessions';
-import styled from 'styled-components';
+
 import { H4, P } from '../../components/Headings';
 
 const transactionsData = {
@@ -34,10 +34,6 @@ const howList = [
   'Buy, cancel and manage credits in-app anytime'
 ]
 
-const ToolTip = styled.div`
-  position: relative;
-
-`
 
 
 const Wallet = ({
@@ -170,14 +166,19 @@ const Wallet = ({
         <p className="mt-2 text-base font-montserrat font-normal text-renaissance-black dark:text-primary-white">
           How coins work
         </p>
-        <div onMouseOver={(e) => (e.stopPropagation(), setHoveredToolTip(true))} onMouseLeave={() => setHoveredToolTip(false)} className='relative'>
+        <div
+          onMouseOver={() => setHoveredToolTip(true)}
+          onMouseOut={() => setHoveredToolTip(false)}
+          onClick={() => setHoveredToolTip(prev => !prev)}
+          className='relative '
+        >
           <IconInfo className="h-8" />
 
-          <div className={` ${hoveredToolTip ? 'block' : 'hidden'} absolute p-5 z-10 w-80 rounded-xl bg-white dark:bg-table-border-gray drop-shadow-3xl `}>
-            <H4 className='mb-2'>HOW CREDITS WORK</H4>
+          <div className={` ${hoveredToolTip ? 'block' : 'hidden'} absolute sm:left-auto -left-16 p-5 z-10 w-60 sm:w-80 rounded-xl bg-white dark:bg-table-border-gray drop-shadow-3xl `}>
+            <H4 className='mb-2 '>HOW CREDITS WORK</H4>
             <div>
               {howList.map(item => (
-                <P key={item} className=''>  <span className={`inline-flex w-2 h-2 mr-2 bg-black rounded-full `} />
+                <P key={item} className=''>  <span className={`inline-flex w-2 h-2 mr-2 bg-renaissance-black dark:bg-renaissance-dark-black rounded-full `} />
                   {item}
                 </P>
               ))}
@@ -191,7 +192,11 @@ const Wallet = ({
           Coin Balance
         </span>
         <span className='text-5xl font-droid font-bold text-renaissance-black dark:text-primary-white'>
-          {user?.data?.user?.user_metadata?.wallet + ".0" || 0}
+          {
+            user?.data?.user?.user_metadata?.wallet
+              ? (user?.data?.user?.user_metadata?.wallet + ".0")
+              : '...'
+          }
         </span>
       </div>
 
