@@ -113,8 +113,13 @@ const BookNew = () => {
   }
 
   const createSession = async () => {
+    if (!cookies?.user?.id) {
+      toast('Please relogin to perform this action')
+      return
+    }
+
     setLoading(true)
-    const id = cookies.user?.id;
+    const { id, firstname, lastname } = cookies?.user;
     const plan = plans[selectedPlan - 1]
     const { name, coin_price } = plan
     const start = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), selectedTime]
@@ -122,6 +127,7 @@ const BookNew = () => {
 
     const submit = {
       user_id: id,
+      username: `${firstname} ${lastname}`,
       payment: "coin balance",
       amount: coin_price * selectedDuration,
       type: name,

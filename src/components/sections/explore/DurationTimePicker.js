@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 
 
 export const slotsCreator = (start, end) => {
-  return Array(end - start).fill(0).map((item, index) => ({
+  return [...Array(end - start)].map((item, index) => ({
     id: index,
     formattedTime: formatTime(start + index),
     start: start + index
