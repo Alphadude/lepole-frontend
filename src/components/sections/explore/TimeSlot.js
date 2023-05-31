@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { formatTime } from '../../../screens/dashboard/session/BookNew';
 
 const TimeSlot = ({ slot }) => {
   return (
@@ -16,11 +17,11 @@ const TimeSlot = ({ slot }) => {
         </h3>
 
         <span className="font-semibold block text-xs mt-1 mb-4 text-primary-gray ">
-          {slot?.time}
+          {`${formatTime(slot?.startTime)} -  ${formatTime(slot?.endTime)}`}
         </span>
 
         <span className="block md:mb-4 text-xs text-renaissance-black dark:text-primary-white font-medium">
-          {slot.fee}
+          {slot?.coin_price} coins/hr
         </span>
       </div>
 
