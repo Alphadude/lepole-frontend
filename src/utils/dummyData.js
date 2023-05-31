@@ -166,7 +166,7 @@ export const plans = [
     name: 'Evening',
     desc: 'The best value if you are someone that loves to have less people at the gym',
     startTime: 18,
-    endTime: 23,
+    endTime: 0,
     fiat_price: 15,
     coin_price: 2,
     // timeSlotsData: peakSlotsData
