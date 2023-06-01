@@ -26,8 +26,8 @@ export const useSessionsHistory = () => {
     return supabase
       .from("session")
       .select("*")
-      .eq("user_id", "c753c13c-4218-4e44-9420-7c90be48cf0d")
-      .lte("startTime", dateString);
+      .eq("user_id", id,)
+      .lte("endTime", dateString);
   });
   return query;
 };

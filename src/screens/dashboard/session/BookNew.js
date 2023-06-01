@@ -17,7 +17,7 @@ import ModalContainer from '../../../components/layouts/ModalContainer';
 import { RescheduleModal, SelectPaymentOption } from '../../../components/Modals';
 import { QueryClient, useQueryClient } from 'react-query';
 import { deductCoins } from '../../../helpers/functions/deductCoins';
-import StripeCheckoutComp from './StripeCheckout';
+import moment from 'moment';
 
 export const formatTime = (time) => {
   if (time === 0) {
@@ -113,9 +113,13 @@ const BookNew = () => {
   }
 
   const createSession = async () => {
+    if (!cookies?.user?.id) {
+      toast('Please relogin to perform this action')
+      return
+    }
+
     setLoading(true)
-    const id = cookies.user?.id;
-    const today = selectedDate.toISOString()
+    const { id, firstname, lastname } = cookies?.user;
     const plan = plans[selectedPlan - 1]
     const { name, coin_price } = plan
     const start = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), selectedTime]
@@ -123,10 +127,11 @@ const BookNew = () => {
 
     const submit = {
       user_id: id,
+      username: `${firstname} ${lastname}`,
       payment: "coin balance",
       amount: coin_price * selectedDuration,
       type: name,
-      date: today.slice(0, 10),
+      date: moment(selectedDate).format('YYYY-MM-DD'),
       duration: `${selectedDuration} hours`,
       startTime: new Date(...start).toISOString(),
       endTime: new Date(...end).toISOString(),
@@ -178,11 +183,11 @@ const BookNew = () => {
         <section className="flex lg:flex-row flex-col items-center lg:items-start gap-y-20 lg:gap-y-0 justify-between ">
           <div className=" max-w-sm flex- text-center lg:text-left">
             <div>
-              <H3 className={`dark:`}>Select Date and Time</H3>
-              <P className="pt-2 pb-10">
-                In your local time GMT +8{' '}
-                <span className="text-renaissance-blue pl-2">Update </span>
-              </P>
+              <H3 className={`mb-10`}>Select Date and Time</H3>
+              {/* <P className="pt-2 pb-10">
+                In your local time GMT +8
+                <span className="text-renaissance-blue pl-2"> Update </span>
+              </P> */}
               <CalendarWidget
                 setDateValue={setSelectedDate}
                 dateValue={selectedDate}
@@ -214,11 +219,11 @@ const BookNew = () => {
 
           <div className='flex-1 '>
             <div className="  flex-1 max-w-max mx-auto ">
-              <H3>Pay-As-You-Go</H3>
-              <P className="pt-2 pb-10">
-                In your local time GMT +8{' '}
-                <span className="text-renaissance-blue pl-2">Update </span>
-              </P>
+              <H3 className={`mb-10`}>Pay-As-You-Go</H3>
+              {/* <P className="pt-2 pb-10">
+                In your local time GMT +8
+                <span className="text-renaissance-blue pl-2"> Update </span>
+              </P> */}
 
               <div className="space-y-6">
                 {plans.map((plan) => (
@@ -259,9 +264,9 @@ const BookNew = () => {
 
         </section>
 
-        <section className='mt-40'>
+        {/* <section className='mt-40'>
           <StripeCheckoutComp />
-        </section>
+        </section> */}
       </div>
     </>
   );

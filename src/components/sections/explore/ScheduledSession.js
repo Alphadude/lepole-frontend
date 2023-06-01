@@ -37,7 +37,7 @@ const ScheduledSession = ({ session }) => {
         </div>
       </div>
 
-      <Link to={`/dashboard/${routes.session}`}>
+      <Link to={`/dashboard/${routes.session}/${routes.upcoming}`}>
         <div className="cursor-pointer">
           <img src={CaretRightWhite} alt="go to session" />
         </div>

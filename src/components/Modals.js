@@ -14,15 +14,16 @@ import { Banner, Button, Radio } from '@deposits/ui-kit-react';
 import { useProfile, useTotalCoins } from '../helpers/hooks/queries/useSessions';
 import { useQueryClient } from 'react-query';
 import { deductCoins } from '../helpers/functions/deductCoins';
+import moment from 'moment';
+
 
 
 
 export const RescheduleModal = ({ toggleModal, selectedSession = initialDataSessions, headerSubtitle, buttonText, label, placeholder }) => {
   const currentPlanId = plans.findIndex(item => (item.name === selectedSession.data.type)) + 1
 
-
   const [selectedTime, setSelectedTime] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date(selectedSession?.data?.startTime));
   const queryClient = useQueryClient()
 
 
@@ -41,13 +42,14 @@ export const RescheduleModal = ({ toggleModal, selectedSession = initialDataSess
     const end = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), time + acceptedDuration]
 
     const submit = {
-      date: selectedDate.toISOString().slice(0, 10),
+      date: moment(selectedDate).format('YYYY-MM-DD'),
       duration: `${acceptedDuration} hours`,
+      reschedule_amount: (acceptedDuration * coin_price) / 2,
       startTime: new Date(...start).toISOString(),
       endTime: new Date(...end).toISOString(),
     }
 
-    const res = await deductCoins((acceptedDuration * coin_price) / 2)
+    const res = await deductCoins(submit.reschedule_amount)
     if (!res) return
 
     queryClient.invalidateQueries('profile')
@@ -88,11 +90,11 @@ export const RescheduleModal = ({ toggleModal, selectedSession = initialDataSess
 
           <section className='flex flex-col lg:flex-row lg:gap-20 mt-12'>
             <div className=' lg:max-w-xs '>
-              <H3>Select Date and Time</H3>
-              <P className="pt-2 pb-10">
-                In your local time GMT +8{' '}
-                <span className="text-renaissance-blue pl-2">Update </span>
-              </P>
+              <H3 className={`mb-10`}>Select Date and Time</H3>
+              {/* <P className="pt-2 pb-10">
+                In your local time GMT +8
+                <span className="text-renaissance-blue pl-2"> Update </span>
+              </P> */}
 
               <CalendarWidget
                 setDateValue={setSelectedDate}

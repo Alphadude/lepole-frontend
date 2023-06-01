@@ -22,7 +22,7 @@ import { useGetNotifications } from '../../helpers/hooks/queries/useNotification
 
 import { Heading2 } from '../../components/Headings';
 import { DumbellOrange, CoinGreen, MoneyBlue } from '../../assets/icons';
-import { timeSlots } from '../../utils/dummyData';
+import { plans, timeSlots } from '../../utils/dummyData';
 
 const Explore = () => {
   const [cookies] = useCookies(['user']);
@@ -88,7 +88,7 @@ const Explore = () => {
           </Heading2>
 
           <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-4">
-            {timeSlots.map((slot) => (
+            {plans.map((slot) => (
               <TimeSlot key={slot.id} slot={slot} />
             ))}
           </div>
