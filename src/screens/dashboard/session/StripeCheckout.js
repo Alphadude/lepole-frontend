@@ -1,72 +1,11 @@
-// import { Button } from '@deposits/ui-kit-react'
-// import React from 'react'
-// import { loadStripe } from '@stripe/stripe-js';
-
-
-// const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
-// const stripeProvider = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
-
-// const item = {
-//   price: 'price_1N3bs4C5jMMbIlE86HWGadBM',
-//   quantity: 1
-// }
-
-// const options = {
-//   lineItems: [item],
-//   mode: 'payment',
-//   successUrl: `${window.location.origin}/dashboard/session`,
-//   cancelUrl: `${window.location.origin}/dashboard/session`,
-// };
-
-
-
-// const StripeCheckoutComp = () => {
-
-//   const goToCheckout = async () => {
-//     console.log('Redirecting to checkout...');
-//     if (!stripePromise) return
-
-//     const res = await stripePromise
-
-//     const { error } = await res.redirectToCheckout({
-//       ...options,
-//       lineItems: [
-
-//       ]
-
-//     })
-
-//     error && console.error(error);
-//   }
-
-//   return (
-//     <div>
-//       <section>
-//         {stripePromise &&
-//           <div>
-//             <button onClick={goToCheckout} className='border'>
-//               Checkout
-//             </button>
-//           </div>
-//         }
-//       </section>
-//     </div>
-//   )
-// }
-
-// export default StripeCheckoutComp
-
-
-
-
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
 import CheckoutForm from "./CheckoutForm";
-import { useCookies } from "react-cookie";
 import moment from "moment";
 import { H4 } from "../../../components/Headings";
+import Loader from "../../../components/Loader";
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -133,7 +72,7 @@ export default function StripeCheckoutComp({ sessionData, type }) {
     <div onClick={e => e.stopPropagation()} className="container max-w-3xl bg-white dark:bg-table-border-gray min-h-[500px] p-10 py-20 flex flex-col md:flex-row items-cente gap-5" >
       {!clientSecret ? (
         <div className=" mx-auto my-auto">
-          Loading...
+          <Loader loadingText="Initiating Stripe Payment" className="h-96 w-full" />
         </div>
       ) : (
         <>
