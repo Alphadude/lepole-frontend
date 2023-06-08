@@ -85,6 +85,7 @@ export const defaultSessionData = {
   id: "book-session",
   currency: 'gbp',
   metadata: {
+    payment_kind: 'book-session',
     user_id: '4f6881f1-74f0-4d14-97e3-793789345357',
     username: `Kainy Chike-Onyechi`,
     payment: "stripe",
@@ -98,28 +99,18 @@ export const defaultSessionData = {
 }
 
 
-const defaultCoinBuyData = {
-  id: "purchase-coins",
-  currency: 'gbp',
-  metadata: {
-    user_id: '4f6881f1-74f0-4d14-97e3-793789345357',
-    username: `Kainy Chike-Onyechi`,
-    payment: "stripe",
-    amount: 54,
-    coin_amount: 8,
-  }
-}
+
 
 export default function StripeCheckoutComp({ sessionData, type }) {
   const [clientSecret, setClientSecret] = useState("");
 
-  useMemo(() => {
+  useEffect(() => {
     // Create PaymentIntent as soon as the page loads
     fetch("https://student-complaint.onrender.com/create-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        id: type,
+        id: 'lepole session',
         currency: 'gbp',
         metadata: sessionData
       }),
@@ -153,13 +144,13 @@ export default function StripeCheckoutComp({ sessionData, type }) {
               <span className="capitalize "> {type?.replace('-', ' ')} </span>
             </p>
             <p className="text-4xl font-semibold "> £{(sessionData.amount / 100)?.toFixed(2)}  </p>
-            <p className=" text-primary-gra font-semibold"> {sessionData?.type ? `${sessionData?.type} - ${sessionData?.duration}` : ''}</p>
+            <p className=" text-primary-gra font-semibold"> {sessionData?.type ? `${sessionData?.type} - ${sessionData?.duration}` : `${sessionData?.coin_amount} coins`}</p>
           </section>
 
           <section className=" flex-[3] self-center">
             {clientSecret && (
               <Elements options={options} stripe={stripePromise}>
-                <CheckoutForm clientSecret={clientSecret} />
+                <CheckoutForm clientSecret={clientSecret} kind={sessionData?.payment_kind} />
               </Elements>
             )}
           </section>

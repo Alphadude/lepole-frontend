@@ -12,7 +12,8 @@ export const useSessions = () => {
       .from("session")
       .select("*")
       .eq("user_id", id)
-      .eq("date", dateString);
+      .eq("date", dateString)
+      .order("created_at", { ascending: false });
   });
   return query;
 };
@@ -27,7 +28,8 @@ export const useSessionsHistory = () => {
       .from("session")
       .select("*")
       .eq("user_id", id,)
-      .lte("endTime", dateString);
+      .lte("endTime", dateString)
+      .order("created_at", { ascending: false });
   });
   return query;
 };
@@ -41,7 +43,8 @@ export const useActiveSessions = () => {
     return supabase
       .rpc("get_active_sessions", {
         userid: id,
-      });
+      })
+      .order("created_at", { ascending: false });
 
   })
   return query
@@ -59,7 +62,8 @@ export const useUpcomingSessions = () => {
       .from("session")
       .select("*")
       .eq("user_id", id)
-      .gte("startTime", dateString);
+      .gte("startTime", dateString)
+      .order("created_at", { ascending: false });
   })
   return query
 }
@@ -70,9 +74,11 @@ export const useTotalSessions = () => {
   const id = cookies.user?.id;
 
   const query = useQuery(['sessions', id], () => {
-    return supabase.rpc('get_total_sessions', {
-      userid: id,
-    });
+    return supabase
+      .rpc('get_total_sessions', {
+        userid: id,
+      })
+      .order("created_at", { ascending: false });
   });
   return query;
 };
@@ -82,9 +88,11 @@ export const useTotalCoins = () => {
   const id = cookies.user?.id;
 
   const query = useQuery(['total-coins-spent', id], () => {
-    return supabase.rpc('get_total_coins_spent', {
-      userid: id,
-    });
+    return supabase
+      .rpc('get_total_coins_spent', {
+        userid: id,
+      })
+      .order("created_at", { ascending: false });
   });
   return query;
 };

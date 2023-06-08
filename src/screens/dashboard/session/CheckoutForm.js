@@ -7,7 +7,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { Button } from "@deposits/ui-kit-react";
 
-export default function CheckoutForm({ clientSecret }) {
+export default function CheckoutForm({ clientSecret, kind }) {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -61,7 +61,9 @@ export default function CheckoutForm({ clientSecret }) {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: `${window.location.origin}/dashboard/session/upcoming`,
+        return_url: kind === 'book-session'
+          ? `${window.location.origin}/dashboard/session/upcoming`
+          : `${window.location.origin}/dashboard/wallet`,
       },
     });
 
@@ -103,7 +105,7 @@ export default function CheckoutForm({ clientSecret }) {
         disabled={isLoading || !stripe || !elements}
       >
         <span id="button-text">
-          {isLoading ? 'Processingz...' : "Pay now"}
+          {isLoading ? 'Processing...' : "Pay now"}
         </span>
       </Button>
       {/* Show any error or success messages */}

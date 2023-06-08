@@ -1,7 +1,7 @@
 import React from 'react';
 import { H3, P } from '../../../components/Headings';
 import { BackArrow } from '../../../assets/icons';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { routes } from '../../../router/routes';
 import CalendarWidget from '../../../components/elements/CalendarWidget';
 import manStandDumbell from '../../../assets/images/man_stand_dumbell.png';
@@ -104,18 +104,23 @@ const BookNew = () => {
   const [selectedDuration, setSelectedDuration] = useState(0);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
+
+  const navigate = useNavigate()
   const [cookies] = useCookies(['user']);
   const { data: dataProfile } = useProfile();
   const queryClient = useQueryClient()
 
   const dataCoins = dataProfile?.data?.user?.user_metadata?.wallet
 
+
   const toggleSelectPaymentModal = () => {
     setModalOpen(prev => prev ? '' : 'select-payment')
   }
+
   const toggleStripePaymentModal = () => {
     setModalOpen(prev => prev !== 'stripe-payment' ? 'stripe-payment' : '')
   }
+
 
   const createSession = async (type) => {
     if (!cookies?.user?.id) {
@@ -133,6 +138,7 @@ const BookNew = () => {
     const submit = {
       user_id: id,
       username: `${firstname} ${lastname}`,
+
       payment: type === 'stripe-payment' ? "stripe" : "coin balance",
       amount: (type === 'stripe-payment' ? fiat_price * 100 : coin_price) * selectedDuration,
       type: name,
@@ -141,8 +147,9 @@ const BookNew = () => {
       startTime: new Date(...start).toISOString(),
       endTime: new Date(...end).toISOString(),
     }
+
     if (type === 'stripe-payment') {
-      setSessionData(submit)
+      setSessionData({ ...submit, payment_kind: 'book-session', })
       setLoading(false)
       toggleStripePaymentModal()
       return
@@ -161,12 +168,12 @@ const BookNew = () => {
     if (!error) {
       setSelectedPlan(0)
       toast.success('Created session Successfully')
+      navigate('/dashboard/session/upcoming')
       toggleSelectPaymentModal('')
     } else {
       toast.error('Failed to save session')
     }
   }
-
 
 
   return (
