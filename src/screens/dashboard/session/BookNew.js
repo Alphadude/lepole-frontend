@@ -18,6 +18,7 @@ import { RescheduleModal, SelectPaymentOption } from '../../../components/Modals
 import { QueryClient, useQueryClient } from 'react-query';
 import { deductCoins } from '../../../helpers/functions/deductCoins';
 import moment from 'moment';
+import StripeCheckoutComp, { defaultSessionData } from './StripeCheckout';
 
 export const formatTime = (time) => {
   if (time === 0) {
@@ -95,8 +96,9 @@ const PlanCard = ({
 
 const BookNew = () => {
   let { state } = useLocation();
-  const [modalOpen, setModalOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState('')
   const [loading, setLoading] = useState(false)
+  const [sessionData, setSessionData] = useState(defaultSessionData)
   const [selectedPlan, setSelectedPlan] = useState(state?.planId || 0);
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedDuration, setSelectedDuration] = useState(0);
@@ -108,11 +110,14 @@ const BookNew = () => {
 
   const dataCoins = dataProfile?.data?.user?.user_metadata?.wallet
 
-  const toggleModal = () => {
-    setModalOpen(prev => !prev)
+  const toggleSelectPaymentModal = () => {
+    setModalOpen(prev => prev ? '' : 'select-payment')
+  }
+  const toggleStripePaymentModal = () => {
+    setModalOpen(prev => prev !== 'stripe-payment' ? 'stripe-payment' : '')
   }
 
-  const createSession = async () => {
+  const createSession = async (type) => {
     if (!cookies?.user?.id) {
       toast('Please relogin to perform this action')
       return
@@ -121,21 +126,29 @@ const BookNew = () => {
     setLoading(true)
     const { id, firstname, lastname } = cookies?.user;
     const plan = plans[selectedPlan - 1]
-    const { name, coin_price } = plan
+    const { name, coin_price, fiat_price } = plan
     const start = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), selectedTime]
     const end = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), selectedTime + selectedDuration]
 
     const submit = {
       user_id: id,
       username: `${firstname} ${lastname}`,
-      payment: "coin balance",
-      amount: coin_price * selectedDuration,
+      payment: type === 'stripe-payment' ? "stripe" : "coin balance",
+      amount: (type === 'stripe-payment' ? fiat_price * 100 : coin_price) * selectedDuration,
       type: name,
       date: moment(selectedDate).format('YYYY-MM-DD'),
       duration: `${selectedDuration} hours`,
       startTime: new Date(...start).toISOString(),
       endTime: new Date(...end).toISOString(),
     }
+    if (type === 'stripe-payment') {
+      setSessionData(submit)
+      setLoading(false)
+      toggleStripePaymentModal()
+      return
+    }
+
+
 
     const res = await deductCoins(submit.amount)
     if (!res) return
@@ -148,7 +161,7 @@ const BookNew = () => {
     if (!error) {
       setSelectedPlan(0)
       toast.success('Created session Successfully')
-      toggleModal()
+      toggleSelectPaymentModal('')
     } else {
       toast.error('Failed to save session')
     }
@@ -156,12 +169,16 @@ const BookNew = () => {
 
 
 
-
   return (
     <>
-      {modalOpen && (
-        <ModalContainer modalOpen={modalOpen} toggleModal={toggleModal}>
-          <SelectPaymentOption toggleModal={toggleModal} fromWalletNext={createSession} loading={loading} />
+      {modalOpen === 'select-payment' && (
+        <ModalContainer modalOpen={modalOpen} toggleModal={toggleSelectPaymentModal}>
+          <SelectPaymentOption toggleModal={toggleSelectPaymentModal} next={createSession} loading={loading} />
+        </ModalContainer>
+      )}
+      {modalOpen === 'stripe-payment' && (
+        <ModalContainer modalOpen={modalOpen} toggleModal={toggleStripePaymentModal}>
+          <StripeCheckoutComp toggleModal={toggleStripePaymentModal} next={createSession} loading={loading} sessionData={sessionData} type={"book-session"} />
         </ModalContainer>
       )}
 
@@ -210,7 +227,7 @@ const BookNew = () => {
                   setSelectedTime={setSelectedTime}
                   selectedDuration={selectedDuration}
                   setSelectedDuration={setSelectedDuration}
-                  submitHandler={toggleModal}
+                  submitHandler={toggleSelectPaymentModal}
                   coinBalance={dataCoins}
                 />
               )}
@@ -254,7 +271,7 @@ const BookNew = () => {
                     setSelectedTime={setSelectedTime}
                     selectedDuration={selectedDuration}
                     setSelectedDuration={setSelectedDuration}
-                    submitHandler={toggleModal}
+                    submitHandler={toggleSelectPaymentModal}
                     coinBalance={dataCoins}
                   />
                 )}
@@ -264,9 +281,7 @@ const BookNew = () => {
 
         </section>
 
-        {/* <section className='mt-40'>
-          <StripeCheckoutComp />
-        </section> */}
+
       </div>
     </>
   );

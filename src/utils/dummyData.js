@@ -149,7 +149,6 @@ export const plans = [
     endTime: 12,
     fiat_price: 15,
     coin_price: 2,
-    // timeSlotsData: offPeakSlotsData
   },
   {
     id: 2,
@@ -159,7 +158,6 @@ export const plans = [
     endTime: 18,
     fiat_price: 15,
     coin_price: 2,
-    // timeSlotsData: midPeakSlotsData
   },
   {
     id: 3,
