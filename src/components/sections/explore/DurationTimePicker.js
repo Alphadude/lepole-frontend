@@ -23,7 +23,7 @@ const TimeCard = ({ content, id, selected, setSelected, disabled, ...props }) =>
   return (
     <button
       className={`
-        w-full lg:w-[84px] h-9 flex items-center justify-center border border-gray-4  font-semibold text-xs rounded-lg 
+        w-full lg:w-[84px] h-9 flex items-center justify-center border border-gray-4  font-semibold text-xs rounded-lg
         ${disabled && ' border-gray-4/30 text-renaissance-black/30 dark:text-renaissance-dark-black/30 '}
         ${selected === id && ' bg-primary-green/30 !text-primary-green !border-primary-green dark:!border-primary-dark-green dark:!text-primary-dark-green '}
         `}
