@@ -9,9 +9,10 @@ export const useTransactions = () => {
 
   const query = useQuery(['transactions', userId], () => {
     return supabase
-     .from("transactions")
-     .select("*")
-     .eq("user_id", userId);
+      .from("transactions")
+      .select("*")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false })
   });
 
   // console.log(query);
@@ -19,6 +20,6 @@ export const useTransactions = () => {
   // console.log(query?.data);
   // console.log(query?.data?.data);
   // console.log(query?.data?.data.length);
-  
+
   return query;
 };

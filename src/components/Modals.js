@@ -137,7 +137,7 @@ const paymentOptions = [
     title: 'Credit or Debit Card',
     desc: 'Use a credit card or debit card to initiate payment and get access to your booking session',
     recommended: false,
-    next: () => { toast.error('Option not available at the moment') }
+    next: () => { console.log('Redirecting to stripe payment') }
   },
   {
     id: 2,
@@ -149,9 +149,10 @@ const paymentOptions = [
 ]
 
 
-export const SelectPaymentOption = ({ toggleModal, fromWalletNext, loading }) => {
+export const SelectPaymentOption = ({ toggleModal, next, loading }) => {
   const [selected, setSelected] = useState(2)
-  paymentOptions[1].next = fromWalletNext
+  paymentOptions[0].next = () => next('stripe-payment')
+  paymentOptions[1].next = () => next()
 
   return (
     <section onClick={(e) => e.stopPropagation()} className=' sm:w-[522px] bg-white dark:bg-table-border-gray pb-10 pt-5 mb-10 '>
@@ -199,3 +200,4 @@ export const SelectPaymentOption = ({ toggleModal, fromWalletNext, loading }) =>
     </section>
   )
 }
+
