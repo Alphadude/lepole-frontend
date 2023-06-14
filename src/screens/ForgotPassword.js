@@ -14,10 +14,6 @@ import { H1 } from '../components/Headings';
 const ForgotPassword = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-
-  // const navigate = useNavigate();
-
-
   const {
     register,
     handleSubmit,
