@@ -142,7 +142,7 @@ const paymentOptions = [
   {
     id: 2,
     title: 'Wallet Balance',
-    desc: 'Use a credit card or debit card to initiate payment and get access to your booking session',
+    desc: 'You get discount payment when you buy wallet bundles and make payment using your wallet balance.',
     recommended: true,
     next: () => { console.log('Trigger coin deduction') }
   },
