@@ -78,7 +78,6 @@ export const useTotalSessions = () => {
       .rpc('get_total_sessions', {
         userid: id,
       })
-      .order("created_at", { ascending: false });
   });
   return query;
 };
@@ -92,7 +91,6 @@ export const useTotalCoins = () => {
       .rpc('get_total_coins_spent', {
         userid: id,
       })
-      .order("created_at", { ascending: false });
   });
   return query;
 };

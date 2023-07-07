@@ -19,6 +19,7 @@ import { QueryClient, useQueryClient } from 'react-query';
 import { deductCoins } from '../../../helpers/functions/deductCoins';
 import moment from 'moment';
 import StripeCheckoutComp, { defaultSessionData } from './StripeCheckout';
+import { coinsBookSession } from '../../../assets/images';
 
 export const formatTime = (time) => {
   if (time === 0) {
@@ -32,6 +33,15 @@ export const formatTime = (time) => {
   }
 };
 
+
+const test = `
+  <p className="self-start pr-0.5 text-xs lg:text-base">£</p>
+          <p className="font-bold font-droid text-[32px] lg:text-xl text-renaissance-black dark:text-renaissance-dark-black">
+
+            {fiat_price}{' '}
+          </p>
+          /hr
+`
 
 
 const PlanCard = ({
@@ -50,7 +60,7 @@ const PlanCard = ({
   return (
     <div
       role="button"
-      className={` border border-gray-4 rounded-2xl min-h-36 w-full lg:h-[174px] lg:w-[446px] p-4 lg:p-6 gap-x-3 space-y-4 lg:space-y-8 text-renaissance-black dark:text-renaissance-dark-black  
+      className={`relative border border-gray-4 rounded-2xl min-h-36 w-full lg:h-[174px] lg:w-[446px] p-4 lg:p-6 gap-x-3 space-y-4 lg:space-y-6 overflow-hidden text-renaissance-black dark:text-renaissance-dark-black  
       ${selected === id && ' bg-primary-green/30'}`}
       onClick={() => {
         setSelectedTime(null)
@@ -58,24 +68,16 @@ const PlanCard = ({
         setSelected(id)
       }}
     >
-      <section className={`flex`}>
+
+      <section className={`flex `}>
         <div className="flex-1 space-y-1 lg:space-y-4">
           <h5 className="text-base lg:text-lg font-semibold"> {name} </h5>
-          <p className="text-primary-gray font-normal text-sm lg:text-sm text-ellipsis">
+          <p className="text-primary-gray font-normal text-sm lg:text-sm text-ellipsis w-2/3 md:w-3/4">
             {' '}
             {desc}{' '}
           </p>
         </div>
-        <div>
-          <p className="flex items-baseline text-primary-gray">
-            <span className="self-start pr-0.5 text-xs lg:text-base">£</span>
-            <span className="font-bold font-droid text-[32px] lg:text-5xl text-renaissance-black dark:text-renaissance-dark-black">
-              {' '}
-              {fiat_price}{' '}
-            </span>
-            /hour
-          </p>
-        </div>
+
       </section>
 
       <section className="flex items-baseline justify-between ">
@@ -88,7 +90,18 @@ const PlanCard = ({
           </p>
         </div>
 
-        <div className="font-semibold text-xs">{coin_price} coins/hr</div>
+        {/* <div className="font-semibold text-xs">{coin_price} coins/hr</div> */}
+      </section>
+
+      <section className='absolute md:-top-16 md:-right-8 -top-20 -right-10 w-40 h-40 rounded-full bg-[#F7F7F7] flex font-montserrat  '>
+        <div className="flex items-center mt-auto ml-9 mb-5 md:mb-9 text-xl font-medium text-center text-renaissance-black dark:text-renaissance-dark-black ">
+          <div>
+            <p > <span className=' text-gray-1'>£</span> {fiat_price}</p>
+            <hr className='border-[#8F9499]' />
+            <p className='text-2xl flex items-baseline'> <img src={coinsBookSession} alt="" /> <span>{coin_price}</span> </p>
+          </div>
+          <p className='text-[#8F9499] !font-normal pl-2'>/hr</p>
+        </div>
       </section>
     </div>
   );

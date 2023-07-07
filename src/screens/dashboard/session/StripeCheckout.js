@@ -76,7 +76,7 @@ export default function StripeCheckoutComp({ sessionData, type }) {
         </div>
       ) : (
         <>
-          <section className="flex-[2] text-renaissance-black dark:text-renaissance-dark-black ">
+          <section className="flex-[2] text-renaissance-black dark:text-renaissance-dark-black md:text-left text-center ">
             <H4>Stripe Payment</H4>
             <p className=" text-primary-gray dark:text-gray-3 font-normal mt-8 mb-">
               {/* Type: */}
