@@ -6,6 +6,7 @@ import CheckoutForm from "./CheckoutForm";
 import moment from "moment";
 import { H4 } from "../../../components/Headings";
 import Loader from "../../../components/Loader";
+import { supabase } from "../../../utils/supabaseConfig";
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -43,21 +44,32 @@ export const defaultSessionData = {
 export default function StripeCheckoutComp({ sessionData, type }) {
   const [clientSecret, setClientSecret] = useState("");
 
-  useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
-    fetch("https://student-complaint.onrender.com/create-intent", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+  const getIntent = async () => {
+    const { data, error } = await supabase.functions.invoke('get-payment-intent', {
       body: JSON.stringify({
-        id: 'lepole session',
-        currency: 'gbp',
         metadata: sessionData
       }),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        setClientSecret(data.client_secret)
-      });
+    setClientSecret(data?.client_secret)
+    console.error(error)
+
+    // fetch("https://student-complaint.onrender.com/create-intent", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({
+    //     id: 'lepole session',
+    //     currency: 'gbp',
+    //     metadata: sessionData
+    //   }),
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //   });
+
+  }
+
+  useEffect(() => {
+    getIntent();
   }, []);
 
   const appearance = {

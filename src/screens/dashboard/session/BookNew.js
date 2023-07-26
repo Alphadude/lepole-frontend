@@ -34,15 +34,6 @@ export const formatTime = (time) => {
 };
 
 
-const test = `
-  <p className="self-start pr-0.5 text-xs lg:text-base">£</p>
-          <p className="font-bold font-droid text-[32px] lg:text-xl text-renaissance-black dark:text-renaissance-dark-black">
-
-            {fiat_price}{' '}
-          </p>
-          /hr
-`
-
 
 const PlanCard = ({
   id,
@@ -68,7 +59,6 @@ const PlanCard = ({
         setSelected(id)
       }}
     >
-
       <section className={`flex `}>
         <div className="flex-1 space-y-1 lg:space-y-4">
           <h5 className="text-base lg:text-lg font-semibold"> {name} </h5>
@@ -94,7 +84,7 @@ const PlanCard = ({
       </section>
 
       <section className='absolute md:-top-16 md:-right-8 -top-20 -right-10 w-40 h-40 rounded-full bg-[#F7F7F7] flex font-montserrat  '>
-        <div className="flex items-center mt-auto ml-9 mb-5 md:mb-9 text-xl font-medium text-center text-renaissance-black dark:text-renaissance-dark-black ">
+        <div className="flex items-center mt-auto ml-9 mb-5 md:mb-9 text-xl font-medium text-center text-renaissance-black ">
           <div>
             <p > <span className=' text-gray-1'>£</span> {fiat_price}</p>
             <hr className='border-[#8F9499]' />

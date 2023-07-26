@@ -8,7 +8,7 @@ const ModalContainer = ({ children, modalOpen, toggleModal, scrollable, zIndex, 
 
       {...props}
     >
-      <div onClick={toggleModal} className={`w-full px-2 items-center  flex-1 overflow-y-auto border-red-500 flex flex-col ${!scrollable && 'justify-center'} `}>
+      <div onClick={toggleModal} className={`w-full px-2 items-center  flex-1 overflow-y-auto border-red-500 flex flex-col justify- ${!scrollable && 'justify-center'} `}>
         {children}
 
         <div onClick={e => e.stopPropagation()} className='p-6 flex flex-col justify-center text-center '>
