@@ -189,6 +189,7 @@ export const SelectPaymentOption = ({ toggleModal, next, loading }) => {
         <Button
           className={`!w-full !border-0 px-0 lg:!px-8 !text-primary-white !bg-primary-green `}
           size="xlarge"
+          disabled={loading}
           onClick={paymentOptions[selected - 1]?.next}
         >
           {loading ? 'Processing...'

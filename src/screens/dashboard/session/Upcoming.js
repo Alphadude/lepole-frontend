@@ -86,13 +86,35 @@ const Upcoming = ({
     }),
 
     columnHelper.accessor((row) => 'Date', {
-      id: 'Date ',
+      id: 'Date',
       cell: (info) => {
         const { date, time } = info.row.original;
 
         return (
           <div className="text-sm">
             <span className=" text-sm text-priBlack">{moment(date).format('Do MMMM, YYYY')}</span>
+          </div>
+        );
+      },
+    }),
+
+    columnHelper.accessor((row) => 'Code', {
+      id: 'Access Code',
+      cell: (info) => {
+        const value = info.row.original;
+
+        return (
+          <div className="text-sm">
+            {value?.passcode
+              || <>
+                Unavailable
+                [<a href={`mailto:contact@lepoleltd.com?subject=Lepole%20Booking%20App%20Access%20Code%20Request`}
+                  target='_blank' rel='noreferrer' className=" text-sm text-primary-blue"
+                >
+                  contact support
+                </a>]
+              </>
+            }
           </div>
         );
       },
