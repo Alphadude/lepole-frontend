@@ -124,7 +124,6 @@ const BookNew = () => {
     setModalOpen(prev => prev !== 'stripe-payment' ? 'stripe-payment' : '')
   }
 
-
   const createSession = async (type) => {
     if (!cookies?.user?.id) {
       toast('Please relogin to perform this action')
@@ -141,7 +140,6 @@ const BookNew = () => {
     const submit = {
       user_id: id,
       username: `${firstname} ${lastname}`,
-
       payment: type === 'stripe-payment' ? "stripe" : "coin balance",
       amount: (type === 'stripe-payment' ? fiat_price * 100 : coin_price) * selectedDuration,
       type: name,
@@ -158,15 +156,19 @@ const BookNew = () => {
       return
     }
 
-
-
-    const res = await deductCoins(submit.amount)
-    if (!res) return
-
-    queryClient.invalidateQueries('profile')
-    const { data, error } = await supabase.from("session").insert([submit]);
-    console.log({ data, error });
+    const { data, error } = await supabase.functions.invoke('book-session', {
+      body: JSON.stringify({
+        session: { ...submit, email: cookies?.user?.email }
+      }),
+    })
     setLoading(false)
+
+    // const res = await deductCoins(submit.amount)
+    // if (!res) return
+
+    // queryClient.invalidateQueries('profile')
+    // const { data, error } = await supabase.from("session").insert([submit]);
+    // console.log({ data, error });
 
     if (!error) {
       setSelectedPlan(0)
