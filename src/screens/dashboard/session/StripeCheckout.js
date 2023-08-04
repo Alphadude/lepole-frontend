@@ -7,6 +7,8 @@ import moment from "moment";
 import { H4 } from "../../../components/Headings";
 import Loader from "../../../components/Loader";
 import { supabase } from "../../../utils/supabaseConfig";
+import { toast } from "react-toastify";
+import { FunctionsFetchError, FunctionsHttpError, FunctionsRelayError } from "@supabase/supabase-js";
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -41,30 +43,39 @@ export const defaultSessionData = {
 
 
 
-export default function StripeCheckoutComp({ sessionData, type }) {
+export default function StripeCheckoutComp({ sessionData, type, toggleModal }) {
   const [clientSecret, setClientSecret] = useState("");
 
   const getIntent = async () => {
-    const { data, error } = await supabase.functions.invoke('get-payment-intent', {
+    const { data, error,  } = await supabase.functions.invoke('get-payment-intent', {
       body: JSON.stringify({
         metadata: sessionData
       }),
     })
-    setClientSecret(data?.client_secret)
-    console.error(error)
 
-    // fetch("https://student-complaint.onrender.com/create-intent", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify({
-    //     id: 'lepole session',
-    //     currency: 'gbp',
-    //     metadata: sessionData
-    //   }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //   });
+    if(!error){
+      setClientSecret(data?.client_secret)
+    } else {
+      if (error instanceof FunctionsHttpError) {
+        const errorMessage = await error.context.json()
+
+        toast.error(errorMessage.message);
+        console.log('Function returned an error', errorMessage)
+
+        toggleModal()
+
+      } else if (error instanceof FunctionsRelayError) {
+        console.log('Relay error:', error.message)
+        toast.error(error.message)
+
+        toggleModal()
+      } else if (error instanceof FunctionsFetchError) {
+        console.log('Fetch error:', error.message)
+        toast.error(error.message)
+
+        toggleModal()
+      }
+    }
 
   }
 

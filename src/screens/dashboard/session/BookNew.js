@@ -20,6 +20,7 @@ import { deductCoins } from '../../../helpers/functions/deductCoins';
 import moment from 'moment';
 import StripeCheckoutComp, { defaultSessionData } from './StripeCheckout';
 import { coinsBookSession } from '../../../assets/images';
+import { FunctionsFetchError, FunctionsHttpError, FunctionsRelayError } from '@supabase/supabase-js';
 
 export const formatTime = (time) => {
   if (time === 0) {
@@ -124,6 +125,10 @@ const BookNew = () => {
     setModalOpen(prev => prev !== 'stripe-payment' ? 'stripe-payment' : '')
   }
 
+  const closeStripeModal = () => {
+    setModalOpen(false)
+  }
+
   const createSession = async (type) => {
     if (!cookies?.user?.id) {
       toast('Please relogin to perform this action')
@@ -176,7 +181,25 @@ const BookNew = () => {
       navigate('/dashboard/session/upcoming')
       toggleSelectPaymentModal('')
     } else {
-      toast.error('Failed to save session')
+       if (error instanceof FunctionsHttpError) {
+        const errorMessage = await error.context.json()
+
+        toast.error(errorMessage?.message);
+        console.log('Function returned an error', errorMessage)
+
+        toggleSelectPaymentModal('')
+
+      } else if (error instanceof FunctionsRelayError) {
+        console.log('Relay error:', error.message)
+        toast.error(error.message)
+
+        toggleSelectPaymentModal('')
+      } else if (error instanceof FunctionsFetchError) {
+        console.log('Fetch error:', error.message)
+        toast.error(error.message)
+
+        toggleSelectPaymentModal('')
+      }
     }
   }
 
@@ -190,7 +213,7 @@ const BookNew = () => {
       )}
       {modalOpen === 'stripe-payment' && (
         <ModalContainer modalOpen={modalOpen} toggleModal={toggleStripePaymentModal}>
-          <StripeCheckoutComp toggleModal={toggleStripePaymentModal} next={createSession} loading={loading} sessionData={sessionData} type={"book-session"} />
+          <StripeCheckoutComp toggleModal={closeStripeModal} next={createSession} loading={loading} sessionData={sessionData} type={"book-session"} />
         </ModalContainer>
       )}
 
