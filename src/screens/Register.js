@@ -38,12 +38,12 @@ const Register = () => {
     eightCharsOrGreater: watchPassword.match(eightCharsOrMore),
   };
 
-
   const PasswordChecker = ({ text, checker }) => {
     return (
       <span
-        className={`${checker ? ' text-gray-2/50 line-through' : 'text-gray-2 '
-          } block text-xs`}
+        className={`${
+          checker ? ' text-gray-2/50 line-through' : 'text-gray-2 '
+        } block text-xs`}
       >
         {text}
       </span>
@@ -59,13 +59,13 @@ const Register = () => {
       phone: data.phone,
       confirmpassword: data.confirmpassword,
       options: {
-        // emailRedirectTo: `${window.location.origin}/login`,
+        emailRedirectTo: 'https://le-pole-frontend.vercel.app/dashboard/login',
         data: {
           firstname: data.firstName,
           lastname: data.lastName,
           phone: data.phone,
           wallet: 100,
-          role: "user"
+          role: 'super-admin',
         },
       },
     });
@@ -186,7 +186,7 @@ const Register = () => {
                 required: true,
                 minLength: 8,
                 pattern:
-                  /^(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/,
+                  /^(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?{}^_+()])[A-Za-z\d#$@!%&*?{}^_+()]{8,30}$/,
               })}
             />
             {errors.password && (
