@@ -25,17 +25,3 @@ export const useReadNotifications = () => {
 
   return response;
 };
-
-// export const readNotifications = async ({ id }) => {
-//   try {
-//     const response = await supabase
-//       .from('notifications')
-//       .update({ isRead: true })
-//       .select()
-//       .eq('id', id);
-
-//     return response;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };

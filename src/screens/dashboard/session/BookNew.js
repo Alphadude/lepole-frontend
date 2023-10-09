@@ -14,13 +14,20 @@ import { useProfile } from '../../../helpers/hooks/queries/useSessions';
 import { supabase } from '../../../utils/supabaseConfig';
 import { toast } from 'react-toastify';
 import ModalContainer from '../../../components/layouts/ModalContainer';
-import { RescheduleModal, SelectPaymentOption } from '../../../components/Modals';
+import {
+  RescheduleModal,
+  SelectPaymentOption,
+} from '../../../components/Modals';
 import { QueryClient, useQueryClient } from 'react-query';
 import { deductCoins } from '../../../helpers/functions/deductCoins';
 import moment from 'moment';
 import StripeCheckoutComp, { defaultSessionData } from './StripeCheckout';
 import { coinsBookSession } from '../../../assets/images';
-import { FunctionsFetchError, FunctionsHttpError, FunctionsRelayError } from '@supabase/supabase-js';
+import {
+  FunctionsFetchError,
+  FunctionsHttpError,
+  FunctionsRelayError,
+} from '@supabase/supabase-js';
 
 export const formatTime = (time) => {
   if (time === 0) {
@@ -34,8 +41,6 @@ export const formatTime = (time) => {
   }
 };
 
-
-
 const PlanCard = ({
   id,
   name,
@@ -47,7 +52,7 @@ const PlanCard = ({
   selected,
   setSelected,
   setSelectedTime,
-  setSelectedDuration
+  setSelectedDuration,
 }) => {
   return (
     <div
@@ -55,9 +60,9 @@ const PlanCard = ({
       className={`relative border border-gray-4 rounded-2xl min-h-36 w-full lg:h-[174px] lg:w-[446px] p-4 lg:p-6 gap-x-3 space-y-4 lg:space-y-6 overflow-hidden text-renaissance-black dark:text-renaissance-dark-black  
       ${selected === id && ' bg-primary-green/30'}`}
       onClick={() => {
-        setSelectedTime(null)
-        setSelectedDuration(0)
-        setSelected(id)
+        setSelectedTime(null);
+        setSelectedDuration(0);
+        setSelected(id);
       }}
     >
       <section className={`flex `}>
@@ -68,7 +73,6 @@ const PlanCard = ({
             {desc}{' '}
           </p>
         </div>
-
       </section>
 
       <section className="flex items-baseline justify-between ">
@@ -84,14 +88,20 @@ const PlanCard = ({
         {/* <div className="font-semibold text-xs">{coin_price} coins/hr</div> */}
       </section>
 
-      <section className='absolute md:-top-16 md:-right-8 -top-20 -right-10 w-40 h-40 rounded-full bg-[#F7F7F7] flex font-montserrat  '>
+      <section className="absolute md:-top-16 md:-right-8 -top-20 -right-10 w-40 h-40 rounded-full bg-[#F7F7F7] flex font-montserrat  ">
         <div className="flex items-center mt-auto ml-9 mb-5 md:mb-9 text-xl font-medium text-center text-renaissance-black ">
           <div>
-            <p > <span className=' text-gray-1'>£</span> {fiat_price}</p>
-            <hr className='border-[#8F9499]' />
-            <p className='text-2xl flex items-baseline'> <img src={coinsBookSession} alt="" /> <span>{coin_price}</span> </p>
+            <p>
+              {' '}
+              <span className=" text-gray-1">£</span> {fiat_price}
+            </p>
+            <hr className="border-[#8F9499]" />
+            <p className="text-2xl flex items-baseline">
+              {' '}
+              <img src={coinsBookSession} alt="" /> <span>{coin_price}</span>{' '}
+            </p>
           </div>
-          <p className='text-[#8F9499] !font-normal pl-2'>/hr</p>
+          <p className="text-[#8F9499] !font-normal pl-2">/hr</p>
         </div>
       </section>
     </div>
@@ -100,73 +110,83 @@ const PlanCard = ({
 
 const BookNew = () => {
   let { state } = useLocation();
-  const [modalOpen, setModalOpen] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [sessionData, setSessionData] = useState(defaultSessionData)
+  const [modalOpen, setModalOpen] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [sessionData, setSessionData] = useState(defaultSessionData);
   const [selectedPlan, setSelectedPlan] = useState(state?.planId || 0);
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedDuration, setSelectedDuration] = useState(0);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [cookies] = useCookies(['user']);
   const { data: dataProfile } = useProfile();
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
-  const dataCoins = dataProfile?.data?.user?.user_metadata?.wallet
-
+  const dataCoins = dataProfile?.data?.user?.user_metadata?.wallet;
 
   const toggleSelectPaymentModal = () => {
-    setModalOpen(prev => prev ? '' : 'select-payment')
-  }
+    setModalOpen((prev) => (prev ? '' : 'select-payment'));
+  };
 
   const toggleStripePaymentModal = () => {
-    setModalOpen(prev => prev !== 'stripe-payment' ? 'stripe-payment' : '')
-  }
+    setModalOpen((prev) => (prev !== 'stripe-payment' ? 'stripe-payment' : ''));
+  };
 
   const closeStripeModal = () => {
-    setModalOpen(false)
-  }
+    setModalOpen(false);
+  };
 
   const createSession = async (type) => {
     if (!cookies?.user?.id) {
-      toast('Please relogin to perform this action')
-      return
+      toast('Please relogin to perform this action');
+      return;
     }
 
-    setLoading(true)
+    setLoading(true);
     const { id, firstname, lastname } = cookies?.user;
-    const plan = plans[selectedPlan - 1]
-    const { name, coin_price, fiat_price } = plan
-    const start = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), selectedTime]
-    const end = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), selectedTime + selectedDuration]
+    const plan = plans[selectedPlan - 1];
+    const { name, coin_price, fiat_price } = plan;
+    const start = [
+      selectedDate.getFullYear(),
+      selectedDate.getMonth(),
+      selectedDate.getDate(),
+      selectedTime,
+    ];
+    const end = [
+      selectedDate.getFullYear(),
+      selectedDate.getMonth(),
+      selectedDate.getDate(),
+      selectedTime + selectedDuration,
+    ];
 
     const submit = {
       user_id: id,
       username: `${firstname} ${lastname}`,
-      payment: type === 'stripe-payment' ? "stripe" : "coin balance",
-      amount: (type === 'stripe-payment' ? fiat_price * 100 : coin_price) * selectedDuration,
+      payment: type === 'stripe-payment' ? 'stripe' : 'coin balance',
+      amount:
+        (type === 'stripe-payment' ? fiat_price * 100 : coin_price) *
+        selectedDuration,
       type: name,
       date: moment(selectedDate).format('YYYY-MM-DD'),
       duration: `${selectedDuration} hours`,
       startTime: new Date(...start).toISOString(),
       endTime: new Date(...end).toISOString(),
-    }
+    };
 
     if (type === 'stripe-payment') {
-      setSessionData({ ...submit, payment_kind: 'book-session', })
-      setLoading(false)
-      toggleStripePaymentModal()
-      return
+      setSessionData({ ...submit, payment_kind: 'book-session' });
+      setLoading(false);
+      toggleStripePaymentModal();
+      return;
     }
 
     const { data, error } = await supabase.functions.invoke('book-session', {
       body: JSON.stringify({
-        session: { ...submit, email: cookies?.user?.email }
+        session: { ...submit, email: cookies?.user?.email },
       }),
-    })
-    setLoading(false)
+    });
+    setLoading(false);
 
     // const res = await deductCoins(submit.amount)
     // if (!res) return
@@ -176,44 +196,55 @@ const BookNew = () => {
     // console.log({ data, error });
 
     if (!error) {
-      setSelectedPlan(0)
-      toast.success('Created session Successfully')
-      navigate('/dashboard/session/upcoming')
-      toggleSelectPaymentModal('')
+      setSelectedPlan(0);
+      toast.success('Created session Successfully');
+      navigate('/dashboard/session/upcoming');
+      toggleSelectPaymentModal('');
     } else {
-       if (error instanceof FunctionsHttpError) {
-        const errorMessage = await error.context.json()
+      if (error instanceof FunctionsHttpError) {
+        const errorMessage = await error.context.json();
 
         toast.error(errorMessage?.message);
-        console.log('Function returned an error', errorMessage)
 
-        toggleSelectPaymentModal('')
-
+        toggleSelectPaymentModal('');
       } else if (error instanceof FunctionsRelayError) {
-        console.log('Relay error:', error.message)
-        toast.error(error.message)
+        toast.error(error.message);
 
-        toggleSelectPaymentModal('')
+        toggleSelectPaymentModal('');
       } else if (error instanceof FunctionsFetchError) {
-        console.log('Fetch error:', error.message)
-        toast.error(error.message)
+        toast.error(error.message);
 
-        toggleSelectPaymentModal('')
+        toggleSelectPaymentModal('');
       }
     }
-  }
-
+  };
 
   return (
     <>
       {modalOpen === 'select-payment' && (
-        <ModalContainer modalOpen={modalOpen} toggleModal={toggleSelectPaymentModal}>
-          <SelectPaymentOption toggleModal={toggleSelectPaymentModal} next={createSession} loading={loading} />
+        <ModalContainer
+          modalOpen={modalOpen}
+          toggleModal={toggleSelectPaymentModal}
+        >
+          <SelectPaymentOption
+            toggleModal={toggleSelectPaymentModal}
+            next={createSession}
+            loading={loading}
+          />
         </ModalContainer>
       )}
       {modalOpen === 'stripe-payment' && (
-        <ModalContainer modalOpen={modalOpen} toggleModal={toggleStripePaymentModal}>
-          <StripeCheckoutComp toggleModal={closeStripeModal} next={createSession} loading={loading} sessionData={sessionData} type={"book-session"} />
+        <ModalContainer
+          modalOpen={modalOpen}
+          toggleModal={toggleStripePaymentModal}
+        >
+          <StripeCheckoutComp
+            toggleModal={closeStripeModal}
+            next={createSession}
+            loading={loading}
+            sessionData={sessionData}
+            type={'book-session'}
+          />
         </ModalContainer>
       )}
 
@@ -269,7 +300,7 @@ const BookNew = () => {
             </div>
           </div>
 
-          <div className='flex-1 '>
+          <div className="flex-1 ">
             <div className="  flex-1 max-w-max mx-auto ">
               <H3 className={`mb-10`}>Pay-As-You-Go</H3>
               {/* <P className="pt-2 pb-10">
@@ -313,10 +344,7 @@ const BookNew = () => {
               </div>
             </div>
           </div>
-
         </section>
-
-
       </div>
     </>
   );
