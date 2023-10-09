@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { Button } from '@deposits/ui-kit-react';
 import { useForm } from 'react-hook-form';
@@ -9,7 +9,6 @@ import { LePoleLogo, BackArrow } from '../assets/icons';
 import { supabase } from '../utils/supabaseConfig';
 import { toast } from 'react-toastify';
 import { H1 } from '../components/Headings';
-
 
 const ForgotPassword = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -22,26 +21,24 @@ const ForgotPassword = () => {
   } = useForm();
 
   const submitForgotPassword = handleSubmit(async (form) => {
-
-    const redirectLink = `${window.location.origin}/reset-password`
+    const redirectLink = `${window.location.origin}/reset-password`;
 
     setIsSubmitting(true);
     const { data } = await supabase.auth.resetPasswordForEmail(form.email, {
-      redirectTo: redirectLink
+      redirectTo: redirectLink,
     });
 
-    console.log(form.email);
-    console.log(data);
-
     if (!data || []) {
-      toast.success('Request sent. Check your mail for reset link. If not seen, check spam.');
+      toast.success(
+        'Request sent. Check your mail for reset link. If not seen, check spam.',
+      );
       setIsSubmitting(false);
       reset();
     } else if (data) {
       toast.error(data?.message);
       setIsSubmitting(false);
     }
-  })
+  });
 
   return (
     <div className="min-h-screen flex flex-col items-center lg:pb-8 bg-lepole-pattern bg-no-repeat bg-left-bottom bg-black/95 ">
@@ -59,7 +56,10 @@ const ForgotPassword = () => {
           Please enter your email address
         </p>
 
-        <form onSubmit={submitForgotPassword} className="mt-10 lg:mt-4 grid grid-cols-1  gap-6">
+        <form
+          onSubmit={submitForgotPassword}
+          className="mt-10 lg:mt-4 grid grid-cols-1  gap-6"
+        >
           <div>
             <label className="block capitalize text-xs mb-1">
               email address
@@ -87,7 +87,7 @@ const ForgotPassword = () => {
           </div>
         </form>
 
-        <Link to="/login" className='lg:hidden'>
+        <Link to="/login" className="lg:hidden">
           <div className="mt-6 cursor-pointer text-renaissance-black text-center text-[14px] font-[600]">
             Back to Login
           </div>

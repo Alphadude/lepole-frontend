@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { H1, H2, H5 } from '../../../components/Headings';
-import { TextField, Button } from '@deposits/ui-kit-react';
+import { Button } from '@deposits/ui-kit-react';
 import { useForm } from 'react-hook-form';
 import { useCookies } from 'react-cookie';
 import { supabase } from '../../../utils/supabaseConfig';
 import { toast } from 'react-toastify';
 
 const Settings = () => {
-
   const {
     register,
     handleSubmit,
@@ -35,7 +34,7 @@ const Settings = () => {
 
   const eightCharsOrMore = /.{8,}/g; // eight characters or more
   const atLeastOneUppercase = /[A-Z]/g; // capital letters from A to Z
-  const atLeastOneSpecialChar = /[#?!@$%^&*-]/g; // any of the special characters within the square brackets
+  const atLeastOneSpecialChar = /[#$@!-%&*?{}^_+()]/g; // any of the special characters within the square brackets
   const atLeastOneNumeric = /[0-9]/g; // numbers from 0 to 9
 
   const passwordTracker = {
@@ -60,13 +59,9 @@ const Settings = () => {
   const updatePassword = handleSubmit(async (data) => {
     setIsSubmitting(true);
 
-    console.log(data.password);
-    
-   const res = await supabase.auth.updateUser({password: data.password});
+    const res = await supabase.auth.updateUser({ password: data.password });
 
-   console.log(res);
-
-   if (res?.data?.user !== null && res?.error === null) {
+    if (res?.data?.user !== null && res?.error === null) {
       toast.success('Password Update successful.');
 
       setIsSubmitting(false);
@@ -79,8 +74,7 @@ const Settings = () => {
 
       setIsSubmitting(false);
     }
-
- });
+  });
 
   return (
     <section className="p-6 lg:px-6 xl:px-12 lg:py-10">
@@ -90,7 +84,8 @@ const Settings = () => {
 
       <div className="mb-[40px] flex items-center">
         <div className="w-[80px] h-[80px] text-3xl mr-2 rounded-full bg-avatarBg text-avatarText flex items-center justify-center ">
-          {firstname[0]}{lastname[0]}
+          {firstname[0]}
+          {lastname[0]}
         </div>
         <H2 className="dark:text-renaissance-dark-black lg:block font-bold text-lg lg:text-2xl text-renaissance-black">
           {firstname} {lastname}
@@ -139,9 +134,7 @@ const Settings = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-4">
-        
-      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-x-8 gap-y-4"></div>
 
       <hr className="my-8" />
 
@@ -150,23 +143,22 @@ const Settings = () => {
       </H1>
 
       <form onSubmit={updatePassword}>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-x-8 gap-y-4">
-            <div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-x-8 gap-y-4">
+          <div>
             <label className="dark:text-renaissance-dark-black lg:block font-medium lg:text-sm text-renaissance-black">
               New Password
             </label>
-            
 
-          <input
+            <input
               name="password"
               type="password"
               className="mt-2 text-base placeholder-[#B8C4CE] font-normal rounded w-[340px] h-[56px] px-2 py-2 border border-[#CED6DE] focus:outline-0 focus:border-primary"
               placeholder="Enter new password"
               {...register('password', {
                 required: true,
-                // minLength: 8,
-                // pattern: /^(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/,
+                minLength: 8,
+                pattern:
+                  /^(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?{}^_+()])[A-Za-z\d#$@!%&*?{}^_+()]{8,30}$/,
               })}
             />
 
@@ -194,7 +186,6 @@ const Settings = () => {
                 checker={passwordTracker.number}
               />
             </div>
-
           </div>
 
           <div>
@@ -202,7 +193,7 @@ const Settings = () => {
               Confirm Password
             </label>
 
-          <input
+            <input
               name="confirmpassword"
               type="password"
               className="mt-2 text-base placeholder-[#B8C4CE] font-normal rounded w-[340px] h-[56px] px-2 py-2 border border-[#CED6DE] focus:outline-0 focus:border-primary"
@@ -220,9 +211,8 @@ const Settings = () => {
                 Password must be a match
               </div>
             )}
-
           </div>
-          </div>
+        </div>
 
         <Button
           disabled={isSubmitting}
