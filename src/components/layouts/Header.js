@@ -93,8 +93,8 @@ const Header = () => {
         <div className="hidden lg:flex items-center cursor-pointer mr-8">
           <Link to={`/${routes.dashboard_home}/${routes.settings}`}>
             <div className="w-[40px] h-[40px] text-[12px] mr-2 rounded-full bg-blue-light text-avatar-headerText font-medium font-montserrat flex items-center justify-center ">
-              {firstname[0]}
-              {lastname[0]}
+              {firstname?.[0]}
+              {lastname?.[0]}
             </div>
           </Link>
 

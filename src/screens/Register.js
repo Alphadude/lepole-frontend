@@ -64,8 +64,8 @@ const Register = () => {
           firstname: data.firstName,
           lastname: data.lastName,
           phone: data.phone,
-          wallet: 100,
-          role: 'super-admin',
+          wallet: 0,
+          role: 'user',
         },
       },
     });

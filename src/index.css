@@ -7,8 +7,7 @@
     src: local('DroidSerif-Bold.ttf'), url('./fonts/DroidSerif-Bold.ttf') format('truetype');
 }
 
-html,
-* {
+html {
     font-size: 16px;
 }
 

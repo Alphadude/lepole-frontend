@@ -15,15 +15,15 @@ export const slotsCreator = (start, end) => {
   }))
 }
 
-export const intervalCreator = (start, end, startConstant) => {
-  return Array(end - ((end > start) ? start : startConstant)).fill(0).map((item, index) => index + 1)
+export const intervalCreator = (start, end) => {
+  return [...Array(end - start)].map((item, index) => index + 1)
 }
 
 const TimeCard = ({ content, id, selected, setSelected, disabled, ...props }) => {
   return (
     <button
       className={`
-        w-full lg:w-[84px] h-9 flex items-center justify-center border border-gray-4  font-semibold text-xs rounded-lg 
+        w-full lg:w-[84px] h-9 flex items-center justify-center border border-gray-4  font-semibold text-xs rounded-lg
         ${disabled && ' border-gray-4/30 text-renaissance-black/30 dark:text-renaissance-dark-black/30 '}
         ${selected === id && ' bg-primary-green/30 !text-primary-green !border-primary-green dark:!border-primary-dark-green dark:!text-primary-dark-green '}
         `}
@@ -86,7 +86,7 @@ const DurationTimePicker = ({
       {type !== 'reschedule' && typeof selectedTime === 'number' && <div className=''>
         <p className='mb-4 font-medium text-base text-center lg:text-left'> Choose Hours </p>
         <div className={`lg: grid  grid-cols-1 lg:grid-cols-4 gap-y-2 lg:gap-y-6 w-full `}>
-          {intervalCreator(selectedTime || startTime, endTime, startTime).map(duration => (
+          {intervalCreator(selectedTime || startTime, endTime).map(duration => (
             <TimeCard key={duration} id={duration} content={`${duration} Hours`} selected={selectedDuration} setSelected={setSelectedDuration} onClick={() => setSelectedDuration(duration)} />
           ))}
         </div>

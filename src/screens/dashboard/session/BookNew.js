@@ -1,7 +1,7 @@
 import React from 'react';
 import { H3, P } from '../../../components/Headings';
 import { BackArrow } from '../../../assets/icons';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { routes } from '../../../router/routes';
 import CalendarWidget from '../../../components/elements/CalendarWidget';
 import manStandDumbell from '../../../assets/images/man_stand_dumbell.png';
@@ -18,6 +18,9 @@ import { RescheduleModal, SelectPaymentOption } from '../../../components/Modals
 import { QueryClient, useQueryClient } from 'react-query';
 import { deductCoins } from '../../../helpers/functions/deductCoins';
 import moment from 'moment';
+import StripeCheckoutComp, { defaultSessionData } from './StripeCheckout';
+import { coinsBookSession } from '../../../assets/images';
+import { FunctionsFetchError, FunctionsHttpError, FunctionsRelayError } from '@supabase/supabase-js';
 
 export const formatTime = (time) => {
   if (time === 0) {
@@ -49,7 +52,7 @@ const PlanCard = ({
   return (
     <div
       role="button"
-      className={` border border-gray-4 rounded-2xl min-h-36 w-full lg:h-[174px] lg:w-[446px] p-4 lg:p-6 gap-x-3 space-y-4 lg:space-y-8 text-renaissance-black dark:text-renaissance-dark-black  
+      className={`relative border border-gray-4 rounded-2xl min-h-36 w-full lg:h-[174px] lg:w-[446px] p-4 lg:p-6 gap-x-3 space-y-4 lg:space-y-6 overflow-hidden text-renaissance-black dark:text-renaissance-dark-black  
       ${selected === id && ' bg-primary-green/30'}`}
       onClick={() => {
         setSelectedTime(null)
@@ -57,24 +60,15 @@ const PlanCard = ({
         setSelected(id)
       }}
     >
-      <section className={`flex`}>
+      <section className={`flex `}>
         <div className="flex-1 space-y-1 lg:space-y-4">
           <h5 className="text-base lg:text-lg font-semibold"> {name} </h5>
-          <p className="text-primary-gray font-normal text-sm lg:text-sm text-ellipsis">
+          <p className="text-primary-gray font-normal text-sm lg:text-sm text-ellipsis w-2/3 md:w-3/4">
             {' '}
             {desc}{' '}
           </p>
         </div>
-        <div>
-          <p className="flex items-baseline text-primary-gray">
-            <span className="self-start pr-0.5 text-xs lg:text-base">£</span>
-            <span className="font-bold font-droid text-[32px] lg:text-5xl text-renaissance-black dark:text-renaissance-dark-black">
-              {' '}
-              {fiat_price}{' '}
-            </span>
-            /hour
-          </p>
-        </div>
+
       </section>
 
       <section className="flex items-baseline justify-between ">
@@ -87,7 +81,18 @@ const PlanCard = ({
           </p>
         </div>
 
-        <div className="font-semibold text-xs">{coin_price} coins/hr</div>
+        {/* <div className="font-semibold text-xs">{coin_price} coins/hr</div> */}
+      </section>
+
+      <section className='absolute md:-top-16 md:-right-8 -top-20 -right-10 w-40 h-40 rounded-full bg-[#F7F7F7] flex font-montserrat  '>
+        <div className="flex items-center mt-auto ml-9 mb-5 md:mb-9 text-xl font-medium text-center text-renaissance-black ">
+          <div>
+            <p > <span className=' text-gray-1'>£</span> {fiat_price}</p>
+            <hr className='border-[#8F9499]' />
+            <p className='text-2xl flex items-baseline'> <img src={coinsBookSession} alt="" /> <span>{coin_price}</span> </p>
+          </div>
+          <p className='text-[#8F9499] !font-normal pl-2'>/hr</p>
+        </div>
       </section>
     </div>
   );
@@ -95,24 +100,36 @@ const PlanCard = ({
 
 const BookNew = () => {
   let { state } = useLocation();
-  const [modalOpen, setModalOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState('')
   const [loading, setLoading] = useState(false)
+  const [sessionData, setSessionData] = useState(defaultSessionData)
   const [selectedPlan, setSelectedPlan] = useState(state?.planId || 0);
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedDuration, setSelectedDuration] = useState(0);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
+
+  const navigate = useNavigate()
   const [cookies] = useCookies(['user']);
   const { data: dataProfile } = useProfile();
   const queryClient = useQueryClient()
 
   const dataCoins = dataProfile?.data?.user?.user_metadata?.wallet
 
-  const toggleModal = () => {
-    setModalOpen(prev => !prev)
+
+  const toggleSelectPaymentModal = () => {
+    setModalOpen(prev => prev ? '' : 'select-payment')
   }
 
-  const createSession = async () => {
+  const toggleStripePaymentModal = () => {
+    setModalOpen(prev => prev !== 'stripe-payment' ? 'stripe-payment' : '')
+  }
+
+  const closeStripeModal = () => {
+    setModalOpen(false)
+  }
+
+  const createSession = async (type) => {
     if (!cookies?.user?.id) {
       toast('Please relogin to perform this action')
       return
@@ -121,15 +138,15 @@ const BookNew = () => {
     setLoading(true)
     const { id, firstname, lastname } = cookies?.user;
     const plan = plans[selectedPlan - 1]
-    const { name, coin_price } = plan
+    const { name, coin_price, fiat_price } = plan
     const start = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), selectedTime]
     const end = [selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), selectedTime + selectedDuration]
 
     const submit = {
       user_id: id,
       username: `${firstname} ${lastname}`,
-      payment: "coin balance",
-      amount: coin_price * selectedDuration,
+      payment: type === 'stripe-payment' ? "stripe" : "coin balance",
+      amount: (type === 'stripe-payment' ? fiat_price * 100 : coin_price) * selectedDuration,
       type: name,
       date: moment(selectedDate).format('YYYY-MM-DD'),
       duration: `${selectedDuration} hours`,
@@ -137,31 +154,66 @@ const BookNew = () => {
       endTime: new Date(...end).toISOString(),
     }
 
-    const res = await deductCoins(submit.amount)
-    if (!res) return
+    if (type === 'stripe-payment') {
+      setSessionData({ ...submit, payment_kind: 'book-session', })
+      setLoading(false)
+      toggleStripePaymentModal()
+      return
+    }
 
-    queryClient.invalidateQueries('profile')
-    const { data, error } = await supabase.from("session").insert([submit]);
-    console.log({ data, error });
+    const { data, error } = await supabase.functions.invoke('book-session', {
+      body: JSON.stringify({
+        session: { ...submit, email: cookies?.user?.email }
+      }),
+    })
     setLoading(false)
+
+    // const res = await deductCoins(submit.amount)
+    // if (!res) return
+
+    // queryClient.invalidateQueries('profile')
+    // const { data, error } = await supabase.from("session").insert([submit]);
+    // console.log({ data, error });
 
     if (!error) {
       setSelectedPlan(0)
       toast.success('Created session Successfully')
-      toggleModal()
+      navigate('/dashboard/session/upcoming')
+      toggleSelectPaymentModal('')
     } else {
-      toast.error('Failed to save session')
+       if (error instanceof FunctionsHttpError) {
+        const errorMessage = await error.context.json()
+
+        toast.error(errorMessage?.message);
+        console.log('Function returned an error', errorMessage)
+
+        toggleSelectPaymentModal('')
+
+      } else if (error instanceof FunctionsRelayError) {
+        console.log('Relay error:', error.message)
+        toast.error(error.message)
+
+        toggleSelectPaymentModal('')
+      } else if (error instanceof FunctionsFetchError) {
+        console.log('Fetch error:', error.message)
+        toast.error(error.message)
+
+        toggleSelectPaymentModal('')
+      }
     }
   }
 
 
-
-
   return (
     <>
-      {modalOpen && (
-        <ModalContainer modalOpen={modalOpen} toggleModal={toggleModal}>
-          <SelectPaymentOption toggleModal={toggleModal} fromWalletNext={createSession} loading={loading} />
+      {modalOpen === 'select-payment' && (
+        <ModalContainer modalOpen={modalOpen} toggleModal={toggleSelectPaymentModal}>
+          <SelectPaymentOption toggleModal={toggleSelectPaymentModal} next={createSession} loading={loading} />
+        </ModalContainer>
+      )}
+      {modalOpen === 'stripe-payment' && (
+        <ModalContainer modalOpen={modalOpen} toggleModal={toggleStripePaymentModal}>
+          <StripeCheckoutComp toggleModal={closeStripeModal} next={createSession} loading={loading} sessionData={sessionData} type={"book-session"} />
         </ModalContainer>
       )}
 
@@ -210,7 +262,7 @@ const BookNew = () => {
                   setSelectedTime={setSelectedTime}
                   selectedDuration={selectedDuration}
                   setSelectedDuration={setSelectedDuration}
-                  submitHandler={toggleModal}
+                  submitHandler={toggleSelectPaymentModal}
                   coinBalance={dataCoins}
                 />
               )}
@@ -254,7 +306,7 @@ const BookNew = () => {
                     setSelectedTime={setSelectedTime}
                     selectedDuration={selectedDuration}
                     setSelectedDuration={setSelectedDuration}
-                    submitHandler={toggleModal}
+                    submitHandler={toggleSelectPaymentModal}
                     coinBalance={dataCoins}
                   />
                 )}
@@ -264,9 +316,7 @@ const BookNew = () => {
 
         </section>
 
-        {/* <section className='mt-40'>
-          <StripeCheckoutComp />
-        </section> */}
+
       </div>
     </>
   );

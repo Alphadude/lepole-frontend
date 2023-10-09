@@ -137,21 +137,22 @@ const paymentOptions = [
     title: 'Credit or Debit Card',
     desc: 'Use a credit card or debit card to initiate payment and get access to your booking session',
     recommended: false,
-    next: () => { toast.error('Option not available at the moment') }
+    next: () => { console.log('Redirecting to stripe payment') }
   },
   {
     id: 2,
     title: 'Wallet Balance',
-    desc: 'Use a credit card or debit card to initiate payment and get access to your booking session',
+    desc: 'You get discount payment when you buy wallet bundles and make payment using your wallet balance.',
     recommended: true,
     next: () => { console.log('Trigger coin deduction') }
   },
 ]
 
 
-export const SelectPaymentOption = ({ toggleModal, fromWalletNext, loading }) => {
+export const SelectPaymentOption = ({ toggleModal, next, loading }) => {
   const [selected, setSelected] = useState(2)
-  paymentOptions[1].next = fromWalletNext
+  paymentOptions[0].next = () => next('stripe-payment')
+  paymentOptions[1].next = () => next()
 
   return (
     <section onClick={(e) => e.stopPropagation()} className=' sm:w-[522px] bg-white dark:bg-table-border-gray pb-10 pt-5 mb-10 '>
@@ -188,6 +189,7 @@ export const SelectPaymentOption = ({ toggleModal, fromWalletNext, loading }) =>
         <Button
           className={`!w-full !border-0 px-0 lg:!px-8 !text-primary-white !bg-primary-green `}
           size="xlarge"
+          disabled={loading}
           onClick={paymentOptions[selected - 1]?.next}
         >
           {loading ? 'Processing...'
@@ -199,3 +201,4 @@ export const SelectPaymentOption = ({ toggleModal, fromWalletNext, loading }) =>
     </section>
   )
 }
+
