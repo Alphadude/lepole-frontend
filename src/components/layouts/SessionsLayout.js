@@ -43,7 +43,7 @@ const SessionsLayout = ({ children }) => {
               key={link}
               to={link}
               className={`text-sm md:text-base ${location.pathname === link &&
-                'border-b-2 border-primary-green  text-primary-green dark:border-primary-dark-green dark:text-primary-dark-green font-semibold '
+                'border-b-2 border-primary-green text-primary-green dark:border-primary-dark-green dark:text-primary-dark-green font-semibold '
                 }`}
             >
               {tab.name}

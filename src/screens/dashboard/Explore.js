@@ -36,14 +36,14 @@ const Explore = () => {
   const { data: totalCoinsSpent } = useTotalCoins();
   const { data: notifications } = useGetNotifications();
   const { data: user } = useProfile();
-  const { data: sessions } = useUpcomingSessions();
+  // const { data: sessions } = useUpcomingSessions();
 
-  useEffect(() => {
-    if (sessions?.data !== null || sessions?.data?.length !== 0) {
-      setScheduled(sessions?.data);
-      setDate(sessions?.data?.map?.((item) => new Date(item?.date))[0]);
-    }
-  }, [sessions?.data]);
+  // useEffect(() => {
+  //   if (sessions?.data !== null || sessions?.data?.length !== 0) {
+  //     setScheduled(sessions?.data);
+  //     setDate(sessions?.data?.map?.((item) => new Date(item?.date))[0]);
+  //   }
+  // }, [sessions?.data]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 h-full">
