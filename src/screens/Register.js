@@ -28,7 +28,7 @@ const Register = () => {
 
   const eightCharsOrMore = /.{8,}/g; // eight characters or more
   const atLeastOneUppercase = /[A-Z]/g; // capital letters from A to Z
-  const atLeastOneSpecialChar = /[#$@!-%&*?{}^_+().,/\[\]\-=]/g; // any of the special characters within the square brackets
+  const atLeastOneSpecialChar = /[#$@!-%&*?{}^~`|;:'"<>_+(\\).,/\[\]\-=]/g; // any of the special characters within the square brackets
   const atLeastOneNumeric = /[0-9]/g; // numbers from 0 to 9
 
   const passwordTracker = {
