@@ -157,35 +157,37 @@ const Settings = () => {
               {...register('password', {
                 required: true,
                 minLength: 8,
-                pattern:
-                  /^(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?{}^_+()])[A-Za-z\d#$@!%&*?{}^_+()]{8,30}$/,
+                validate: {
+                              lacksNumber: (value) => {
+                                if (!/\d/.test(value)) {
+                                  return "Password should contain at least one number";
+                                }
+                              },
+                              lacksUpperCase: (value) => {
+                                if (!/[A-Z]/.test(value)) {
+                                  return "Password should contain at least one upper case";
+                                }
+                              },
+                              lacksLowerCase: (value) => {
+                                if (!/[a-z]/.test(value)) {
+                                  return "Password should contain at least one lower case";
+                                }
+                              },
+                              lacksSpecialCharacter: (value) => {
+                                if (!/[^a-zA-Z0-9]/.test(value)) {
+                                  return "Password should contain at least one special character";
+                                }
+                              },
+                            }
               })}
             />
 
-            {errors.password && (
-              <div className="text-red-400 text-xs mt-1">
-                Password must pass all checks to be valid
-              </div>
-            )}
+            {errors?.password && (
+                        <p className="text-red-400 text-xs mt-1">
+                          {errors?.password?.message?.toString()}
+                        </p>
+                      )}
 
-            <div className="col-span-1 mt-1">
-              <PasswordChecker
-                text="minimum of 8 character long"
-                checker={passwordTracker.eightCharsOrGreater}
-              />
-              <PasswordChecker
-                text="at least one capital letter"
-                checker={passwordTracker.uppercase}
-              />
-              <PasswordChecker
-                text="at least one symbol"
-                checker={passwordTracker.specialChar}
-              />
-              <PasswordChecker
-                text="at least one number"
-                checker={passwordTracker.number}
-              />
-            </div>
           </div>
 
           <div>

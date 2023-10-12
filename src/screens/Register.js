@@ -28,7 +28,7 @@ const Register = () => {
 
   const eightCharsOrMore = /.{8,}/g; // eight characters or more
   const atLeastOneUppercase = /[A-Z]/g; // capital letters from A to Z
-  const atLeastOneSpecialChar = /[#$@!-%&*?{}^_+().,/\[\]\-=]/g; // any of the special characters within the square brackets
+  const atLeastOneSpecialChar = /[#$@!-%&*?{}^~`|;:'"<>_+(\\).,/\[\]\-=]/g; // any of the special characters within the square brackets
   const atLeastOneNumeric = /[0-9]/g; // numbers from 0 to 9
 
   const passwordTracker = {
@@ -185,35 +185,39 @@ const Register = () => {
               {...register('password', {
                 required: true,
                 minLength: 8,
-                pattern:
-                  /^(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?{}^_+()])[A-Za-z\d#$@!%&*?{}^_+()]{8,30}$/,
+                validate: {
+                              lacksNumber: (value) => {
+                                if (!/\d/.test(value)) {
+                                  return "Password should contain at least one number";
+                                }
+                              },
+                              lacksUpperCase: (value) => {
+                                if (!/[A-Z]/.test(value)) {
+                                  return "Password should contain at least one upper case";
+                                }
+                              },
+                              lacksLowerCase: (value) => {
+                                if (!/[a-z]/.test(value)) {
+                                  return "Password should contain at least one lower case";
+                                }
+                              },
+                              lacksSpecialCharacter: (value) => {
+                                if (!/[^a-zA-Z0-9]/.test(value)) {
+                                  return "Password should contain at least one special character";
+                                }
+                              },
+                            }
                   
               })}
-            />
-            {errors.password && (
-              <div className="text-red-400 text-xs mt-1">
-                Password must pass all checks to be valid
-              </div>
-            )}
 
-            <div className="col-span-1 mt-1">
-              <PasswordChecker
-                text="minimum of 8 character long"
-                checker={passwordTracker.eightCharsOrGreater}
-              />
-              <PasswordChecker
-                text="at least one capital letter"
-                checker={passwordTracker.uppercase}
-              />
-              <PasswordChecker
-                text="at least one symbol"
-                checker={passwordTracker.specialChar}
-              />
-              <PasswordChecker
-                text="at least one number"
-                checker={passwordTracker.number}
-              />
-            </div>
+            />
+
+            {errors?.password && (
+                        <p className="text-red-400 text-xs mt-1">
+                          {errors?.password?.message?.toString()}
+                        </p>
+                      )}
+          
           </div>
 
           <div>
