@@ -68,7 +68,6 @@ const Settings = () => {
 
       reset();
 
-      // navigate(`/dashboard/settings`);
     } else {
       toast.error('Password Update Not Successful.');
 
