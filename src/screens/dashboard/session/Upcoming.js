@@ -4,7 +4,7 @@ import { createColumnHelper } from '@tanstack/react-table';
 import Tables from '../../../components/Tables';
 import ModalContainer from '../../../components/layouts/ModalContainer';
 import { RescheduleModal, CancelModal } from '../../../components/Modals';
-
+import { ManageCancellation } from '../../../components/sections';
 import {
   useSessions,
   useUpcomingSessions,
@@ -16,22 +16,6 @@ import { Button } from '@deposits/ui-kit-react';
 import { routes } from '../../../router/routes';
 import { plans } from '../../../utils/dummyData';
 import moment from 'moment';
-
-const upComingRows = [
-  {
-    amount: 6,
-    created_at: '2023-04-23T00:50:24.922936+00:00',
-    date: '2023-04-23',
-    duration: '3 hrs',
-    endTime: '2023-04-23T02:00:00+00:00',
-    id: 35,
-    paymentType: 'coin balance',
-    startTime: '2023-04-22T23:00:00+00:00',
-    status: 'pending',
-    type: 'Off PeaK',
-    user_id: 'c753c13c-4218-4e44-9420-7c90be48cf0d',
-  },
-];
 
 export const initialDataSessions = {
   id: '',
@@ -51,16 +35,10 @@ export const initialDataSessions = {
   },
 };
 
-const Upcoming = ({
-  loading = false,
-  rows = upComingRows,
-  currentPage,
-  setCurrentPage,
-  totalPage,
-  limit,
-}) => {
+const Upcoming = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [openCancel, setOpenCancel] = useState(false);
+
   const [selectedSession, setSelectedSession] = useState(initialDataSessions);
 
   const { data, isLoading } = useUpcomingSessions();
@@ -151,7 +129,7 @@ const Upcoming = ({
     }),
 
     columnHelper.accessor(() => 'actions', {
-      id: 'Actions',
+      id: 'actions',
       cell: (info) => {
         const {
           row: { original },
@@ -174,14 +152,11 @@ const Upcoming = ({
         };
 
         return (
-          <div className="flex gap-4">
-            <button onClick={setModalValues}>
-              <p className="underline hover:no-underline">Reschedule</p>
-            </button>
-
-            <button onClick={setCancelValues}>
-              <p className="underline hover:no-underline">Cancel Booking</p>
-            </button>
+          <div style={{ overflow: 'visible' }}>
+            <ManageCancellation
+              setModalValues={setModalValues}
+              setCancelValues={setCancelValues}
+            />
           </div>
         );
       },
