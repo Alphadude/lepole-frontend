@@ -17,6 +17,8 @@ import { routes } from '../../../router/routes';
 import { plans } from '../../../utils/dummyData';
 import moment from 'moment';
 
+import { isRefundEligible } from '../../../helpers/functions';
+
 export const initialDataSessions = {
   id: '',
   planId: 0,
@@ -135,6 +137,12 @@ const Upcoming = () => {
           row: { original },
         } = info;
 
+        const allowedHours = original?.payment === 'coin balance' ? 4 : 8;
+        const userCanCancel = isRefundEligible(
+          original?.startTime,
+          allowedHours,
+        );
+
         const setModalValues = () => {
           toggleModal({
             planId: original.planId,
@@ -154,6 +162,7 @@ const Upcoming = () => {
         return (
           <div style={{ overflow: 'visible' }}>
             <ManageCancellation
+              userCanCancel={userCanCancel}
               setModalValues={setModalValues}
               setCancelValues={setCancelValues}
             />
