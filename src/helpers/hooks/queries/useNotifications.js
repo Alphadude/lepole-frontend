@@ -8,7 +8,11 @@ export const useGetNotifications = () => {
   const userId = cookies?.user?.id;
 
   const query = useQuery(['notifications', userId], () => {
-    return supabase.from('notifications').select('*').eq('user_id', userId);
+    return supabase
+      .from('notifications')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false });
   });
   return query;
 };
