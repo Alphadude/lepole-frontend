@@ -59,6 +59,7 @@ export const useUpcomingSessions = () => {
       .from('session')
       .select('*')
       .eq('user_id', id)
+      .eq('isCancelled', false)
       .gte('startTime', dateString)
       .order('created_at', { ascending: false });
   });
