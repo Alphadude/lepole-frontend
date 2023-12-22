@@ -2,7 +2,6 @@ import React from 'react';
 import SessionsLayout from '../../../components/layouts/SessionsLayout';
 import { createColumnHelper } from '@tanstack/react-table';
 import Tables from '../../../components/Tables';
-import { useSessionsHistory } from '../../../helpers/hooks/queries/useSessions';
 
 import moment from 'moment';
 import gymCouple from '../../../assets/images/gym_couple.png';
