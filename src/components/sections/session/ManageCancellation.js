@@ -7,7 +7,7 @@ const MoreOptions = ({ setCancelValues, setModalValues, userCanCancel }) => {
       className={`z-50 absolute bottom-0 right-0  bg-white border border-dark-6 w-fit shadow-xl`}
     >
       <button
-        className="border-b border-primary-gray-2 py-2 pl-3 pr-8 block text-renaissance-gray-2"
+        className="border-b border-primary-gray-2 py-2 pl-3 pr-8 block text-black"
         onClick={setModalValues}
       >
         Reschedule
