@@ -15,11 +15,12 @@ import { toast } from 'react-toastify';
 import { Banner, Button, Radio } from '@deposits/ui-kit-react';
 import { SelectDropdown } from './elements';
 import { cancelReason } from '../utils/dummyData';
-
 import {
-  useProfile,
-  useTotalCoins,
-} from '../helpers/hooks/queries/useSessions';
+  FunctionsFetchError,
+  FunctionsHttpError,
+  FunctionsRelayError,
+} from '@supabase/supabase-js';
+
 import { useQueryClient } from 'react-query';
 import { deductCoins } from '../helpers/functions/deductCoins';
 import moment from 'moment';
@@ -172,11 +173,50 @@ export const CancelModal = ({ toggleModal, selectedSession }) => {
   } = useForm();
 
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const queryClient = useQueryClient();
 
   const closeCancel = (e) => {
     e.preventDefault();
-
     toggleModal();
+  };
+
+  const cancelSession = async (data) => {
+    setLoading(true);
+    const payload = {
+      user_id: selectedSession?.data?.user_id,
+      session_id: selectedSession?.id,
+      reason: data.reason?.value,
+      details: data.details,
+    };
+
+    const { data: result, error } = await supabase.functions.invoke(
+      'create-cancellation',
+      {
+        body: JSON.stringify(payload),
+      },
+    );
+
+    if (!error) {
+      queryClient.invalidateQueries('upcoming-sessions');
+      setLoading(false);
+      setSuccess(true);
+    } else {
+      if (error instanceof FunctionsHttpError) {
+        const errorMessage = await error.context.json();
+
+        toast.error(errorMessage?.message);
+        setLoading(false);
+        toggleModal();
+      } else if (error instanceof FunctionsRelayError) {
+        toast.error(error.message);
+        setLoading(false);
+      } else if (error instanceof FunctionsFetchError) {
+        toast.error(error.message);
+        setLoading(false);
+      }
+    }
   };
 
   return (
@@ -207,8 +247,8 @@ export const CancelModal = ({ toggleModal, selectedSession }) => {
             <div className="text-sm text-gray-2">
               <p>Your request has been sent.</p>
               <p className="lg:w-5/6 mx-auto mt-2">
-                Your request will be review within [x number of days]. Please
-                check your email for further updates
+                Your request will be review soon. Please check your email for
+                further updates
               </p>
             </div>
 
@@ -223,7 +263,7 @@ export const CancelModal = ({ toggleModal, selectedSession }) => {
           <div className="bg-neutral dark:bg-table-border-gray py-9 px-2 lg:!px-8">
             <section className=" mx-auto">
               <div className="mt-4 mb-8 bg-orange_600 pl-3 pr-1 py-1 rounded">
-                <div className="bg-white py-3 !px-4 text-neutral_06 text-sm flex items-start gap-x-4">
+                <div className="bg-white dark:bg-dark-1 py-3 !px-4 text-neutral_06 dark:text-white/90 text-sm flex items-start gap-x-4">
                   <img src={WarningOrange} alt="information alert" />
                   <span className="flex-1 block text-xs lg:text-sm">
                     {' '}
@@ -237,7 +277,7 @@ export const CancelModal = ({ toggleModal, selectedSession }) => {
                 Booking Details
               </H3>
 
-              <div className="bg-white text-black border border-renaissance-gray-2 p-4  xl:p-6  rounded-lg">
+              <div className="bg-white dark:bg-dark-1 text-black dark:text-white border border-renaissance-gray-2 p-4  xl:p-6  rounded-lg">
                 <div className="flex item-start lg:items-center">
                   <div className="mr-8 lg:mr-4 xl:mr-8 ">
                     <span className="text-base block font-medium text-center">
@@ -312,7 +352,7 @@ export const CancelModal = ({ toggleModal, selectedSession }) => {
                 </div>
               </div>
 
-              <form className="mt-8">
+              <form onSubmit={handleSubmit(cancelSession)} className="mt-8">
                 <div className="mb-6">
                   <label className="block mb-4">Reason for cancellation</label>
 
@@ -335,14 +375,12 @@ export const CancelModal = ({ toggleModal, selectedSession }) => {
                 <div>
                   <textarea
                     rows="5"
-                    className="w-full p-2 border border-gray_300 rounded focus:outline-0 focus:border-primary-green"
+                    className="bg-white dark:bg-dark-1 mt-4 w-full p-2 border border-gray_300 rounded focus:outline-0 focus:border-primary-green"
                     placeholder="More details here"
                     {...register('details', {
                       required: true,
                     })}
-                  >
-                    {' '}
-                  </textarea>
+                  ></textarea>
 
                   {errors.details ? (
                     <div className="text-red-500">Please fill this box.</div>
@@ -354,7 +392,7 @@ export const CancelModal = ({ toggleModal, selectedSession }) => {
                     className="!bg-red-1 !w-full !border-0 !px-8 !text-primary-white"
                     size="xlarge"
                   >
-                    Confirm Cancellation
+                    {loading ? 'Confirming..' : 'Confirm Cancellation'}
                   </Button>
 
                   <Button
