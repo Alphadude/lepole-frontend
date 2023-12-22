@@ -18,6 +18,7 @@ import Active from '../screens/dashboard/session/Active';
 import SessionsLayout from '../components/layouts/SessionsLayout';
 import Upcoming from '../screens/dashboard/session/Upcoming';
 import History from '../screens/dashboard/session/History';
+import Cancel from '../screens/dashboard/session/Cancel';
 import BookNew from '../screens/dashboard/session/BookNew';
 import Transactions from '../screens/dashboard/Transactions';
 
@@ -38,15 +39,16 @@ const AppRouter = () => (
         >
           <Route index path={routes.explore} element={<Explore />} />
 
-          <Route path={routes.session} >
+          <Route path={routes.session}>
             <Route index element={<Active />} />
             <Route path={routes.upcoming} element={<Upcoming />} />
             <Route path={routes.history} element={<History />} />
+            <Route path={routes.cancel} element={<Cancel />} />
 
             <Route path={routes.new} element={<BookNew />} />
           </Route>
 
-          <Route path={routes.wallet} >
+          <Route path={routes.wallet}>
             <Route index element={<Wallet />} />
             <Route path={routes.transaction} element={<Transactions />} />
           </Route>

@@ -1,4 +1,4 @@
-import { formatTime } from "../screens/dashboard/session/BookNew";
+import { formatTime } from '../screens/dashboard/session/BookNew';
 
 export const timeSlots = [
   {
@@ -77,8 +77,6 @@ export const upcoming = [
   },
 ];
 
-
-
 export const offPeakSlotsData = [
   {
     id: 1,
@@ -98,47 +96,43 @@ export const offPeakSlotsData = [
   },
 ];
 
-
 export const midPeakSlotsData = [
   {
     id: 1,
-    time: '12:00 AM'
+    time: '12:00 AM',
   },
   {
     id: 2,
-    time: '1:00 AM'
+    time: '1:00 AM',
   },
   {
     id: 3,
-    time: '2:00 AM'
+    time: '2:00 AM',
   },
   {
     id: 4,
-    time: '3:00 AM'
+    time: '3:00 AM',
   },
-]
-
+];
 
 export const peakSlotsData = [
   {
     id: 1,
-    time: '12:00 AM'
+    time: '12:00 AM',
   },
   {
     id: 2,
-    time: '1:00 AM'
+    time: '1:00 AM',
   },
   {
     id: 3,
-    time: '2:00 AM'
+    time: '2:00 AM',
   },
   {
     id: 4,
-    time: '3:00 AM'
+    time: '3:00 AM',
   },
-]
-
-
+];
 
 export const plans = [
   {
@@ -169,8 +163,7 @@ export const plans = [
     coin_price: 2,
     // timeSlotsData: peakSlotsData
   },
-]
-  ;
+];
 
 export const notifications = [
   {
@@ -387,5 +380,27 @@ export const bundle = [
     coins: 48,
     amount: 264,
   },
+];
 
+export const cancelReason = [
+  {
+    label: 'Family emergency',
+    value: 'Family emergency',
+  },
+  {
+    label: 'Health Issues',
+    value: 'Health Issues',
+  },
+  {
+    label: 'Work Commitments',
+    value: 'Work Commitments',
+  },
+  {
+    label: 'Scheduling conflicts',
+    value: 'Scheduling conflicts',
+  },
+  {
+    label: 'Unexpected events',
+    value: 'Unexpected events',
+  },
 ];

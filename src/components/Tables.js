@@ -27,9 +27,9 @@ const Tables = ({ columns, data, currentPage, setCurrentPage, totalPage }) => {
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                   </th>
                 ))}
               </tr>
@@ -37,11 +37,14 @@ const Tables = ({ columns, data, currentPage, setCurrentPage, totalPage }) => {
           </thead>
           <tbody className="">
             {table?.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="relative border-b-2 border-[#F5F8FA] dark:text-renaissance-dark-black ">
+              <tr
+                key={row.id}
+                className="relative border-b-2 border-[#F5F8FA] dark:text-renaissance-dark-black"
+              >
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
-                    className="text-sm capitalize whitespace-nowrap px-5 py-3 text-left"
+                    className="text-sm capitalize whitespace-nowrap px-5 py-4 text-left"
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>

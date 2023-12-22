@@ -5,3 +5,4 @@ export { default as Activity } from './explore/Activity';
 export { default as UpcomingSession } from './explore/UpcomingSession';
 export { default as ScheduledSession } from './explore/ScheduledSession';
 export { default as NotifCard } from './notification/NotifCard';
+export { default as ManageCancellation } from './session/ManageCancellation';

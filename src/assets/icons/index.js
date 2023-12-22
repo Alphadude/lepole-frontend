@@ -12,6 +12,9 @@ import CoinGreen from './coin-green.svg';
 import MoneyBlue from './money-blue.svg';
 import GoldCoins from './coins-gold.svg';
 import CaretRightWhite from './caret-right-white.svg';
+import WarningOrange from './warning-orange.svg';
+import RedCheck from './check-red.svg';
+import OptionArrow from './option-arrow.svg';
 
 export {
   LePoleLogo,
@@ -28,4 +31,7 @@ export {
   CalendarIcon,
   GoldCoins,
   CaretRightWhite,
+  WarningOrange,
+  RedCheck,
+  OptionArrow,
 };
