@@ -389,6 +389,7 @@ export const CancelModal = ({ toggleModal, selectedSession }) => {
 
                 <div className="mt-6 flex flex-col md:flex-row gap-2">
                   <Button
+                    disabled={loading}
                     className="!bg-red-1 !w-full !border-0 !px-8 !text-primary-white"
                     size="xlarge"
                   >
