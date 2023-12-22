@@ -20,6 +20,11 @@ const tabs = [
     name: 'History',
     link: `${routes.history}`,
   },
+  {
+    id: 4,
+    name: 'Cancelled',
+    link: `${routes.cancel}`,
+  },
 ];
 
 const SessionsLayout = ({ children }) => {
@@ -32,7 +37,7 @@ const SessionsLayout = ({ children }) => {
         <p>Keep track of all your session in one page</p>
       </section>
 
-      <section className="flex justify-between lg:justify-start border-b border-gray-4 dark:border-gray-4/20 gap-3 md:gap-6 ">
+      <section className="flex justify-between lg:justify-start border-b border-gray-4 dark:border-gray-4/20 gap-3 md:gap-6 overflow-x-auto">
         {tabs.map((tab) => {
           const link =
             tab.link.trim()[0] === '/'
@@ -42,9 +47,10 @@ const SessionsLayout = ({ children }) => {
             <Link
               key={link}
               to={link}
-              className={`text-sm md:text-base ${location.pathname === link &&
+              className={`text-sm md:text-base whitespace-nowrap ${
+                location.pathname === link &&
                 'border-b-2 border-primary-green text-primary-green dark:border-primary-dark-green dark:text-primary-dark-green font-semibold '
-                }`}
+              }`}
             >
               {tab.name}
             </Link>
