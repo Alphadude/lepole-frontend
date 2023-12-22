@@ -10,6 +10,7 @@ const routes = {
   active: 'active',
   upcoming: 'upcoming',
   history: 'history',
+  cancel: 'cancel',
   new: 'new',
   wallet: 'wallet',
   settings: 'settings',
