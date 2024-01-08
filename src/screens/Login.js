@@ -37,7 +37,7 @@ const Login = () => {
       password: data.password,
     });
 
-    if (res?.data?.user !== null && res?.error === null) {
+    if (res?.error === null) {
       toast.success('Login successful.');
 
       setCookie(
@@ -48,8 +48,12 @@ const Login = () => {
           email: res?.data?.session?.user?.email,
           authStatus: res?.data?.session?.user?.role,
           role: res?.data?.session?.user?.user_metadata?.role,
-          firstname: res?.data?.session?.user?.user_metadata?.firstname,
-          lastname: res?.data?.session?.user?.user_metadata?.lastname,
+          firstname:
+            res?.data?.session?.user?.user_metadata?.firstname ||
+            res?.data?.session?.user?.user_metadata?.firstName,
+          lastname:
+            res?.data?.session?.user?.user_metadata?.lastname ||
+            res?.data?.session?.user?.user_metadata?.lastName,
           phone: res?.data?.session?.user?.user_metadata?.phone,
           wallet: res?.data?.session?.user?.user_metadata?.wallet,
         }),
@@ -78,7 +82,6 @@ const Login = () => {
         <p className="text-black text-base font-normal mt-1">
           Please fill correctly
         </p>
-
 
         <form onSubmit={loginUp} className="mt-4 grid grid-cols-1  gap-6">
           <div>
