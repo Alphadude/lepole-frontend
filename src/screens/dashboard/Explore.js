@@ -26,6 +26,7 @@ import { plans, timeSlots } from '../../utils/dummyData';
 
 const Explore = () => {
   const [cookies] = useCookies(['user']);
+
   const firstname = cookies?.user?.firstname;
   const userId = cookies?.user?.id;
 
