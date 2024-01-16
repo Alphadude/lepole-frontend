@@ -17,7 +17,7 @@ import { routes } from '../../../router/routes';
 import { plans } from '../../../utils/dummyData';
 import moment from 'moment';
 
-import { isRefundEligible } from '../../../helpers/functions';
+import { isRefundEligible, canReschedule } from '../../../helpers/functions';
 
 export const initialDataSessions = {
   id: '',
@@ -143,6 +143,13 @@ const Upcoming = () => {
           allowedHours,
         );
 
+        const minutesWindow = 30;
+
+        const rescheduleStatus = canReschedule(
+          original?.startTime,
+          minutesWindow,
+        );
+
         const setModalValues = () => {
           toggleModal({
             planId: original.planId,
@@ -165,6 +172,7 @@ const Upcoming = () => {
               userCanCancel={userCanCancel}
               setModalValues={setModalValues}
               setCancelValues={setCancelValues}
+              canReschedule={rescheduleStatus}
             />
           </div>
         );
