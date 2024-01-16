@@ -1,17 +1,24 @@
 import React, { useState } from 'react';
 import { OptionArrow } from '../../../assets/icons';
 
-const MoreOptions = ({ setCancelValues, setModalValues, userCanCancel }) => {
+const MoreOptions = ({
+  setCancelValues,
+  setModalValues,
+  userCanCancel,
+  canReschedule,
+}) => {
   return (
     <div
       className={`z-50 absolute bottom-0 right-0  bg-white border border-dark-6 w-fit shadow-xl`}
     >
-      <button
-        className="border-b border-primary-gray-2 py-2 pl-3 pr-8 block text-black"
-        onClick={setModalValues}
-      >
-        Reschedule
-      </button>
+      {canReschedule && (
+        <button
+          className="border-b border-primary-gray-2 py-2 pl-3 pr-8 block text-black"
+          onClick={setModalValues}
+        >
+          Reschedule
+        </button>
+      )}
 
       {userCanCancel && (
         <button
@@ -29,6 +36,7 @@ const ManageCancellation = ({
   setCancelValues,
   setModalValues,
   userCanCancel,
+  canReschedule,
 }) => {
   const [showDrop, setShowDrop] = useState(false);
 
@@ -47,6 +55,7 @@ const ManageCancellation = ({
           setCancelValues={setCancelValues}
           setModalValues={setModalValues}
           userCanCancel={userCanCancel}
+          canReschedule={canReschedule}
         />
       )}
 
