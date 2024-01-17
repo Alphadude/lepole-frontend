@@ -35,6 +35,8 @@ export const RescheduleModal = ({
   label,
   placeholder,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const currentPlanId =
     plans.findIndex((item) => item.name === selectedSession.data.type) + 1;
 
@@ -58,6 +60,7 @@ export const RescheduleModal = ({
   const acceptedDuration = isDurationReduced ? maxDuration : duration;
 
   const rescheduleSession = async () => {
+    setIsLoading(true);
     const start = [
       selectedDate.getFullYear(),
       selectedDate.getMonth(),
@@ -72,26 +75,33 @@ export const RescheduleModal = ({
     ];
 
     const submit = {
+      id: selectedSession?.id,
       date: moment(selectedDate).format('YYYY-MM-DD'),
-      duration: `${acceptedDuration} hours`,
-      reschedule_amount: (acceptedDuration * coin_price) / 2,
-      startTime: new Date(...start).toISOString(),
-      endTime: new Date(...end).toISOString(),
+      // duration: `${acceptedDuration} hours`,
+      // reschedule_amount: (acceptedDuration * coin_price) / 2,
+      starttime: new Date(...start).toISOString(),
+      endtime: new Date(...end).toISOString(),
     };
 
-    const res = await deductCoins(submit.reschedule_amount);
-    if (!res) return;
+    const { data, error } = await supabase.functions.invoke(
+      'reschedule-session',
+      {
+        body: JSON.stringify(submit),
+      },
+    );
 
-    queryClient.invalidateQueries('profile');
-    const { data, error } = await supabase
-      .from('session')
-      .update(submit)
-      .eq('id', selectedSession?.data?.id);
+    // const { data, error } = await supabase
+    //   .from('session')
+    //   .update(submit)
+    //   .eq('id', selectedSession?.data?.id);
 
     if (!error) {
+      setIsLoading(false);
       queryClient.invalidateQueries('upcoming-sessions');
       toast.success('Reschedule Successful');
       toggleModal();
+    } else {
+      setIsLoading(false);
     }
   };
 
@@ -116,8 +126,9 @@ export const RescheduleModal = ({
               Reschedule a session
             </H5>
             <P className="">
-              You can reschedule your session within 30 minutes of booking and
-              this will cost you half your booking price
+              Rescheduling your session will cost you half of your booking price
+              and you cannot reschedule your session 30 minutes to the booking
+              time
             </P>
           </section>
 
@@ -145,6 +156,7 @@ export const RescheduleModal = ({
                 )}
               </div>
               <DurationTimePicker
+                session={selectedSession}
                 type={'reschedule'}
                 selectedPlan={currentPlanId > 0 ? currentPlanId : 3}
                 // setSelectedPlan={setSelectedPlan}
@@ -153,6 +165,7 @@ export const RescheduleModal = ({
                 selectedTime={time}
                 setSelectedTime={setSelectedTime}
                 selectedDuration={acceptedDuration}
+                isLoading={isLoading}
                 // setSelectedDuration={setSelectedDuration}
                 submitHandler={rescheduleSession}
               />

@@ -12,7 +12,7 @@ const splashRoutes = [
     route: routes.register,
   },
   {
-    heading: 'Login',
+    heading: 'Log in',
     desc: 'You already have an account with us.',
     route: routes.login,
   },

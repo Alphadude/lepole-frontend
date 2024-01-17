@@ -23,3 +23,20 @@ export const isRefundEligible = (
   // Check if the current date is less than the booked date by the specified threshold
   return hoursDifference > refundThresholdHours;
 };
+
+export const canReschedule = (startTime, minutesWindow = 30) => {
+  // Get the current date and time
+  const today = new Date();
+
+  // Parse the booked date string into a Date object
+  const bookedDate = new Date(startTime);
+
+  // Calculate the time difference in milliseconds
+  const timeDifference = bookedDate - today;
+
+  // Convert the time difference to minutes
+  const minutesDifference = Math.floor(timeDifference / (1000 * 60));
+
+  // Check if the current date is less than the booked date by the specified threshold
+  return minutesDifference >= minutesWindow;
+};
