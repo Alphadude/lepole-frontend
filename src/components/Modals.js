@@ -101,7 +101,17 @@ export const RescheduleModal = ({
       toast.success('Reschedule Successful');
       toggleModal();
     } else {
-      setIsLoading(false);
+      if (error instanceof FunctionsHttpError) {
+        const errorMessage = await error.context.json();
+        toast.error(errorMessage?.message);
+        setIsLoading(false);
+      } else if (error instanceof FunctionsRelayError) {
+        toast.error(error.message);
+        setIsLoading(false);
+      } else if (error instanceof FunctionsFetchError) {
+        toast.error(error.message);
+        setIsLoading(false);
+      }
     }
   };
 
