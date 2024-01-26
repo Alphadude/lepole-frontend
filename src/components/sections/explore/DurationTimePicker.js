@@ -141,17 +141,10 @@ const DurationTimePicker = ({
           <span className="self-start px-1 text-xs lg:text-base">£</span>
           <span className="font-bold font-droid text-[32px] lg:text-5xl text-renaissance-black dark:text-renaissance-dark-black">
             {' '}
-            {type === 'reschedule'
-              ? (session?.data?.duration[0] * fiat_price) / 2
-              : selectedDuration * fiat_price}{' '}
+            {selectedDuration * fiat_price}
           </span>
         </p>
-        <p className="font-semibold">
-          {type === 'reschedule'
-            ? session?.data?.amount / 2
-            : selectedDuration * coin_price}{' '}
-          coin(s)
-        </p>
+        <p className="font-semibold">{selectedDuration * coin_price} coin(s)</p>
       </div>
 
       <div>
@@ -175,8 +168,6 @@ const DurationTimePicker = ({
         >
           {isLoading
             ? 'Processing..'
-            : type === 'reschedule'
-            ? `Reschedule Session for ${selectedDate.toDateString()}`
             : `Book Session for ${selectedDate.toDateString()}`}
         </Button>
         {type !== 'reschedule' && (
