@@ -3,9 +3,11 @@ import { useForm, Controller } from 'react-hook-form';
 import { H2, H3, H4, H5 } from './Headings';
 import { ReactComponent as CloseSvg } from '../assets/icons/close.svg';
 import { ReactComponent as CloseWhiteSvg } from '../assets/icons/close-white.svg';
-import DurationTimePicker, {
+
+import RescheduleTimePicker, {
   intervalCreator,
-} from './sections/explore/DurationTimePicker';
+} from './sections/explore/RescheduleTimePicker';
+
 import CalendarWidget from './elements/CalendarWidget';
 import { P } from './Headings';
 import { initialDataSessions } from '../screens/dashboard/session/Upcoming';
@@ -21,11 +23,19 @@ import {
   FunctionsRelayError,
 } from '@supabase/supabase-js';
 
+import { useCookies } from 'react-cookie';
+
+import ModalContainer from './layouts/ModalContainer';
+
+import StripeCheckoutComp, {
+  defaultSessionData,
+} from '../screens/dashboard/session/StripeCheckout';
+
 import { useQueryClient } from 'react-query';
-import { deductCoins } from '../helpers/functions/deductCoins';
 import moment from 'moment';
 
 import { WarningOrange, GoldCoins, RedCheck } from '../assets/icons';
+import { isRefundEligible } from '../helpers/functions';
 
 export const RescheduleModal = ({
   toggleModal,
@@ -35,7 +45,12 @@ export const RescheduleModal = ({
   label,
   placeholder,
 }) => {
+  const [cookies] = useCookies(['user']);
+
+  const { id, firstname, lastname } = cookies?.user;
+  const [modalOpen, setModalOpen] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [rescheduleData, setRescheduleData] = useState(defaultSessionData);
 
   const currentPlanId =
     plans.findIndex((item) => item.name === selectedSession.data.type) + 1;
@@ -50,7 +65,8 @@ export const RescheduleModal = ({
     selectedTime || new Date(selectedSession?.data?.startTime).getHours();
   const duration = Number(selectedSession.data.duration[0]);
 
-  const { startTime, endTime, coin_price } = plans[currentPlanId - 1];
+  const { startTime, endTime, coin_price, name } = plans[currentPlanId - 1];
+
   const maxDuration = intervalCreator(
     selectedTime || startTime,
     endTime,
@@ -59,8 +75,15 @@ export const RescheduleModal = ({
   const isDurationReduced = maxDuration < duration;
   const acceptedDuration = isDurationReduced ? maxDuration : duration;
 
+  const toggleStripePaymentModal = () => {
+    setModalOpen(!modalOpen);
+  };
+
+  const closeStripeModal = () => {
+    setModalOpen(false);
+  };
+
   const rescheduleSession = async () => {
-    setIsLoading(true);
     const start = [
       selectedDate.getFullYear(),
       selectedDate.getMonth(),
@@ -77,11 +100,30 @@ export const RescheduleModal = ({
     const submit = {
       id: selectedSession?.id,
       date: moment(selectedDate).format('YYYY-MM-DD'),
-      // duration: `${acceptedDuration} hours`,
-      // reschedule_amount: (acceptedDuration * coin_price) / 2,
       starttime: new Date(...start).toISOString(),
       endtime: new Date(...end).toISOString(),
     };
+
+    setIsLoading(true);
+
+    if (
+      selectedSession?.data?.payment === 'stripe' &&
+      !isRefundEligible(selectedSession?.data?.startTime, 8)
+    ) {
+      setRescheduleData({
+        ...submit,
+        payment_kind: 'session-reschedule',
+        user_id: id,
+        username: `${firstname} ${lastname}`,
+        payment: 'stripe',
+        amount: (Number(selectedSession?.data?.amount) * 100) / 2,
+        duration: selectedSession?.data?.duration,
+        type: name,
+      });
+      setIsLoading(false);
+      toggleStripePaymentModal();
+      return;
+    }
 
     const { data, error } = await supabase.functions.invoke(
       'reschedule-session',
@@ -89,11 +131,6 @@ export const RescheduleModal = ({
         body: JSON.stringify(submit),
       },
     );
-
-    // const { data, error } = await supabase
-    //   .from('session')
-    //   .update(submit)
-    //   .eq('id', selectedSession?.data?.id);
 
     if (!error) {
       setIsLoading(false);
@@ -165,7 +202,7 @@ export const RescheduleModal = ({
                   />
                 )}
               </div>
-              <DurationTimePicker
+              <RescheduleTimePicker
                 session={selectedSession}
                 type={'reschedule'}
                 selectedPlan={currentPlanId > 0 ? currentPlanId : 3}
@@ -183,6 +220,21 @@ export const RescheduleModal = ({
           </section>
         </main>
       </div>
+
+      {modalOpen && (
+        <ModalContainer
+          modalOpen={modalOpen}
+          toggleModal={toggleStripePaymentModal}
+        >
+          <StripeCheckoutComp
+            toggleModal={closeStripeModal}
+            next={rescheduleSession}
+            loading={isLoading}
+            sessionData={rescheduleData}
+            type={'session-reschedule'}
+          />
+        </ModalContainer>
+      )}
     </div>
   );
 };
