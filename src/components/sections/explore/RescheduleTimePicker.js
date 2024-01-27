@@ -4,6 +4,7 @@ import { Button } from '@deposits/ui-kit-react';
 import { formatTime } from '../../../screens/dashboard/session/BookNew';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
+import { isRefundEligible } from '../../../helpers/functions';
 
 export const slotsCreator = (start, end) => {
   return [...Array(end - start)].map((item, index) => ({
@@ -45,7 +46,7 @@ const TimeCard = ({
   );
 };
 
-const DurationTimePicker = ({
+const RescheduleTimePicker = ({
   type,
   session,
   selectedPlan,
@@ -60,8 +61,7 @@ const DurationTimePicker = ({
   coinBalance,
   isLoading,
 }) => {
-  const { startTime, endTime, coin_price, fiat_price } =
-    plans[selectedPlan - 1];
+  const { startTime, endTime } = plans[selectedPlan - 1];
   const now = new Date();
   let selectedFirstValidTime = false;
 
@@ -70,7 +70,7 @@ const DurationTimePicker = ({
   }, [selectedDate]);
 
   return (
-    <div className="flex flex-col gap-6 lg:gap-12 ">
+    <div className="flex flex-col gap-6 lg:gap-12">
       <div className="">
         <p className="mb-4 font-medium text-base text-center lg:text-left">
           {' '}
@@ -110,41 +110,27 @@ const DurationTimePicker = ({
         </div>
       </div>
 
-      {type !== 'reschedule' && typeof selectedTime === 'number' && (
-        <div className="">
-          <p className="mb-4 font-medium text-base text-center lg:text-left">
-            {' '}
-            Choose Hours{' '}
+      <div className="flex justify-between items-baseline ">
+        {!isRefundEligible(session?.data?.startTime, 8) &&
+        session?.data?.payment === 'stripe' ? (
+          <p className="flex items-baseline text-primary-gray">
+            <span>Total Amount</span>
+            <span className="self-start px-1 text-xs lg:text-base">£</span>
+            <span className="font-bold font-droid text-[32px] lg:text-5xl text-renaissance-black dark:text-renaissance-dark-black">
+              {session?.data?.amount / 2}
+            </span>
           </p>
-          <div
-            className={`lg: grid  grid-cols-1 lg:grid-cols-4 gap-y-2 lg:gap-y-6 w-full `}
-          >
-            {intervalCreator(selectedTime || startTime, endTime).map(
-              (duration) => (
-                <TimeCard
-                  key={duration}
-                  id={duration}
-                  content={`${duration} Hours`}
-                  selected={selectedDuration}
-                  setSelected={setSelectedDuration}
-                  onClick={() => setSelectedDuration(duration)}
-                />
-              ),
-            )}
-          </div>
-        </div>
-      )}
+        ) : !isRefundEligible(session?.data?.startTime, 4) ? (
+          <p className="flex items-baseline text-primary-gray">
+            <span>Total Coin Amount</span>
 
-      <div className="flex justify-between items-baseline">
-        <p className="flex items-baseline text-primary-gray">
-          <span>Total Coin Amount</span>
-          <span className="self-start px-1 text-xs lg:text-base">£</span>
-          <span className="font-bold font-droid text-[32px] lg:text-5xl text-renaissance-black dark:text-renaissance-dark-black">
-            {' '}
-            {selectedDuration * fiat_price}
-          </span>
-        </p>
-        <p className="font-semibold">{selectedDuration * coin_price} coin(s)</p>
+            <span className="ml-2 font-bold font-droid text-4xl text-renaissance-black dark:text-renaissance-dark-black">
+              {session?.data?.amount / 2} coin(s)
+            </span>
+          </p>
+        ) : (
+          ''
+        )}
       </div>
 
       <div>
@@ -168,17 +154,11 @@ const DurationTimePicker = ({
         >
           {isLoading
             ? 'Processing..'
-            : `Book Session for ${selectedDate.toDateString()}`}
+            : `Reschedule Session for ${selectedDate.toDateString()}`}
         </Button>
-        {type !== 'reschedule' && (
-          <p className="font-semibold mt-6">
-            {' '}
-            Coin Balance: {coinBalance} Coins{' '}
-          </p>
-        )}
       </div>
     </div>
   );
 };
 
-export default DurationTimePicker;
+export default RescheduleTimePicker;
