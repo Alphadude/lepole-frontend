@@ -74,12 +74,27 @@ const Upcoming = () => {
     columnHelper.accessor((row) => 'Date', {
       id: 'Date',
       cell: (info) => {
-        const { date, time } = info.row.original;
+        const { startTime } = info.row.original;
 
         return (
           <div className="text-sm">
             <span className=" text-sm text-priBlack">
-              {moment(date).format('Do MMMM, YYYY')}
+              {moment(startTime).format('Do MMMM, YYYY')}
+            </span>
+          </div>
+        );
+      },
+    }),
+
+    columnHelper.accessor((row) => 'End Date', {
+      id: 'End Date',
+      cell: (info) => {
+        const { endTime } = info.row.original;
+
+        return (
+          <div className="text-sm">
+            <span className=" text-sm text-priBlack">
+              {moment(endTime).format('Do MMMM, YYYY')}
             </span>
           </div>
         );
@@ -117,6 +132,15 @@ const Upcoming = () => {
       cell: (info) => (
         <span className="text-priBlack text-sm ">
           {moment(info.row.original.startTime).format('h:mm A')}
+        </span>
+      ),
+    }),
+
+    columnHelper.accessor((row) => row.role, {
+      id: 'EndTime',
+      cell: (info) => (
+        <span className="text-priBlack text-sm ">
+          {moment(info.row.original.endTime).format('h:mm A')}
         </span>
       ),
     }),
