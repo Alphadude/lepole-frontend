@@ -97,7 +97,7 @@ const Upcoming = () => {
               <>
                 Unavailable [
                 <a
-                  href={`mailto:contact@lepoleltd.com?subject=Lepole%20Booking%20App%20Access%20Code%20Request`}
+                  href={`mailto:info@lepoleltd.com?subject=Lepole%20Booking%20App%20Access%20Code%20Request`}
                   target="_blank"
                   rel="noreferrer"
                   className=" text-sm text-primary-blue"

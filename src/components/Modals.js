@@ -173,9 +173,15 @@ export const RescheduleModal = ({
               Reschedule a session
             </H5>
             <P className="">
-              Rescheduling your session will cost you half of your booking price
-              and you cannot reschedule your session 30 minutes to the booking
-              time
+              View our cancellation and refund policy
+              <a
+                className="ml-1 underline text-blue-green font-bold"
+                rel="noopener noreferrer"
+                target="_blank"
+                href="https://lepoleltd.com/pages/terms-conditions"
+              >
+                here
+              </a>
             </P>
           </section>
 
