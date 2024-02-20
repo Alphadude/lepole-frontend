@@ -158,11 +158,16 @@ const BookNew = () => {
 
     if (selectedTime + selectedDuration === 24) {
       let calculatedTime = new Date(...end);
-      // calculatedTime?.setDate(calculatedTime?.getDate() + 1);
-      calculatedTime?.setHours(0, 0, 0, 0);
-      endTime = calculatedTime.toISOString();
+
+      calculatedTime.setHours(11);
+      calculatedTime.setMinutes(45);
+      calculatedTime.setSeconds(0);
+      calculatedTime.setMilliseconds(0);
+
+      endTime = moment(calculatedTime).format('YYYY-MM-DDTHH:mm:ss');
     } else {
-      endTime = new Date(...end).toISOString();
+      // endTime = new Date(...end).toISOString();
+      endTime = moment(new Date(...end)).format('YYYY-MM-DDTHH:mm:ss');
     }
 
     const submit = {
@@ -175,7 +180,8 @@ const BookNew = () => {
       type: name,
       date: moment(selectedDate).format('YYYY-MM-DD'),
       duration: `${selectedDuration} hours`,
-      startTime: new Date(...start).toISOString(),
+      // startTime: new Date(...start).toISOString(),
+      startTime: moment(new Date(...start)).format('YYYY-MM-DDTHH:mm:ss'),
       endTime: endTime,
     };
 
@@ -185,6 +191,8 @@ const BookNew = () => {
         selectedTime,
         selectedDuration,
         end,
+
+        start,
         submit,
       },
       selectedTime + selectedDuration === 24,

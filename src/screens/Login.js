@@ -20,7 +20,7 @@ const Login = () => {
 
   const [keep, setKeep] = useState(false);
 
-  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  const [cookies, setCookie] = useCookies(['user']);
 
   const {
     register,
@@ -57,6 +57,7 @@ const Login = () => {
           phone: res?.data?.session?.user?.user_metadata?.phone,
           wallet: res?.data?.session?.user?.user_metadata?.wallet,
         }),
+        { path: '/' },
       );
 
       setIsSubmitting(false);

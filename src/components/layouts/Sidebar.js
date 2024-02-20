@@ -19,7 +19,7 @@ const Sidebar = () => {
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
     if (!error) {
-      removeCookie();
+      removeCookie('user', { path: '/' });
       navigate('/');
     } else {
       toast.error('An error occured');

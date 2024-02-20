@@ -71,15 +71,15 @@ const Upcoming = () => {
       },
     }),
 
-    columnHelper.accessor((row) => 'Date', {
-      id: 'Date',
+    columnHelper.accessor((row) => 'Start Date', {
+      id: 'Start Date',
       cell: (info) => {
         const { startTime } = info.row.original;
 
         return (
           <div className="text-sm">
             <span className=" text-sm text-priBlack">
-              {moment(startTime).format('Do MMMM, YYYY')}
+              {moment.utc(startTime).format('Do MMMM, YYYY')}
             </span>
           </div>
         );
@@ -94,7 +94,7 @@ const Upcoming = () => {
         return (
           <div className="text-sm">
             <span className=" text-sm text-priBlack">
-              {moment(endTime).format('Do MMMM, YYYY')}
+              {moment.utc(endTime).format('Do MMMM, YYYY')}
             </span>
           </div>
         );
@@ -131,7 +131,7 @@ const Upcoming = () => {
       id: 'Time',
       cell: (info) => (
         <span className="text-priBlack text-sm ">
-          {moment(info.row.original.startTime).format('h:mm A')}
+          {moment.utc(info.row.original.startTime).format('h:mm A')}
         </span>
       ),
     }),
@@ -140,7 +140,7 @@ const Upcoming = () => {
       id: 'EndTime',
       cell: (info) => (
         <span className="text-priBlack text-sm ">
-          {moment(info.row.original.endTime).format('h:mm A')}
+          {moment.utc(info.row.original.endTime).format('h:mm A')}
         </span>
       ),
     }),
