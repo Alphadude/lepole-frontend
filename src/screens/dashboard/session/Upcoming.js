@@ -4,7 +4,7 @@ import { createColumnHelper } from '@tanstack/react-table';
 import Tables from '../../../components/Tables';
 import ModalContainer from '../../../components/layouts/ModalContainer';
 import { RescheduleModal, CancelModal } from '../../../components/Modals';
-import { ManageCancellation } from '../../../components/sections';
+import { ManageSession } from '../../../components/sections';
 import {
   useSessions,
   useUpcomingSessions,
@@ -192,7 +192,7 @@ const Upcoming = () => {
 
         return (
           <div style={{ overflow: 'visible' }}>
-            <ManageCancellation
+            <ManageSession
               userCanCancel={userCanCancel}
               setModalValues={setModalValues}
               setCancelValues={setCancelValues}

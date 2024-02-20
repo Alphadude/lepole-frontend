@@ -39,12 +39,14 @@ import { isRefundEligible } from '../helpers/functions';
 
 export const RescheduleModal = ({
   toggleModal,
-  selectedSession = initialDataSessions,
+  selectedSession,
   headerSubtitle,
   buttonText,
   label,
   placeholder,
 }) => {
+  console.log({ selectedSession });
+
   const [cookies] = useCookies(['user']);
 
   const { id, firstname, lastname } = cookies?.user;

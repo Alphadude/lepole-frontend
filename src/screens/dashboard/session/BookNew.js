@@ -159,7 +159,7 @@ const BookNew = () => {
     if (selectedTime + selectedDuration === 24) {
       let calculatedTime = new Date(...end);
 
-      calculatedTime.setHours(11);
+      calculatedTime.setHours(23);
       calculatedTime.setMinutes(45);
       calculatedTime.setSeconds(0);
       calculatedTime.setMilliseconds(0);

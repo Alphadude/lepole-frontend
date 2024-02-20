@@ -32,7 +32,7 @@ const MoreOptions = ({
   );
 };
 
-const ManageCancellation = ({
+const ManageSession = ({
   setCancelValues,
   setModalValues,
   userCanCancel,
@@ -72,4 +72,4 @@ const ManageCancellation = ({
   );
 };
 
-export default ManageCancellation;
+export default ManageSession;
