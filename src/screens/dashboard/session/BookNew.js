@@ -24,7 +24,7 @@ import {
 } from '@supabase/supabase-js';
 
 export const formatTime = (time) => {
-  if (time === 0 || time === 24) {
+  if (time === 24) {
     return `12:00 AM`;
   } else if (time === 12) {
     return `12:00 PM`;
@@ -156,18 +156,14 @@ const BookNew = () => {
 
     let endTime;
 
+    // if user picks 11pm start time, make end time 11.45 instead of midnight
     if (selectedTime + selectedDuration === 24) {
-      let calculatedTime = new Date(...end);
-
-      calculatedTime.setHours(23);
-      calculatedTime.setMinutes(45);
-      calculatedTime.setSeconds(0);
-      calculatedTime.setMilliseconds(0);
+      let calculatedTime = moment(start);
+      calculatedTime.hour(23).minute(45).second(0).millisecond(0);
 
       endTime = moment(calculatedTime).format('YYYY-MM-DDTHH:mm:ss');
     } else {
-      // endTime = new Date(...end).toISOString();
-      endTime = moment(new Date(...end)).format('YYYY-MM-DDTHH:mm:ss');
+      endTime = moment(end).format('YYYY-MM-DDTHH:mm:ss');
     }
 
     const submit = {
@@ -180,23 +176,9 @@ const BookNew = () => {
       type: name,
       date: moment(selectedDate).format('YYYY-MM-DD'),
       duration: `${selectedDuration} hours`,
-      // startTime: new Date(...start).toISOString(),
-      startTime: moment(new Date(...start)).format('YYYY-MM-DDTHH:mm:ss'),
+      startTime: moment(start).format('YYYY-MM-DDTHH:mm:ss'),
       endTime: endTime,
     };
-
-    console.log(
-      {
-        selectedDate,
-        selectedTime,
-        selectedDuration,
-        end,
-
-        start,
-        submit,
-      },
-      selectedTime + selectedDuration === 24,
-    );
 
     if (type === 'stripe-payment') {
       setSessionData({ ...submit, payment_kind: 'book-session' });
