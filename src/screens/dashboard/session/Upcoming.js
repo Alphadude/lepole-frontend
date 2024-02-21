@@ -5,16 +5,13 @@ import Tables from '../../../components/Tables';
 import ModalContainer from '../../../components/layouts/ModalContainer';
 import { RescheduleModal, CancelModal } from '../../../components/Modals';
 import { ManageSession } from '../../../components/sections';
-import {
-  useSessions,
-  useUpcomingSessions,
-} from '../../../helpers/hooks/queries/useSessions';
+import { useUpcomingSessions } from '../../../helpers/hooks/queries/useSessions';
 // import Loader from '../../../components/Loader';
 import gymCouple from '../../../assets/images/gym_couple.png';
 import { Link } from 'react-router-dom';
 import { Button } from '@deposits/ui-kit-react';
 import { routes } from '../../../router/routes';
-import { plans } from '../../../utils/dummyData';
+
 import moment from 'moment';
 
 import { isRefundEligible, canReschedule } from '../../../helpers/functions';
@@ -71,8 +68,8 @@ const Upcoming = () => {
       },
     }),
 
-    columnHelper.accessor((row) => 'Start Date', {
-      id: 'Start Date',
+    columnHelper.accessor((row) => 'Session Date', {
+      id: 'Session Date',
       cell: (info) => {
         const { startTime } = info.row.original;
 
@@ -80,21 +77,6 @@ const Upcoming = () => {
           <div className="text-sm">
             <span className=" text-sm text-priBlack">
               {moment.utc(startTime).format('Do MMMM, YYYY')}
-            </span>
-          </div>
-        );
-      },
-    }),
-
-    columnHelper.accessor((row) => 'End Date', {
-      id: 'End Date',
-      cell: (info) => {
-        const { endTime } = info.row.original;
-
-        return (
-          <div className="text-sm">
-            <span className=" text-sm text-priBlack">
-              {moment.utc(endTime).format('Do MMMM, YYYY')}
             </span>
           </div>
         );
@@ -112,7 +94,7 @@ const Upcoming = () => {
               <>
                 Unavailable [
                 <a
-                  href={`mailto:contact@lepoleltd.com?subject=Lepole%20Booking%20App%20Access%20Code%20Request`}
+                  href={`mailto:info@lepoleltd.com?subject=Lepole%20Booking%20App%20Access%20Code%20Request`}
                   target="_blank"
                   rel="noreferrer"
                   className=" text-sm text-primary-blue"
@@ -128,19 +110,10 @@ const Upcoming = () => {
     }),
 
     columnHelper.accessor((row) => row.role, {
-      id: 'Time',
+      id: 'Start Time',
       cell: (info) => (
         <span className="text-priBlack text-sm ">
           {moment.utc(info.row.original.startTime).format('h:mm A')}
-        </span>
-      ),
-    }),
-
-    columnHelper.accessor((row) => row.role, {
-      id: 'EndTime',
-      cell: (info) => (
-        <span className="text-priBlack text-sm ">
-          {moment.utc(info.row.original.endTime).format('h:mm A')}
         </span>
       ),
     }),
