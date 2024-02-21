@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
+
 import { H2, H3, H4, H5 } from './Headings';
 import { ReactComponent as CloseSvg } from '../assets/icons/close.svg';
 import { ReactComponent as CloseWhiteSvg } from '../assets/icons/close-white.svg';
-
+import moment from 'moment';
 import RescheduleTimePicker, {
   intervalCreator,
 } from './sections/explore/RescheduleTimePicker';
 
 import CalendarWidget from './elements/CalendarWidget';
 import { P } from './Headings';
-import { initialDataSessions } from '../screens/dashboard/session/Upcoming';
+
 import { plans } from '../utils/dummyData';
 import { supabase } from '../utils/supabaseConfig';
 import { toast } from 'react-toastify';
@@ -32,21 +33,11 @@ import StripeCheckoutComp, {
 } from '../screens/dashboard/session/StripeCheckout';
 
 import { useQueryClient } from 'react-query';
-import moment from 'moment';
 
 import { WarningOrange, GoldCoins, RedCheck } from '../assets/icons';
 import { isRefundEligible } from '../helpers/functions';
 
-export const RescheduleModal = ({
-  toggleModal,
-  selectedSession,
-  headerSubtitle,
-  buttonText,
-  label,
-  placeholder,
-}) => {
-  console.log({ selectedSession });
-
+export const RescheduleModal = ({ toggleModal, selectedSession }) => {
   const [cookies] = useCookies(['user']);
 
   const { id, firstname, lastname } = cookies?.user;
@@ -64,16 +55,18 @@ export const RescheduleModal = ({
   const queryClient = useQueryClient();
 
   const time =
-    selectedTime || new Date(selectedSession?.data?.startTime).getHours();
+    selectedTime || moment.utc(selectedSession?.data?.startTime).hour();
+
   const duration = Number(selectedSession.data.duration[0]);
 
-  const { startTime, endTime, coin_price, name } = plans[currentPlanId - 1];
+  const { startTime, endTime, name } = plans[currentPlanId - 1];
 
   const maxDuration = intervalCreator(
     selectedTime || startTime,
     endTime,
     startTime,
   )?.length;
+
   const isDurationReduced = maxDuration < duration;
   const acceptedDuration = isDurationReduced ? maxDuration : duration;
 
@@ -99,18 +92,30 @@ export const RescheduleModal = ({
       time + acceptedDuration,
     ];
 
+    let endTime;
+
+    // if user picks 11pm start time, make end time 11.45 instead of midnight
+    if (time + acceptedDuration === 24) {
+      let calculatedTime = moment(start);
+      calculatedTime.hour(23).minute(45).second(0).millisecond(0);
+
+      endTime = moment(calculatedTime).format('YYYY-MM-DDTHH:mm:ss');
+    } else {
+      endTime = moment(end).format('YYYY-MM-DDTHH:mm:ss');
+    }
+
     const submit = {
       id: selectedSession?.id,
       date: moment(selectedDate).format('YYYY-MM-DD'),
-      starttime: new Date(...start).toISOString(),
-      endtime: new Date(...end).toISOString(),
+      starttime: moment(start).format('YYYY-MM-DDTHH:mm:ss'),
+      endtime: endTime,
     };
 
     setIsLoading(true);
 
     if (
       selectedSession?.data?.payment === 'stripe' &&
-      !isRefundEligible(selectedSession?.data?.startTime, 8)
+      !isRefundEligible((selectedSession?.data?.startTime, 8))
     ) {
       setRescheduleData({
         ...submit,

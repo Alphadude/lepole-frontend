@@ -77,7 +77,7 @@ const DurationTimePicker = ({
           {selectedDate.toDateString()}{' '}
           <span className="font-semibold"> - Choose Time </span>
         </p>
-        <div className=" grid grid-cols-1 lg:grid-cols-4 gap-y-2 lg:gap-y-6 w-full ">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-y-2 lg:gap-y-6 w-full ">
           {slotsCreator(startTime, endTime).map((time) => {
             const timeString =
               new Date(selectedDate).toDateString() +
@@ -117,13 +117,14 @@ const DurationTimePicker = ({
             Choose Hours{' '}
           </p>
           <div
-            className={`lg: grid  grid-cols-1 lg:grid-cols-4 gap-y-2 lg:gap-y-6 w-full `}
+            className={` lg: grid  grid-cols-1 lg:grid-cols-4 gap-y-2 lg:gap-y-6 w-full `}
           >
             {intervalCreator(selectedTime || startTime, endTime).map(
               (duration) => (
                 <TimeCard
                   key={duration}
                   id={duration}
+                  selectedTime={selectedTime}
                   content={`${duration} Hours`}
                   selected={selectedDuration}
                   setSelected={setSelectedDuration}
