@@ -252,8 +252,15 @@ const BookNew = () => {
         <section className="">
           <H3> Book a session </H3>
           <P className="  ">
-            After booking a session, you will be able to see extend your session
-            by 30 mins at half your booking fee
+            View our cancellation and refund policy
+            <a
+              className="ml-2 underline text-blue-green font-bold"
+              rel="noopener noreferrer"
+              target="_blank"
+              href="https://lepoleltd.com/pages/terms-conditions"
+            >
+              here
+            </a>
           </P>
         </section>
 
