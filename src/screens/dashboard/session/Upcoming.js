@@ -4,17 +4,14 @@ import { createColumnHelper } from '@tanstack/react-table';
 import Tables from '../../../components/Tables';
 import ModalContainer from '../../../components/layouts/ModalContainer';
 import { RescheduleModal, CancelModal } from '../../../components/Modals';
-import { ManageCancellation } from '../../../components/sections';
-import {
-  useSessions,
-  useUpcomingSessions,
-} from '../../../helpers/hooks/queries/useSessions';
+import { ManageSession } from '../../../components/sections';
+import { useUpcomingSessions } from '../../../helpers/hooks/queries/useSessions';
 // import Loader from '../../../components/Loader';
 import gymCouple from '../../../assets/images/gym_couple.png';
 import { Link } from 'react-router-dom';
 import { Button } from '@deposits/ui-kit-react';
 import { routes } from '../../../router/routes';
-import { plans } from '../../../utils/dummyData';
+
 import moment from 'moment';
 
 import { isRefundEligible, canReschedule } from '../../../helpers/functions';
@@ -71,15 +68,15 @@ const Upcoming = () => {
       },
     }),
 
-    columnHelper.accessor((row) => 'Date', {
-      id: 'Date',
+    columnHelper.accessor((row) => 'Session Date', {
+      id: 'Session Date',
       cell: (info) => {
-        const { date, time } = info.row.original;
+        const { startTime } = info.row.original;
 
         return (
           <div className="text-sm">
             <span className=" text-sm text-priBlack">
-              {moment(date).format('Do MMMM, YYYY')}
+              {moment.utc(startTime).format('Do MMMM, YYYY')}
             </span>
           </div>
         );
@@ -113,10 +110,10 @@ const Upcoming = () => {
     }),
 
     columnHelper.accessor((row) => row.role, {
-      id: 'Time',
+      id: 'Start Time',
       cell: (info) => (
         <span className="text-priBlack text-sm ">
-          {moment(info.row.original.startTime).format('h:mm A')}
+          {moment.utc(info.row.original.startTime).format('h:mm A')}
         </span>
       ),
     }),
@@ -168,7 +165,7 @@ const Upcoming = () => {
 
         return (
           <div style={{ overflow: 'visible' }}>
-            <ManageCancellation
+            <ManageSession
               userCanCancel={userCanCancel}
               setModalValues={setModalValues}
               setCancelValues={setCancelValues}

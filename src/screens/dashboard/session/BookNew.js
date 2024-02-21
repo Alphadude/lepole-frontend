@@ -6,7 +6,6 @@ import { routes } from '../../../router/routes';
 import CalendarWidget from '../../../components/elements/CalendarWidget';
 import manStandDumbell from '../../../assets/images/man_stand_dumbell.png';
 import { useState } from 'react';
-import { Button } from '@deposits/ui-kit-react';
 import DurationTimePicker from '../../../components/sections/explore/DurationTimePicker';
 import { plans } from '../../../utils/dummyData';
 import { useCookies } from 'react-cookie';
@@ -14,12 +13,7 @@ import { useProfile } from '../../../helpers/hooks/queries/useSessions';
 import { supabase } from '../../../utils/supabaseConfig';
 import { toast } from 'react-toastify';
 import ModalContainer from '../../../components/layouts/ModalContainer';
-import {
-  RescheduleModal,
-  SelectPaymentOption,
-} from '../../../components/Modals';
-import { QueryClient, useQueryClient } from 'react-query';
-import { deductCoins } from '../../../helpers/functions/deductCoins';
+import { SelectPaymentOption } from '../../../components/Modals';
 import moment from 'moment';
 import StripeCheckoutComp, { defaultSessionData } from './StripeCheckout';
 import { coinsBookSession } from '../../../assets/images';
@@ -30,7 +24,7 @@ import {
 } from '@supabase/supabase-js';
 
 export const formatTime = (time) => {
-  if (time === 0) {
+  if (time === 24) {
     return `12:00 AM`;
   } else if (time === 12) {
     return `12:00 PM`;
@@ -110,6 +104,7 @@ const PlanCard = ({
 
 const BookNew = () => {
   let { state } = useLocation();
+
   const [modalOpen, setModalOpen] = useState('');
   const [loading, setLoading] = useState(false);
   const [sessionData, setSessionData] = useState(defaultSessionData);
@@ -121,7 +116,6 @@ const BookNew = () => {
   const navigate = useNavigate();
   const [cookies] = useCookies(['user']);
   const { data: dataProfile } = useProfile();
-  const queryClient = useQueryClient();
 
   const dataCoins = dataProfile?.data?.user?.user_metadata?.wallet;
 
@@ -160,6 +154,18 @@ const BookNew = () => {
       selectedTime + selectedDuration,
     ];
 
+    let endTime;
+
+    // if user picks 11pm start time, make end time 11.45 instead of midnight
+    if (selectedTime + selectedDuration === 24) {
+      let calculatedTime = moment(start);
+      calculatedTime.hour(23).minute(45).second(0).millisecond(0);
+
+      endTime = moment(calculatedTime).format('YYYY-MM-DDTHH:mm:ss');
+    } else {
+      endTime = moment(end).format('YYYY-MM-DDTHH:mm:ss');
+    }
+
     const submit = {
       user_id: id,
       username: `${firstname} ${lastname}`,
@@ -170,8 +176,8 @@ const BookNew = () => {
       type: name,
       date: moment(selectedDate).format('YYYY-MM-DD'),
       duration: `${selectedDuration} hours`,
-      startTime: new Date(...start).toISOString(),
-      endTime: new Date(...end).toISOString(),
+      startTime: moment(start).format('YYYY-MM-DDTHH:mm:ss'),
+      endTime: endTime,
     };
 
     if (type === 'stripe-payment') {
@@ -186,14 +192,8 @@ const BookNew = () => {
         session: { ...submit, email: cookies?.user?.email },
       }),
     });
+
     setLoading(false);
-
-    // const res = await deductCoins(submit.amount)
-    // if (!res) return
-
-    // queryClient.invalidateQueries('profile')
-    // const { data, error } = await supabase.from("session").insert([submit]);
-    // console.log({ data, error });
 
     if (!error) {
       setSelectedPlan(0);
@@ -274,10 +274,7 @@ const BookNew = () => {
           <div className=" max-w-sm flex- text-center lg:text-left">
             <div>
               <H3 className={`mb-10`}>Select Date and Time</H3>
-              {/* <P className="pt-2 pb-10">
-                In your local time GMT +8
-                <span className="text-renaissance-blue pl-2"> Update </span>
-              </P> */}
+
               <CalendarWidget
                 setDateValue={setSelectedDate}
                 dateValue={selectedDate}
@@ -310,10 +307,6 @@ const BookNew = () => {
           <div className="flex-1 ">
             <div className="  flex-1 max-w-max mx-auto ">
               <H3 className={`mb-10`}>Pay-As-You-Go</H3>
-              {/* <P className="pt-2 pb-10">
-                In your local time GMT +8
-                <span className="text-renaissance-blue pl-2"> Update </span>
-              </P> */}
 
               <div className="space-y-6">
                 {plans.map((plan) => (
