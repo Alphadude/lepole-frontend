@@ -118,7 +118,10 @@ export const RescheduleModal = ({ toggleModal, selectedSession }) => {
       !isRefundEligible((selectedSession?.data?.startTime, 8))
     ) {
       setRescheduleData({
-        ...submit,
+        id: selectedSession?.id,
+        date: moment(selectedDate).format('YYYY-MM-DD'),
+        startTime: moment(start).format('YYYY-MM-DDTHH:mm:ss'),
+        endTime: endTime,
         payment_kind: 'session-reschedule',
         user_id: id,
         username: `${firstname} ${lastname}`,
