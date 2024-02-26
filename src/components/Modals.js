@@ -119,6 +119,7 @@ export const RescheduleModal = ({ toggleModal, selectedSession }) => {
     ) {
       setRescheduleData({
         id: selectedSession?.id,
+        session_id: selectedSession?.id,
         date: moment(selectedDate).format('YYYY-MM-DD'),
         startTime: moment(start).format('YYYY-MM-DDTHH:mm:ss'),
         endTime: endTime,
@@ -161,6 +162,8 @@ export const RescheduleModal = ({ toggleModal, selectedSession }) => {
       }
     }
   };
+
+  console.log({ rescheduleData });
 
   return (
     <div

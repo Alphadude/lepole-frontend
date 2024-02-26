@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   PaymentElement,
   LinkAuthenticationElement,
   useStripe,
-  useElements
-} from "@stripe/react-stripe-js";
-import { Button } from "@deposits/ui-kit-react";
+  useElements,
+} from '@stripe/react-stripe-js';
+import { Button } from '@deposits/ui-kit-react';
 
 export default function CheckoutForm({ clientSecret, kind }) {
   const stripe = useStripe();
@@ -21,7 +21,7 @@ export default function CheckoutForm({ clientSecret, kind }) {
     }
 
     const clientSecret = new URLSearchParams(window.location.search).get(
-      "payment_intent_client_secret"
+      'payment_intent_client_secret',
     );
 
     if (!clientSecret) {
@@ -30,17 +30,17 @@ export default function CheckoutForm({ clientSecret, kind }) {
 
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
       switch (paymentIntent.status) {
-        case "succeeded":
-          setMessage("Payment succeeded!");
+        case 'succeeded':
+          setMessage('Payment succeeded!');
           break;
-        case "processing":
-          setMessage("Your payment is processing.");
+        case 'processing':
+          setMessage('Your payment is processing.');
           break;
-        case "requires_payment_method":
-          setMessage("Your payment was not successful, please try again.");
+        case 'requires_payment_method':
+          setMessage('Your payment was not successful, please try again.');
           break;
         default:
-          setMessage("Something went wrong.");
+          setMessage('Something went wrong.');
           break;
       }
     });
@@ -61,9 +61,10 @@ export default function CheckoutForm({ clientSecret, kind }) {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: kind === 'book-session'
-          ? `${window.location.origin}/dashboard/session/upcoming`
-          : `${window.location.origin}/dashboard/wallet`,
+        return_url:
+          kind === 'book-session' || kind === 'session-reschedule'
+            ? `${window.location.origin}/dashboard/session/upcoming`
+            : `${window.location.origin}/dashboard/wallet`,
       },
     });
 
@@ -72,21 +73,25 @@ export default function CheckoutForm({ clientSecret, kind }) {
     // your `return_url`. For some payment methods like iDEAL, your customer will
     // be redirected to an intermediate site first to authorize the payment, then
     // redirected to the `return_url`.
-    if (error.type === "card_error" || error.type === "validation_error") {
+    if (error.type === 'card_error' || error.type === 'validation_error') {
       setMessage(error.message);
     } else {
-      setMessage("An unexpected error occurred.");
+      setMessage('An unexpected error occurred.');
     }
 
     setIsLoading(false);
   };
 
   const paymentElementOptions = {
-    layout: "tabs"
-  }
+    layout: 'tabs',
+  };
 
   return (
-    <form id="payment-form" className="!text-renaissance-black dark:!text-renaissance-dark-black" onSubmit={handleSubmit}>
+    <form
+      id="payment-form"
+      className="!text-renaissance-black dark:!text-renaissance-dark-black"
+      onSubmit={handleSubmit}
+    >
       <LinkAuthenticationElement
         id="link-authentication-element"
         onChange={(e) => setEmail(e.target?.value)}
@@ -99,9 +104,7 @@ export default function CheckoutForm({ clientSecret, kind }) {
         id="submit"
         disabled={isLoading || !stripe || !elements}
       >
-        <span id="button-text">
-          {isLoading ? 'Processing...' : "Pay now"}
-        </span>
+        <span id="button-text">{isLoading ? 'Processing...' : 'Pay now'}</span>
       </Button>
       {/* Show any error or success messages */}
       {message && <div id="payment-message">{message}</div>}
