@@ -40,6 +40,8 @@ import { isRefundEligible } from '../helpers/functions';
 export const RescheduleModal = ({ toggleModal, selectedSession }) => {
   const [cookies] = useCookies(['user']);
 
+  console.log({ selectedSession });
+
   const { id, firstname, lastname } = cookies?.user;
   const [modalOpen, setModalOpen] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -115,11 +117,10 @@ export const RescheduleModal = ({ toggleModal, selectedSession }) => {
 
     if (
       selectedSession?.data?.payment === 'stripe' &&
-      !isRefundEligible((selectedSession?.data?.startTime, 8))
+      isRefundEligible((selectedSession?.data?.startTime, 8))
     ) {
       setRescheduleData({
-        id: selectedSession?.id,
-        session_id: selectedSession?.id,
+        id: selectedSession?.data?.id,
         date: moment(selectedDate).format('YYYY-MM-DD'),
         startTime: moment(start).format('YYYY-MM-DDTHH:mm:ss'),
         endTime: endTime,
@@ -162,8 +163,6 @@ export const RescheduleModal = ({ toggleModal, selectedSession }) => {
       }
     }
   };
-
-  console.log({ rescheduleData });
 
   return (
     <div
